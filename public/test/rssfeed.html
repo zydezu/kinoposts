@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Reader</title>
+    <link rel="stylesheet" href="style.css">
+    <style>body{max-width: 95%;}</style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html">Back</a>
+    </nav>
+
+    RSS Feed<br/>
+    <input type="text" style="width: 250px" placeholder="Enter feed URL" id="feedURL"> <button onclick="fetchRSSFeed(document.getElementById('feedURL').value)">Fetch</button>
+
+    <div id="blogInfo" class="codeBox"></div><br/>
+
+    <div id="blogArticles" class="blogArticles">
+        <div class="sticky">
+            <article class="postText">
+                <span class="postTitle">title</span><br/>
+                <span class="postDescription">description</span>
+            </article>
+            <div class="stickyImage"><img loading="lazy" src="https://zydezu.github.io/test/components/cute.jpg" title="image"></div>
+            <span class="date">23:06 | 2023-07-30</span>
+          </div>
+
+
+    </div><br/>
+
+
+    <div id="codeBox" class="codeBox"></div><br/>
+
+    <script>
+    var blogData = {}
+    var RSSArticles = []
+
+    const blogInfo = document.getElementById("blogInfo");
+    const blogArticles = document.getElementById("blogArticles");
+    const codeBox = document.getElementById("codeBox");
+
+    fetchRSSFeed("https://zydezu.github.io/blog/rss.xml")
+    function fetchRSSFeed(link){
+        console.log(`fetching... ${link}`)
+        blogArticles.innerHTML = ""
+        fetch(link)
+            .then((response) => response.text())
+            .then((data) => renderCodeBox(data)); // javascript fetching protocol
+    }
+
+    function renderCodeBox(data){
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data, 'text/xml');
+        blogData = {
+            title: xmlDoc.querySelector('title'),
+            description: xmlDoc.querySelector('description'),
+            link: xmlDoc.querySelector('link'),
+            lastBuildDate: xmlDoc.querySelector('lastBuildDate')
+        }
+        const items = xmlDoc.querySelectorAll('item');
+
+        items.forEach(item => {
+            const title = item.querySelector('title').textContent;
+            const description = item.querySelector('description').textContent;
+            let media;
+
+            for (let i = 0; i < item.children.length; i++) {
+                const element = item.children[i];
+                if (element.nodeName == "media:content") {
+                    media = element.getAttribute('url')
+                }
+            }
+
+            let link;
+            try{
+                link = item.querySelector('link').textContent;
+            }catch{
+                try{
+                    link = item.querySelector('guid').textContent;
+                }catch{
+                    link = ""
+                }
+            }
+            const pubDate = item.querySelector('pubDate').textContent;
+
+            blogArticles.innerHTML += 
+                `<div class="sticky">
+                    <article class="postText">
+                        <a href="${link}"><span class="postTitle">${title}</span></a><br/>
+                        <span class="postDescription">${description.replace(/<[^>]+>/g, '').substring(0,60)}...</span>
+                    </article>
+                    <div class="stickyImage"><img loading="lazy" src="${media}"></div>
+                    <span class="date">${pubDate}</span>
+                </div>`
+        });
+
+        codeBox.innerHTML = `<xmp>${data}</xmp>`
+
+        console.log("Done")
+    }
+    </script>
+</body>
+</html>
