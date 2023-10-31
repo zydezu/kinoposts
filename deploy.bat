@@ -1,6 +1,4 @@
 git add --all
-git commit -m "update files"
-git push origin main
+git commit -a -m "update files"
+git push
 firebase deploy
-
-test
