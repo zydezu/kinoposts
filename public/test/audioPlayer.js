@@ -101,8 +101,9 @@ function setBGMText(){
         if (playlistMode == 1){ // setup html for playlists (the previous/next buttons, the music count / playlist count)
             let imagesrc = audioName.replaceAll('#','%23') + ".jpg" // fallback
             if (playlistOriginal[playlistNumPlaying].includes("|")) imagesrc = playlistOriginal[playlistNumPlaying].split("|")[1]; // if a custom album image is listed use it
-            if (containsAlbumArt) playlistText.innerHTML = `<img class="albumArt" src="${path}${imagesrc}"><button onclick="prevBGM()"><<< Previous</button> <button class="blankButton" onclick="pickRandomTrack()"> ${playlistNumPlaying+1} / ${playlistLength} </button> <button onclick="nextBGM()">Next >>></button>`;
-            else playlistText.innerHTML = `<button onclick="prevBGM()"><<< Previous</button> <button class="blankButton" onclick="pickRandomTrack()"> ${playlistNumPlaying+1} / ${playlistLength} </button> <button onclick="nextBGM()">Next >>></button>`;
+            playlistText.innerHTML = ""
+            if (containsAlbumArt) playlistText.innerHTML = `<img class="albumArt" src="${path}${imagesrc}">`;
+            playlistText.innerHTML += `<button onclick="prevBGM()"><<< Previous</button> <button class="blankButton" onclick="pickRandomTrack()"> ${playlistNumPlaying+1} / ${playlistLength} </button> <button onclick="nextBGM()">Next >>></button> | <button onclick="downloadAllTracks()">Download All</button>`;
         }
     }
     catch(err){
@@ -506,4 +507,15 @@ function reloadBGM(){ // used if live audio breaks itself
     resetAudioParameters();
     audio.src = audio.src; // reload currently playing audio
     startPlayingAudio();
+}
+
+function downloadAllTracks(){
+    playlist.forEach(element => {
+        const a = document.createElement('a')
+        a.href = element
+        a.download = element.split('/').pop()
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+    })
 }
