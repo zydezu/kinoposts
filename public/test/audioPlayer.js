@@ -512,10 +512,9 @@ function reloadBGM(){ // used if live audio breaks itself
 function downloadAllTracks(){
     playlist.forEach(element => {
         const a = document.createElement('a')
+        a.download = element
         a.href = element
-        a.download = element.split('/').pop()
-        document.body.appendChild(a)
         a.click()
-        document.body.removeChild(a)
+        console.log(`Downloading... ${element}`)
     })
 }
