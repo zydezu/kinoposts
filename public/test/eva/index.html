@@ -25,7 +25,8 @@
     <audio id="audio" src="01. 予感.flac" preload="auto"></audio>
     <button class="playAudio" onclick="playAudio()">Start Music</button>
     <script type="text/javascript" src="../audioPlayer.js" defer></script>
-    <div id="audioStatus" class="hidden" data-playlist="playlist.txt">
+    <script src="../jszip.min.js"></script>
+      <div id="audioStatus" class="hidden" data-playlist="playlist.txt">
       <span id="BGMName">Music</span></br>
       <button style="vertical-align: middle"><img src="" id="playIcon"></button>
       <span id="audioProgressBar"></span>
