@@ -213,7 +213,7 @@ window.addEventListener('resize', () => { // correct audio bar sizes when resizi
 
 //update time and progress bar position
 const whilePlaying = () => {
-    try {    
+    try {
         multiplier = setMultiplier();
         setTimeTexts(); // sets time and width of playing bar
     } catch { // sometimes the browser bugs out and loads audio in a different order if using back/forward cache
@@ -255,7 +255,7 @@ function setTimeTexts() {
     }
 
     const bufferBar = document.getElementById('audioBufferBar');
-    bufferBar.style.borderRight = Math.ceil(((bufferedTime-audio.currentTime) / audio.duration) * 200 * multiplier) + `px solid #ffffff40`;
+    bufferBar.style.borderRight = Math.ceil(((bufferedTime - audio.currentTime) / audio.duration) * 200 * multiplier) + `px solid #ffffff40`;
 
     if (duration == "LIVE") sessionStorage.currentTime = "LIVE";
     else sessionStorage.currentTime = audio.currentTime;
@@ -263,13 +263,16 @@ function setTimeTexts() {
 
 //scrubbing and bar position
 document.getElementById('audioProgressBar').addEventListener('mousedown', (event) => {
+    if (event.target !== this) return;
     mouseDown = true;
     positionBar(event, false);
 });
 document.getElementById('audioProgressBar').addEventListener('mousemove', (event) => {
+    if (event.target !== this) return;
     if (mouseDown) positionBar(event, false);
 });
 document.getElementById('audioProgressBar').addEventListener('touchmove', (event) => {
+    if (event.target !== this) return;
     positionBar(event, true)
 });
 document.addEventListener('mouseup', () => {
