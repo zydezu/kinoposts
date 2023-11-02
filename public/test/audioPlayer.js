@@ -262,16 +262,16 @@ function setTimeTexts() {
 
 //scrubbing and bar position
 document.getElementById('audioProgressBar').addEventListener('mousedown', (event) => {
-    if (event.target !== this) return;
+    if (event.target.id != "audioProgressBar") return;
     mouseDown = true;
     positionBar(event, false);
 });
 document.getElementById('audioProgressBar').addEventListener('mousemove', (event) => {
-    if (event.target !== this) return;
+    if (event.target.id != "audioProgressBar") return;
     if (mouseDown) positionBar(event, false);
 });
 document.getElementById('audioProgressBar').addEventListener('touchmove', (event) => {
-    if (event.target !== this) return;
+    if (event.target.id != "audioProgressBar") return;
     positionBar(event, true)
 });
 document.addEventListener('mouseup', () => {
@@ -493,6 +493,7 @@ function startNewBGM() {
 
     audioBar.style.borderLeft = 0 + "px solid #fa5252"; // reset colours
     document.documentElement.style.setProperty('--audiohovercolour', '#fa5252');
+    bufferedTime = 0;
     bufferBar.style.borderRight = `0px solid #ffffff40`;
     multiplier = setMultiplier(); // set "multiplier" as to not see the adjustment of the bar width
     audioBar.style = "width: " + 200 * multiplier + "px";
