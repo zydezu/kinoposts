@@ -397,6 +397,7 @@ async function setPlaylistData() {
         console.log("Got playlist");
         isLive = false;
         isLiveOnce = false;
+        if (!playState) togglePause()
         document.getElementById("playlistText").className = "visible"; // show playlist HTML code
         playlistMode = 1;
         playlistLength = playlist.length;
