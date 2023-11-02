@@ -6,11 +6,13 @@ const audioStatus = document.getElementById('audioStatus');
 const audio = document.querySelector('audio');
 let playState = 0;
 let muteState = 0; // currently unused
+let playerShownOnce = false; // to solve errors with slow loading
 let playedOnce = false; // used to ignore various keys until a BGM is first played
 var playKeyPressed = false;
 var isLive = false;
 var isLiveOnce = false;
 var loaded = false;
+let bufferedTime = 0;
 let tick = -70; // sin wave of loading/live radio animation
 let isLiveLoading = 0; // used for error checking of live loading and scrubbing
 let liveLoadingCount = 0;
@@ -134,7 +136,9 @@ playIcon.addEventListener('click', () => {
 
 //change play icon
 function togglePause() {
+    playerShownOnce = true;
     if (loaded) playState = 1 - playState;
+    else audio.play()
     sessionStorage.playState = playState;
     setPlayIcon();
     if (playState) {
@@ -156,6 +160,7 @@ function setPlayIcon() {
 var durationContainer = "0:00";
 const currentTimeContainer = document.getElementById('currentTime');
 const totalTimeContainer = document.getElementById('totalTime');
+document.getElementById("audioProgressBar").innerHTML = `<span id="audioBufferBar"></span>`;
 const audioBar = document.getElementById("audioProgressBar");
 var multiplier = 1; // based on size of the screen (on low-width mode)
 var mouseDown = false;
@@ -180,6 +185,7 @@ audio.addEventListener('timeupdate', () => { // fired at browser discretion (ant
         if (!playlistMode) {
             displayDuration();
             loadedMetadata("LOADED METADATA (LATE)")
+            audio.play() //this is getting hacky now
         }
     }
 });
@@ -207,7 +213,7 @@ window.addEventListener('resize', () => { // correct audio bar sizes when resizi
 
 //update time and progress bar position
 const whilePlaying = () => {
-    try {
+    try {    
         multiplier = setMultiplier();
         setTimeTexts(); // sets time and width of playing bar
     } catch { // sometimes the browser bugs out and loads audio in a different order if using back/forward cache
@@ -242,10 +248,14 @@ function setTimeTexts() {
     }
     currentTimeContainer.textContent = calculateTime(audio.currentTime);
     totalTimeContainer.textContent = duration; // this is calculated when loading metadata
+    bufferedTime = audio.buffered.end(audio.buffered.length - 1)
     if (!isLive) { // using styling to set audio duration bar width, this is CPU expensive, so don't use rapidly
         audioBar.style = "width: " + Math.ceil(200 * multiplier - ((audio.currentTime / audio.duration) * 200 * multiplier)) + "px";
         audioBar.style.borderLeft = Math.floor((audio.currentTime / audio.duration) * 200 * multiplier) + `px solid #fa5252`;
     }
+
+    const bufferBar = document.getElementById('audioBufferBar');
+    bufferBar.style.borderRight = Math.ceil(((bufferedTime-audio.currentTime) / audio.duration) * 200 * multiplier) + `px solid #ffffff40`;
 
     if (duration == "LIVE") sessionStorage.currentTime = "LIVE";
     else sessionStorage.currentTime = audio.currentTime;
@@ -397,7 +407,6 @@ async function setPlaylistData() {
         console.log("Got playlist");
         isLive = false;
         isLiveOnce = false;
-        if (!playState) togglePause()
         document.getElementById("playlistText").className = "visible"; // show playlist HTML code
         playlistMode = 1;
         playlistLength = playlist.length;
@@ -406,6 +415,7 @@ async function setPlaylistData() {
             audio.src = adjustAudioLink(0);
             reloadBGM();
         }
+        if (playerShownOnce) audio.play()
         setBGMText();
     }
     else {
@@ -512,34 +522,39 @@ function reloadBGM() { // used if live audio breaks itself
     startPlayingAudio();
 }
 
-// playlist.forEach(element => {
-//     const a = document.createElement('a')
-//     a.download = element
-//     a.href = element
-//     a.click()
-//     console.log(`Downloading... ${element}`)
-// })
-
-async function downloadAllTracks() {
+// download all tracks
+let currentlyDownloadingAllTracks = false;
+function downloadAllTracks() {
+    if (currentlyDownloadingAllTracks) return;
     document.getElementById('downloadAllButton').innerHTML = `Downloading...`;
-    document.getElementById('downloadAllButton').onclick = ``;
+    currentlyDownloadingAllTracks = true;
 
+    // dynamically load script
+    var script = document.createElement('script');
+    script.onload = function () {
+        zipTracksToDownload()
+    };
+    document.head.appendChild(script);
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+}
+
+async function zipTracksToDownload() {
     const zip = new JSZip();
     const promises = [];
 
-    var count = 0
+    var count = 0;
 
     playlist.forEach((url, index) => {
         promises.push(
-            fetch(url.replaceAll('#', '%23'))
+            fetch((path + url).replaceAll('#', '%23'))
                 .then(response => {
                     if (response.ok) {
                         return response.blob().then(blob => {
                             const filename = `${url}`;
                             zip.file(filename, blob);
                             count++
-                            document.getElementById('downloadAllButton').innerHTML = `Downloading... ${Math.ceil(count/playlist.length*100)}%`;
-                            if (count>=playlist.length) document.getElementById('downloadAllButton').innerHTML = "Compressing..."
+                            document.getElementById('downloadAllButton').innerHTML = `Downloading... ${Math.ceil(count / playlist.length * 100)}%`;
+                            if (count >= playlist.length) document.getElementById('downloadAllButton').innerHTML = "Compressing..."
                         });
                     } else {
                         console.error(`Failed to fetch ${url}`);
@@ -566,5 +581,7 @@ async function downloadAllTracks() {
     link.download = `${playListTitle}.zip`;
     link.click();
 
-    document.getElementById('downloadAllButton').outerHTML = `<button>Done</button>`;
+    document.getElementById('downloadAllButton').innerHTML = `Download All`;
+    URL.revokeObjectURL(zipUrl); // try to reduce RAM usage
+    currentlyDownloadingAllTracks = false;
 }
