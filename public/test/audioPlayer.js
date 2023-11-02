@@ -395,6 +395,8 @@ async function setPlaylistData() {
     }
     if (playlist.length > 0) {
         console.log("Got playlist");
+        isLive = false;
+        isLiveOnce = false;
         document.getElementById("playlistText").className = "visible"; // show playlist HTML code
         playlistMode = 1;
         playlistLength = playlist.length;
