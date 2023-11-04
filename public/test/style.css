@@ -872,6 +872,7 @@ button:focus #playIcon {
   user-select: text;
 }
 
+
 #audioProgressBar,
 #audioBufferBar {
   width: 200px;
@@ -883,6 +884,10 @@ button:focus #playIcon {
   cursor: pointer
 }
 
+#audioProgressBar:hover {
+  filter: drop-shadow(0em 0em 0.75rem var(--audiohovercolour));
+}
+
 #audioBufferBar {
   position: absolute;
   width: 0;
@@ -892,9 +897,6 @@ button:focus #playIcon {
   border-left: 0px;
 }
 
-#audioProgressBar:hover {
-  filter: drop-shadow(0em 0em 0.75rem var(--audiohovercolour));
-}
 
 #currentTime,
 #totalTime {
