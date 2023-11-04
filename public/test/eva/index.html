@@ -5,8 +5,9 @@
   <title>Evangelion Soundtrack</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="../style.css" />
+
 <body>
   <video src="../evadeadsea.mp4" autoplay loop muted playsinline id="videoBG"></video>
   <main>
@@ -15,17 +16,12 @@
 
     <noscript>
       <audio src="01. 残酷な天使のテーゼ (Director's Edit Version).flac" controls></audio>
-      <style>
-        .playAudio {
-          display: none
-        }
-      </style>
     </noscript>
     <audio id="audio" src="01. 残酷な天使のテーゼ (Director's Edit Version).flac" preload="auto"></audio>
-    <button class="playAudio" onclick="playAudio()">Start Music</button>
+    <button onclick="playAudio()">Start Music</button>
     <script type="text/javascript" src="../audioPlayer.js" defer></script>
     <script src="../jszip.min.js"></script>
-      <div id="audioStatus" class="hidden" data-playlist="playlist.txt">
+    <div id="audioStatus" class="hidden" data-playlist="playlist.txt">
       <span id="BGMName">Music</span></br>
       <button><img src="" id="playIcon"></button>
       <span id="audioProgressBar"></span>
