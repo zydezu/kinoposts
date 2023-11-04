@@ -540,7 +540,7 @@ async function zipTracksToDownload() {
 
     playlist.forEach((url, index) => {
         promises.push(
-            fetch((path+url).replaceAll('#', '%23'))
+            fetch((path + url).replaceAll('#', '%23'))
                 .then(response => {
                     if (response.ok) {
                         return response.blob().then(blob => {
