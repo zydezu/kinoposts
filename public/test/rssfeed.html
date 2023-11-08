@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <video src="nightSky.mp4" autoplay loop muted playsinline id="videoBG"></video>
+    <video src="backgrounds/nightSky.mp4" autoplay loop muted playsinline id="videoBG"></video>
     <nav>
         <a href="../index.html">Back</a>
     </nav>
@@ -28,11 +28,10 @@
     <button
         onclick="fetchRSSFeed('https://rss.nytimes.com/services/xml/rss/nyt/World.xml')">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</button><br />
     <button
-        onclick="fetchRSSFeed('https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml')">https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</button><br />
-    <button
         onclick="fetchRSSFeed('https://www.theverge.com/rss/index.xml')">https://www.theverge.com/rss/index.xml</button><br />
     <button
         onclick="fetchRSSFeed('https://blog.jakelee.co.uk/feed.xml')">http://blog.jakelee.co.uk/feed.xml</button><br />
+    <button onclick="fetchRSSFeed('https://shellsharks.com/feed.xml')">https://shellsharks.com/feed.xml</button><br />
 
 
     <br />
@@ -54,6 +53,8 @@
 
     <script>
         // this should be seperate but eeehh ~~ ?
+        const corsAnywhere = '';
+
         var feedType;
 
         var blogData = {}
@@ -65,9 +66,12 @@
 
         fetchRSSFeed("https://www.theverge.com/rss/index.xml")
         function fetchRSSFeed(link) {
-            console.log(`Fetching... ${link}`)
+            blogInfo.innerHTML = "Loading...";
+            blogArticles.innerHTML = "";
+            codeBox.innerHTML = "";
+            console.log(`Fetching... ${corsAnywhere + link}`)
             blogArticles.innerHTML = ""
-            fetch(link)
+            fetch(corsAnywhere + link)
                 .then((response) => response.text())
                 .then((data) => renderCodeBox(data)); // javascript fetching protocol
         }
@@ -120,9 +124,11 @@
 
                 // missing image- search description
                 if (!media && description && feedType == "atom") {
-                    const imgSrcStart = description.indexOf('src="') + 5;
-                    const imgSrcEnd = description.indexOf('"', imgSrcStart);
-                    media = description.substring(imgSrcStart, imgSrcEnd) || '';
+                    if (description.includes("<img")) {
+                        const imgSrcStart = description.indexOf('src="') + 5;
+                        const imgSrcEnd = description.indexOf('"', imgSrcStart);
+                        media = description.substring(imgSrcStart, imgSrcEnd) || '';
+                    }
                 }
 
                 // error handling for link retrieval
@@ -139,13 +145,12 @@
                 const pubDate = item.querySelector(feedType === "rss" ? 'pubDate' : 'published').textContent;
                 const date = new Date(pubDate);
                 const year = date.getFullYear();
-                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed, hence the +1
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // months are zero-indexed - hence the +1
                 const day = date.getDate().toString().padStart(2, '0');
                 const hours = date.getHours().toString().padStart(2, '0');
                 const minutes = date.getMinutes().toString().padStart(2, '0');
 
-                const postTime = `${hours}:${minutes} ${year}-${month}-${day}`; //YYYY-MM-DD HH:mm
-
+                const postTime = `${hours}:${minutes} ${year}-${month}-${day}`; // format in HH:mm YYYY-MM-DD
 
                 const articleHtml = `
                     <div class="sticky">
@@ -156,7 +161,6 @@
                         ${media ? `<div class="stickyImage"><img loading="lazy" src="${media}"></div>` : ''}
                         <span class="date" title="${pubDate}">${postTime}</span>
                     </div>`;
-
                 blogArticles.innerHTML += articleHtml;
             });
 
