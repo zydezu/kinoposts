@@ -28,7 +28,6 @@ html {
   }
 }
 
-
 body,
 button,
 input,
@@ -254,6 +253,8 @@ figcaption {
 video {
   border-radius: 10px;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .iframeVideo {
@@ -281,11 +282,6 @@ video:fullscreen {
 }
 
 @media screen and (max-width: 768px) {
-  video {
-    width: 100%;
-    height: 100%;
-  }
-
   /*scale youtube iframes just like regular videos*/
   .youtubeVideoWidescreen {
     aspect-ratio: 16 / 9;
