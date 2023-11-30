@@ -1,44 +1,55 @@
-const video = document.getElementById("ambientvideo");
-const canvas = document.getElementById("ambientcanvas");
-const ctx = canvas.getContext("2d");
-    
-let step; // Keep track of requestAnimationFrame id
+class VideoWithBackground {
+    video;
+    canvas;
+    step;
+    ctx;
 
-ctx.filter = "blur(10px)";
+    constructor(videoID, canvasID) {
+        this.video = document.getElementById(videoID)
+        this.canvas = document.getElementById(canvasID)
 
-const draw = () => {
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-};
+        window.addEventListener("load", this.initcheck, false);
+        window.addEventListener("unload", this.cleanup, false);
+    }
 
-const drawLoop = () => {
-    draw();
-    step = window.requestAnimationFrame(drawLoop);
-};
+    draw = () => {
+        this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+    };
 
-const drawPause = () => {
-    window.cancelAnimationFrame(step);
-    step = undefined;
-};  
+    drawLoop = () => {
+        this.draw();
+        this.step = window.requestAnimationFrame(this.drawLoop);
+    };
 
-const init = () => {
-    video.addEventListener("loadeddata", draw, false);
-    video.addEventListener("seeked", draw, false);
-    video.addEventListener("play", drawLoop, false);
-    video.addEventListener("pause", drawPause, false);
-    video.addEventListener("ended", drawPause, false);
-};
-  
-const cleanup = () => {
-    video.removeEventListener("loadeddata", draw);
-    video.removeEventListener("seeked", draw);
-    video.removeEventListener("play", drawLoop);
-    video.removeEventListener("pause", drawPause);
-    video.removeEventListener("ended", drawPause);
-};
-  
-const initcheck = () => {
-    init()
+    drawPause = () => {
+        window.cancelAnimationFrame(this.step);
+        this.step = undefined;
+    }; 
+
+    initcheck = () => {
+        this.init()
+    }
+
+    init = () => {
+        this.ctx = this.canvas.getContext("2d");
+        this.ctx.filter = "blur(10px)";
+
+        this.video.addEventListener("loadeddata", this.draw, false);
+        this.video.addEventListener("seeked", this.draw, false);
+        this.video.addEventListener("play", this.drawLoop, false);
+        this.video.addEventListener("pause", this.drawPause, false);
+        this.video.addEventListener("ended", this.drawPause, false);
+    };
+
+    cleanup = () => {
+        this.video.removeEventListener("loadeddata", this.draw);
+        this.video.removeEventListener("seeked", this.draw);
+        this.video.removeEventListener("play", this.drawLoop);
+        this.video.removeEventListener("pause", this.drawPause);
+        this.video.removeEventListener("ended", this.drawPause);
+    };
 }
 
-window.addEventListener("load", initcheck);
-window.addEventListener("unload", cleanup);
+const el = new VideoWithBackground("ambientvideo", "ambientcanvas");
+const el2 = new VideoWithBackground("ambientvideo2", "ambientcanvas2");
+const el3 = new VideoWithBackground("ambientvideo3", "ambientcanvas3");
