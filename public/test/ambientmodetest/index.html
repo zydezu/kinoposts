@@ -10,9 +10,8 @@
     <style>
         .wrapper {
             position: relative;
-            /* Contains the absolute positioning */
+            padding: 6rem;
             box-shadow: inset 0 0 4rem 3.5rem rgb(0, 0, 0);
-            padding: 5rem;
         }
 
         .canvas {
@@ -30,6 +29,10 @@
                 display: none !important;
             }
         }
+
+        .video {
+            border-radius: 15px;
+        }
     </style>
 </head>
 
@@ -39,9 +42,10 @@
 
 
     <section class="wrapper">
-        <video controls muted autoplay class="video vidSpace" id="ambientvideo" src="totktrailer.mp4"></video>
-        <canvas width="12" height="7" aria-hidden="true" class="canvas" id="ambientcanvas"></canvas>
+        <video controls muted autoplay class="video vidSpace" id="ambientvideo" src="eva death.mp4"></video>
+        <canvas width="48" height="28" aria-hidden="true" class="canvas" id="ambientcanvas"></canvas>
     </section>
+
 
 </body>
 

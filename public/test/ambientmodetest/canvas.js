@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
     
 let step; // Keep track of requestAnimationFrame id
 
-ctx.filter = "blur(20px)";
+ctx.filter = "blur(10px)";
 
 const draw = () => {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -37,12 +37,7 @@ const cleanup = () => {
 };
   
 const initcheck = () => {
-    if (navigator.userAgent.indexOf("Chrome") > -1){
-        init()
-    } else {
-        ctx.filter = "blur(5px)";
-        setInterval(draw, 240) // why does firefox lag like hell
-    }
+    init()
 }
 
 window.addEventListener("load", initcheck);
