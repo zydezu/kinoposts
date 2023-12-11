@@ -8,8 +8,7 @@
 }
 
 /*light and dark mode themes and colours*/
-:root,
-:root.light {
+:root {
     --sat: env(safe-area-inset-top);
     --sar: env(safe-area-inset-right);
     --sab: env(safe-area-inset-bottom);
@@ -17,20 +16,26 @@
 
     --accent-color: #fa5252;
     --highlight-color: rgba(255, 50, 60, 0.8);
+}
 
+:root,
+:root.light {
     --text-color: #161616;
     --bg-color: #fff;
 
     --ambient-box-shadow: none;
     --ambient-canvas-opacity: 0;
-}
 
-:root.dark {
-    --text-color: rgba(255, 255, 255, 0.85);
-    --bg-color: #0f0f0f;
-
-    --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
-    --ambient-canvas-opacity: 0.75;
+    --themeToggle-bg-color: #222;
+    --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2),
+                            inset 0 8px 60px rgba(0, 0, 0, 0.1),
+                            inset 0 8px 8px rgba(0, 0, 0, 0.1),
+                            inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+    --themeToggle-indicator-pos: 0;
+    --themeToggle-indicator-bg: linear-gradient(to bottom, #444, #222);
+    --themeToggle-indicator-box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5),
+                                        inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                                        inset 0 -2px 2px rgba(255, 255, 255, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -41,6 +46,25 @@
         --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
         --ambient-canvas-opacity: 0.75;
     }
+}
+
+:root.dark {
+    --text-color: rgba(255, 255, 255, 0.85);
+    --bg-color: #0f0f0f;
+
+    --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
+    --ambient-canvas-opacity: 0.75;
+
+    --themeToggle-bg-color: #fff;
+    --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5),
+                            inset 0 8px 60px rgba(0, 0, 0, 0.1),
+                            inset 0 4px 8px rgba(0, 0, 0, 0.1),
+                            inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+    --themeToggle-indicator-pos: 50%;
+    --themeToggle-indicator-bg: linear-gradient(to bottom, #eaeaea, #f9f9f9);
+    --themeToggle-indicator-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
+                                        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+                                        inset 0 -2px 2px rgba(255, 255, 255, 0.8);
 }
 
 body {
@@ -55,6 +79,18 @@ body {
     transition: background-color 0.2s ease-out;
 }
 
+@media (prefers-reduced-motion) {
+    body {
+        transition: none;
+    }
+}
+
+
+
+
+
+
+/*button*/
 button {
     transition: transform 0.1s;
 }
@@ -69,9 +105,29 @@ button:active {
     }
 }
 
-.roundVideo {
-    border-radius: 15px;
-    backdrop-filter: grayscale(0);
+#themeToggle {
+    position: relative;
+    display: block;
+    width: 64px;
+    height: 32px;
+    border-radius: 1000px;
+    background: var(--themeToggle-bg-color);
+    transition: 0.25s;
+    cursor: pointer;
+    box-shadow: var(--themeToggle-box-shadow);
+}
+
+#themeToggle .indicator {
+    position: absolute;
+    top: 0;
+    left: var(--themeToggle-indicator-pos);
+    width: 50%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--themeToggle-indicator-bg);
+    transform: scale(0.8);
+    transition: 0.25s;
+    box-shadow: var(--themeToggle-indicator-box-shadow)
 }
 
 /*accent colours*/
@@ -113,6 +169,26 @@ a:focus {
         transition: none;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*video*/
 video {
