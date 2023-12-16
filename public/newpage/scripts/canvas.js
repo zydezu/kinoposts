@@ -9,7 +9,7 @@ class VideoWithBackground {
         this.canvas = document.getElementById(canvasID)
 
         window.addEventListener("load", this.initcheck, false);
-        window.addEventListener("play", this.initcheck, false);
+        this.video.addEventListener("play", this.initcheck, false);
         window.addEventListener("unload", this.cleanup, false);
     }
 
