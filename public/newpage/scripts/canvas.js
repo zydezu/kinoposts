@@ -8,7 +8,7 @@ class VideoWithBackground {
         this.video = document.getElementById(videoID)
         this.canvas = document.getElementById(canvasID)
 
-        this.video.addEventListener("load", this.initcheck, false);
+        window.addEventListener("load", this.initcheck, false);
         window.addEventListener("unload", this.cleanup, false);
     }
 
@@ -37,7 +37,6 @@ class VideoWithBackground {
 
         this.video.addEventListener("loadeddata", this.draw, false);
         this.video.addEventListener("seeked", this.draw, false);
-        this.video.removeEventListener("play", this.initcheck, false);
         this.video.addEventListener("play", this.drawLoop, false);
         this.video.addEventListener("pause", this.drawPause, false);
         this.video.addEventListener("ended", this.drawPause, false);
@@ -53,3 +52,4 @@ class VideoWithBackground {
 }
 
 const el = new VideoWithBackground("ambientvideo", "ambientcanvas");
+el.initcheck()
