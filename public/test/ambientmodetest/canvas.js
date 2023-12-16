@@ -53,3 +53,6 @@ class VideoWithBackground {
 const el = new VideoWithBackground("ambientvideo", "ambientcanvas");
 const el2 = new VideoWithBackground("ambientvideo2", "ambientcanvas2");
 const el3 = new VideoWithBackground("ambientvideo3", "ambientcanvas3");
+el.initcheck()
+el2.initcheck()
+el3.initcheck()
