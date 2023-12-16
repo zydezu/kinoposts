@@ -32,6 +32,7 @@ class VideoWithBackground {
     }
 
     init = () => {
+        console.log("INIT")
         this.ctx = this.canvas.getContext("2d");
         this.ctx.filter = "blur(3px)";
 
