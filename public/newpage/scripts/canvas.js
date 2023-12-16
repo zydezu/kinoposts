@@ -37,6 +37,7 @@ class VideoWithBackground {
 
         this.video.addEventListener("loadeddata", this.draw, false);
         this.video.addEventListener("seeked", this.draw, false);
+        this.video.removeEventListener("play", this.initcheck, false);
         this.video.addEventListener("play", this.drawLoop, false);
         this.video.addEventListener("pause", this.drawPause, false);
         this.video.addEventListener("ended", this.drawPause, false);
