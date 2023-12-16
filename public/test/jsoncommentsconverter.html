@@ -141,7 +141,7 @@
                     commentDiv.classList.add('SNSParent');
                     commentDiv.innerHTML = `
                         <div class="SNSPost">
-                            <div class="SNSArea"><img loading="lazy" class="SNSIcon" src="${element.author_thumbnail}">
+                            <div class="SNSArea"><a href="${element.author_url}"><img loading="lazy" class="SNSIcon" src="${element.author_thumbnail}"></a>
                                 <div class="SNSUserInfo">
                                     <span class="SNSUsername">
                                         <a target="_blank" href="${element.author_url}">${element.author}</a> | 
@@ -165,7 +165,7 @@
                     commentDiv.classList.add('SNSPost');
                     commentDiv.style.marginLeft = '75px';
                     commentDiv.innerHTML = `
-                        <div class="SNSArea"><img loading="lazy" class="SNSIcon" src="${element.author_thumbnail}">
+                        <div class="SNSArea"><a href="${element.author_url}"<img loading="lazy" class="SNSIcon" src="${element.author_thumbnail}"></a>
                             <div class="SNSUserInfo">
                                 <span class="SNSUsername">
                                     <a target="_blank" href="${element.author_url}">${element.author}</a> | 
