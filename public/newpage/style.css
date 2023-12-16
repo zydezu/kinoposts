@@ -1,11 +1,4 @@
-/*font*/
-@font-face {
-    font-family: 'Inter';
-    src: url("Inter/InterVariable.woff2") format("woff2-variations");
-    font-weight: 100 900;
-    font-style: normal italic;
-    font-display: swap
-}
+@import url("https://rsms.me/inter/inter.css");
 
 /*light and dark mode themes and colours*/
 :root {
@@ -78,8 +71,11 @@
                                         inset 0 -2px 2px rgba(255, 255, 255, 0.8);
 }
 
+:root {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
 body {
-    font-family: "Inter";
     max-width: 800px;
     margin: 0 auto;
     color: var(--text-color);
@@ -89,16 +85,15 @@ body {
     transition: color 0.2s ease-out;
     transition: background-color 0.2s ease-out;
 }
+@supports (font-variation-settings: normal) {
+    :root { font-family: InterVariable, sans-serif; }
+}
 
 @media (prefers-reduced-motion) {
     body {
         transition: none;
     }
 }
-
-
-
-
 
 
 /*button*/
@@ -220,7 +215,7 @@ video {
 .ambientWrapper {
     padding: 5rem;
     position: relative;
-    box-shadow: var(--ambient-box-shadow)
+    box-shadow: var(--ambient-box-shadow);
 }
 
 .ambientCanvas {
