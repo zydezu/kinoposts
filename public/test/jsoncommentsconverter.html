@@ -269,20 +269,16 @@
             const container = document.createElement('div');
             container.innerHTML = commentsBox.innerHTML;
 
-            // Extract information from each div
             const divList = Array.from(container.querySelectorAll('.SNSParent')).map((div) => {
                 const likes = parseInt(div.querySelector('.SNSExtraInfo').innerText.trim());
                 const text = div.querySelector('.SNSPostText').innerText.trim();
                 return { likes, text, div };
             });
 
-            // Sort the array based on likes
             divList.sort((a, b) => b.likes - a.likes);
 
-            // Rebuild the sorted array of divs
             const sortedDivs = divList.map((entry) => entry.div);
 
-            // Append the sorted divs to the document or perform any other actions
             commentsBox.innerHTML = ""
             sortedDivs.forEach((div) => {
                 commentsBox.appendChild(div);
