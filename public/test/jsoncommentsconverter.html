@@ -64,8 +64,10 @@
     <div id="filterButtons" class="hidden">
         <button onclick="filterComments('Liked')">Filter comments by 💖liked</button>
         <button onclick="filterComments('Pinned')">Filter comments by 📌pinned</button>
-        <button id="sortingButton" onclick="switchSorting()">Sort by top</button>
         <button onclick="filterComments()">Remove filter</button>
+        <br/>
+        <button id="sortingButton" onclick="switchSorting()">Sort by top</button>
+        <button id="toggleReplies" onclick="toggleReplies()">Hide replies</button>
     </div>
     <div id="commentCount"></div>
     <div id="commentsBox"></div><br>
@@ -79,9 +81,11 @@
         const selectedFile = document.getElementById("selectedFile");
         const filterButtons = document.getElementById("filterButtons");
         const sortingButton = document.getElementById("sortingButton");
+        const toggleRepliesButton = document.getElementById("toggleReplies");
         let highestvideo, highestaudio
         let sortedByTop = false
-        var totalComments
+        let showingReplies = true
+        let totalComments
 
         function openFile() {
             document.getElementById('getFile').click()
@@ -144,6 +148,7 @@
 
             commentsBox.innerHTML = ""
             const fragment = document.createDocumentFragment();
+            showingReplies = true
 
             for (let index = 0; index < data.comments.length; index++) {
                 const element = data.comments[index];
@@ -164,6 +169,7 @@
                                 </div>
                                 <div class="SNSExtraInfo">
                                     ${element.like_count ? element.like_count : 0} likes
+                                    <br><span id="${element.id}replycount">0</span> replies
                                     <br>${element.is_pinned ? "📌Pinned<br>" : ""}
                                     ${element.is_favorited ? "💖Liked" : ""}
                                 </div>
@@ -175,6 +181,8 @@
                         <div class="Replies" id="${element.id}reply"></div>
                         `;
                 } else {
+                    const parentCommentCount = fragment.getElementById(`${element.parent}replycount`)
+                    parentCommentCount.innerHTML = parseInt(parentCommentCount.innerHTML) + 1
                     commentDiv.classList.add('SNSPost');
                     commentDiv.style.marginLeft = '75px';
                     commentDiv.innerHTML = `
@@ -283,6 +291,27 @@
             sortedDivs.forEach((div) => {
                 commentsBox.appendChild(div);
             });
+        }
+
+        function toggleReplies() {
+            for (let index = 0; index < commentsBox.children.length; index++) {
+                const element = commentsBox.children[index];
+                const reply = element.children[1]
+                if (reply){
+                    if (showingReplies) {
+                        element.children[1].classList.add("hidden")
+                    } else {
+                        element.children[1].classList.remove("hidden")
+                    }
+                }
+            }
+            if (showingReplies){
+                showingReplies = false
+                toggleRepliesButton.innerHTML = "Show replies"
+            } else {
+                showingReplies = true
+                toggleRepliesButton.innerHTML = "Hide replies"
+            }
         }
     </script>
 
