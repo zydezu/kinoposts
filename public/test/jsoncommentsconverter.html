@@ -65,7 +65,7 @@
         <button onclick="filterComments('Liked')">Filter comments by 💖liked</button>
         <button onclick="filterComments('Pinned')">Filter comments by 📌pinned</button>
         <button onclick="filterComments()">Remove filter</button>
-        <br/>
+        <br />
         <button id="sortingButton" onclick="switchSorting()">Sort by top</button>
         <button id="toggleReplies" onclick="toggleReplies()">Hide replies</button>
     </div>
@@ -114,16 +114,14 @@
         }
 
         async function read(input) {
-            videoInfo.innerHTML = "Reading comments..."
-            commentsBox.innerHTML = ""
+            videoInfo.innerHTML = "Reading comments...";
+            commentsBox.innerHTML = "";
 
-            data = await readFile(input.files[0]);
-            selectedFile.innerHTML = input.files[0].name
-            data = JSON.parse(data)
+            data = await readFile(input.files[0]);;
+            selectedFile.innerHTML = input.files[0].name;
+            data = JSON.parse(data);
 
-            let dislikes = "Unknown..."
-            getDislikes()
-
+            let dislikes = "Unknown...";
             videoInfo.innerHTML = `
             <img style="border-radius: 10px" src="${data.thumbnail}"><br/>--------------------------------------------------<br/>
             <a target="_blank" href="https://youtube.com/watch?v=${data.id}">${data.title}</a><br/>
@@ -134,13 +132,23 @@
             <br/>Categories: ${data.categories}
             <br/>File size: ${formatBytes(data.filesize_approx)} (${data.format_note})
             <br/>--------------------------------------------------<br/>
-            ${data.description.replace(/\n/g, '<br>')}
+            ${makeLinks(data.description.replace(/\n/g, '<br>'))}
             <br/>--------------------------------------------------<br/>
-            `
-
-            totalComments = data.comments.length
-
+            `;
+            await getDislikes();
+            totalComments = data.comments.length;
             renderComments();
+        }
+
+        function makeLinks(content) {
+            var re = /((?:href|src)=")?(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            content = content.replace(re, function (match, attr) {
+                if (typeof attr != 'undefined') {
+                    return match;
+                }
+                return '<a target="_blank" href="' + match + '">' + match + '</a>';
+            });
+            return content
         }
 
         function renderComments() {
@@ -153,11 +161,12 @@
             for (let index = 0; index < data.comments.length; index++) {
                 const element = data.comments[index];
                 const commentDiv = document.createElement('div');
-
                 commentDiv.id = element.id;
-                if (element.parent === "root") {
-                    commentDiv.classList.add('SNSParent');
-                    commentDiv.innerHTML = `
+
+                if (element.text) { // rarely a comment won't contain text
+                    if (element.parent === "root") {
+                        commentDiv.classList.add('SNSParent');
+                        commentDiv.innerHTML = `
                         <div class="SNSPost">
                             <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img loading="lazy" class="SNSIcon" src="${element.author_thumbnail}"></a>
                                 <div class="SNSUserInfo">
@@ -180,12 +189,13 @@
                         </div>
                         <div class="Replies" id="${element.id}reply"></div>
                         `;
-                } else {
-                    const parentCommentCount = fragment.getElementById(`${element.parent}replycount`)
-                    parentCommentCount.innerHTML = parseInt(parentCommentCount.innerHTML) + 1
-                    commentDiv.classList.add('SNSPost');
-                    commentDiv.style.marginLeft = '75px';
-                    commentDiv.innerHTML = `
+                        fragment.appendChild(commentDiv);
+                    } else {
+                        const parentCommentCount = fragment.getElementById(`${element.parent}replycount`)
+                        parentCommentCount.innerHTML = parseInt(parentCommentCount.innerHTML) + 1
+                        commentDiv.classList.add('SNSPost');
+                        commentDiv.style.marginLeft = '75px';
+                        commentDiv.innerHTML = `
                         <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img loading="lazy" class="SNSIcon" src="${element.author_thumbnail}"></a>
                             <div class="SNSUserInfo">
                                 <span class="SNSUsername">
@@ -204,7 +214,10 @@
                             ${element.text.trim().replace(/\n/g, '<br>')}
                         </div>
                         `;
+                        fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv);
+                    }
                 }
+
                 if (element.is_pinned) commentDiv.dataset.info = "Pinned "
                 if (element.is_favorited) {
                     if (commentDiv.dataset.info) {
@@ -213,9 +226,6 @@
                         commentDiv.dataset.info = "Liked "
                     }
                 }
-
-                if (element.parent === "root") fragment.appendChild(commentDiv);
-                else fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv)
             }
 
             commentsBox.appendChild(fragment);
@@ -239,80 +249,55 @@
 
             filterButtons.classList.remove("hidden")
             videoInfo.innerHTML = `<hr>Time taken: ${performance.now() - startTime}ms<hr>` + videoInfo.innerHTML
-
         }
 
         function filterComments(filterBy) {
-            i = 0
-            for (let index = 0; index < commentsBox.children.length; index++) {
-                const element = commentsBox.children[index];
-                if (filterBy) {
-                    if (element.dataset.info && element.dataset.info.includes(filterBy)) {
-                        element.classList.remove("hidden")
-                        i++
-                    } else {
-                        element.classList.add("hidden")
-                    }
-                } else {
-                    element.classList.remove("hidden")
-                    i++
+            let visibleCount = 0;
+            for (const element of commentsBox.children) {
+                const hasFilter = filterBy && element.dataset.info && element.dataset.info.includes(filterBy);
+                const isVisible = !filterBy || hasFilter;
+                element.classList.toggle("hidden", !isVisible);
+                if (isVisible) {
+                    visibleCount++;
                 }
             }
-            commentCount.innerText = `Comments: ${totalComments} ${filterBy ? `(Showing: ${i})` : ""}`
+            commentCount.innerText = `Comments: ${totalComments} ${filterBy ? `(Showing: ${visibleCount})` : ""}`;
         }
 
         function switchSorting() {
-            if (sortedByTop){
-                sortedByTop = false
-                sortingButton.textContent = "Sort by top"
-                renderComments()
+            if (sortedByTop) {
+                sortedByTop = false;
+                sortingButton.textContent = "Sort by top";
+                renderComments();
                 return;
             }
-
-            filterComments()
-
-            sortedByTop = true
-            sortingButton.textContent = "Sort by new"
-
-            const container = document.createElement('div');
-            container.innerHTML = commentsBox.innerHTML;
-
-            const divList = Array.from(container.querySelectorAll('.SNSParent')).map((div) => {
-                const likes = parseInt(div.querySelector('.SNSExtraInfo').innerText.trim());
-                const text = div.querySelector('.SNSPostText').innerText.trim();
-                return { likes, text, div };
-            });
-
-            divList.sort((a, b) => b.likes - a.likes);
-
-            const sortedDivs = divList.map((entry) => entry.div);
-
-            commentsBox.innerHTML = ""
-            sortedDivs.forEach((div) => {
-                commentsBox.appendChild(div);
+            filterComments();
+            sortedByTop = true;
+            sortingButton.textContent = "Sort by new";
+            const divList = Array.from(commentsBox.querySelectorAll('.SNSParent'))
+                .map((div) => {
+                    const likes = parseInt(div.querySelector('.SNSExtraInfo').innerText.trim());
+                    const text = div.querySelector('.SNSPostText').innerText.trim();
+                    return { likes, text, div };
+                })
+                .sort((a, b) => b.likes - a.likes);
+            commentsBox.innerHTML = "";
+            divList.forEach((entry) => {
+                commentsBox.appendChild(entry.div);
             });
         }
 
         function toggleReplies() {
-            for (let index = 0; index < commentsBox.children.length; index++) {
-                const element = commentsBox.children[index];
-                const reply = element.children[1]
-                if (reply){
-                    if (showingReplies) {
-                        element.children[1].classList.add("hidden")
-                    } else {
-                        element.children[1].classList.remove("hidden")
-                    }
+            for (const element of commentsBox.children) {
+                const reply = element.children[1];
+                if (reply) {
+                    reply.classList.toggle("hidden", showingReplies);
                 }
             }
-            if (showingReplies){
-                showingReplies = false
-                toggleRepliesButton.innerHTML = "Show replies"
-            } else {
-                showingReplies = true
-                toggleRepliesButton.innerHTML = "Hide replies"
-            }
+            showingReplies = !showingReplies;
+            toggleRepliesButton.innerHTML = showingReplies ? "Hide replies" : "Show replies";
         }
+
     </script>
 
 </body>
