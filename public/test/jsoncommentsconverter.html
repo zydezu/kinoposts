@@ -111,7 +111,7 @@
             return content
         }
 
-        function renderComments() {
+        async function renderComments() {
             let startTime = performance.now()
 
             commentsBox.innerHTML = ""
@@ -151,8 +151,8 @@
                         `;
                         fragment.appendChild(commentDiv);
                     } else {
-                        const parentCommentCount = fragment.getElementById(`${element.parent}replycount`)
-                        parentCommentCount.innerHTML = parseInt(parentCommentCount.innerHTML) + 1
+                        // const parentCommentCount = fragment.getElementById(`${element.parent}replycount`)
+                        // parentCommentCount.innerHTML = parseInt(parentCommentCount.innerHTML) + 1
                         commentDiv.classList.add('SNSPost');
                         commentDiv.style.marginLeft = '75px';
                         commentDiv.innerHTML = `
