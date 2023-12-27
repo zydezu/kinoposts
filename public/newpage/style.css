@@ -150,8 +150,7 @@ button:active {
     background-color: var(--highlight-color);
 }
 
-a:link,
-summary {
+a:link {
     color: var(--accent-color);
     transition: color 0.08s linear;
     transition: transform 0.1s;
@@ -161,14 +160,7 @@ a:visited {
     color: #fa9696;
 }
 
-summary {
-    text-decoration: underline;
-    cursor: pointer;
-    width: fit-content;
-}
-
-a:hover,
-summary:hover {
+a:hover {
     color: #ffeeee;
 }
 
@@ -178,21 +170,22 @@ a:focus {
 }
 
 @media (prefers-reduced-motion) {
-
-    a:link,
-    summary {
+    a:link{
         transition: none;
     }
 }
 
+summary {
+    cursor: pointer;
+}
 
-
-
-
-
-
-
-
+dialog {
+    z-index: 10;
+    position: fixed;
+    top: 10px;
+    min-width: 300px;
+    border-radius: 15px;
+}
 
 
 

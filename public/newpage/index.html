@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <script type="module" src="scripts/toggleTheme.js"></script>
 </head>
+
 <body>
     <nav>
         <div id="themeToggle">
@@ -16,7 +17,7 @@
         </div>
         <button id="toggleThemeButton">Toggle Color</button>
     </nav>
-    
+
     <p>This is a test page</p>
 
     <form>
@@ -30,16 +31,23 @@
 
     <a href="https://darkomizer.com/">https://darkomizer.com/</a>
 
+    <dialog open id="dragDialog">
+        <p>We used cookies on this website >:P.</p>
+        <form method="dialog">
+            <button> OBEY!😁 i love our new EU overlords !!</button>
+        </form>
+    </dialog>
+
     <details>
         <summary>Click to open</summary>
         hiiiiii
     </details>
 
-    <br/>
+    <br />
 
     <script src="scripts/canvas.js" defer></script>
     <section class="ambientWrapper">
-        <video controls muted autoplay class="roundVideo" id="ambientvideo" src="resources/video/eva death.mp4"></video>
+        <video playsinline controls muted autoplay class="roundVideo" id="ambientvideo" src="resources/video/eva death.mp4"></video>
         <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
     </section>
 
