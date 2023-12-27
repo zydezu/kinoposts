@@ -1,5 +1,3 @@
-import 'context-filter-polyfill';
-
 class VideoWithBackground {
     video;
     canvas;
