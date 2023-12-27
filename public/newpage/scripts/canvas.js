@@ -24,14 +24,21 @@ class VideoWithBackground {
     drawPause = () => {
         window.cancelAnimationFrame(this.step);
         this.step = undefined;
-    }; 
+    };
 
     initcheck = () => {
-        this.init()
+        const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+        console.log(`Initiated video canvas${isFirefox ? ' (firefox version)' : ''}`);
+        if (isFirefox) {
+            this.ctx = this.canvas.getContext("2d");
+            this.ctx.filter = "blur(50px)";
+            setInterval(this.draw, 200)
+        } else {
+            this.init()
+        }
     }
 
     init = () => {
-        console.log("INIT")
         this.ctx = this.canvas.getContext("2d");
         this.ctx.filter = "blur(3px)";
 

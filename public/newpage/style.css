@@ -17,18 +17,19 @@
     --bg-color: #fff;
 
     --ambient-box-shadow: none;
+    --ambient-video-box-shadow: 0 0 1rem #0f0f0f;
     --ambient-canvas-opacity: 0;
 
     --themeToggle-bg-color: #222;
     --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2),
-                            inset 0 8px 60px rgba(0, 0, 0, 0.1),
-                            inset 0 8px 8px rgba(0, 0, 0, 0.1),
-                            inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+        inset 0 8px 60px rgba(0, 0, 0, 0.1),
+        inset 0 8px 8px rgba(0, 0, 0, 0.1),
+        inset 0 -4px 4px rgba(0, 0, 0, 0.1);
     --themeToggle-indicator-pos: 0;
     --themeToggle-indicator-bg: linear-gradient(to bottom, #444, #222);
     --themeToggle-indicator-box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5),
-                                        inset 0 2px 2px rgba(255, 255, 255, 0.1),
-                                        inset 0 -2px 2px rgba(255, 255, 255, 0.1);
+        inset 0 2px 2px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 2px rgba(255, 255, 255, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,18 +38,19 @@
         --bg-color: #0f0f0f;
 
         --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
-        --ambient-canvas-opacity: 0.75;
+        --ambient-video-box-shadow: 0 0 2rem 0.1rem #0f0f0f;
+        --ambient-canvas-opacity: 0.8;
 
         --themeToggle-bg-color: #fff;
         --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5),
-                                inset 0 8px 60px rgba(0, 0, 0, 0.1),
-                                inset 0 4px 8px rgba(0, 0, 0, 0.1),
-                                inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+            inset 0 8px 60px rgba(0, 0, 0, 0.1),
+            inset 0 4px 8px rgba(0, 0, 0, 0.1),
+            inset 0 -4px 4px rgba(0, 0, 0, 0.1);
         --themeToggle-indicator-pos: 50%;
         --themeToggle-indicator-bg: linear-gradient(to bottom, #eaeaea, #f9f9f9);
         --themeToggle-indicator-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
-                                            inset 0 2px 2px rgba(255, 255, 255, 0.8),
-                                            inset 0 -2px 2px rgba(255, 255, 255, 0.8);    
+            inset 0 2px 2px rgba(255, 255, 255, 0.8),
+            inset 0 -2px 2px rgba(255, 255, 255, 0.8);
     }
 }
 
@@ -57,24 +59,27 @@
     --bg-color: #0f0f0f;
 
     --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
-    --ambient-canvas-opacity: 0.75;
+    --ambient-video-box-shadow: 0 0 2rem 0.1rem #0f0f0f;
+    --ambient-canvas-opacity: 0.8;
 
     --themeToggle-bg-color: #fff;
     --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5),
-                            inset 0 8px 60px rgba(0, 0, 0, 0.1),
-                            inset 0 4px 8px rgba(0, 0, 0, 0.1),
-                            inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+        inset 0 8px 60px rgba(0, 0, 0, 0.1),
+        inset 0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 -4px 4px rgba(0, 0, 0, 0.1);
     --themeToggle-indicator-pos: 50%;
     --themeToggle-indicator-bg: linear-gradient(to bottom, #eaeaea, #f9f9f9);
     --themeToggle-indicator-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
-                                        inset 0 2px 2px rgba(255, 255, 255, 0.8),
-                                        inset 0 -2px 2px rgba(255, 255, 255, 0.8);
+        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 2px rgba(255, 255, 255, 0.8);
 }
 
 :root {
     font-family: "Inter", sans-serif;
-    font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    /* fix for Chrome */
 }
+
 body {
     max-width: 800px;
     margin: 0 auto;
@@ -85,8 +90,11 @@ body {
     transition: color 0.2s ease-out;
     transition: background-color 0.2s ease-out;
 }
+
 @supports (font-variation-settings: normal) {
-    :root { font-family: InterVariable, sans-serif; }
+    :root {
+        font-family: InterVariable, sans-serif;
+    }
 }
 
 @media (prefers-reduced-motion) {
@@ -170,6 +178,7 @@ a:focus {
 }
 
 @media (prefers-reduced-motion) {
+
     a:link,
     summary {
         transition: none;
@@ -207,25 +216,28 @@ video {
     backdrop-filter: grayscale(0);
 }
 
-.ambientWrapper video {
-    box-shadow: 0 0 2rem #0f0f0f;
-}
 
 /*ambient video effect*/
+#ambientvideo {
+    box-shadow: var(--ambient-video-box-shadow);
+}
+
 .ambientWrapper {
-    padding: 5rem;
-    position: relative;
-    box-shadow: var(--ambient-box-shadow);
+    /* position: relative; */
+    /* padding: 5rem; */
 }
 
 .ambientCanvas {
-    position: absolute;
+    position: fixed;
+    /* position: absolute; */
     top: 0;
     left: 0;
     z-index: -1;
     width: 100%;
     height: 100%;
+    /* scale: 1.5; */
     opacity: var(--ambient-canvas-opacity);
+    filter: saturate(1.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -234,3 +246,14 @@ video {
     }
 }
 
+@media screen and (max-width: 768px) {
+    .ambientWrapper {
+        position: static;
+        padding: 0;
+    }
+
+    .ambientCanvas {
+        position: fixed;
+        scale: 1;
+    }
+}
