@@ -645,83 +645,89 @@ blockquote {
     background-color: rgba(255, 0, 127, 0.15);
   }
 }
-
-/*code boxes*/
-code,
-.codeBox {
-  font-family: FMono-Regular, Consolas, DejaVu Sans Mono, Liberation Mono, Menlo, monospace !important;
+code,.codeBox{
+  font-family: CascadiaCode, FMono-Regular, Consolas, DejaVu Sans Mono ,Liberation Mono, Menlo, monospace !important;
 }
-
-code
-
-/*code formatting*/
-  {
+code /*code formatting*/ {
   font-size: 15px;
   padding: 2px 5px;
   background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 5px;
 }
-
-.codeBox
-
-/*code box*/
-  {
+.codeBox /*code box*/ {
   font-size: 14px;
   padding: 25px;
   line-height: 1.6;
-  background-color: rgba(15, 15, 15, 0.6);
-  -webkit-backdrop-filter: blur(15px);
-  backdrop-filter: blur(15px);
-  border-radius: 10px;
-}
-
-.codeBoxTitle {
+  background-color: rgba(15, 15, 15, 0.5);
   border-radius: 0 0 10px 10px;
+  color: #fff;
 }
-
+pre{
+  margin: 0;
+}
+.codeFormat {
+  font-size: 14px;
+  line-height: 1.4;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  background-color: rgba(15, 15, 15, 0.5)!important;
+  color-scheme: dark;
+}
 .codeBoxBack {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
-
 .codeTab {
   background-color: rgba(15, 15, 15, 0.5);
   border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(100, 100, 100, 0.5);
   width: fit-content;
   padding: 10px;
+  color: #ffffffee
 }
-
 .scriptIcon {
   height: 12px;
   margin-right: 8px;
-  border-radius: 0 !important;
+  border-radius: 0!important;
 }
-
 .lineNumber:before {
   margin-right: 16px;
   margin-left: -8px;
   color: #6b6b6b;
   content: attr(line);
 }
-
-.code.console {
+.code.cconsole {
   color: #9cdcfe;
 }
-
-.code.punctuation {
+.code.cpunctuation {
   color: #d4d4d4;
 }
-
-.code.method {
+.code.cmethod {
   color: #dcdcaa;
 }
-
-.code.string {
+.code.cstring {
   color: #ce9178;
+}
+.code.pythonmethod{
+  color: #dcdcaa;
+}
+.code.pythonbracket{
+  color: #ffd710;
+}
+.code.pythoninnerbracket{
+  color: #da70d6;
+}
+.code.pythonint {
+  color: #b5cea8;
+}
+.code.pythonstring {
+  color: #ce9178;
+}
+.code.pythoncast{
+  color: #4ec9b0;
 }
 
 /*comment section*/

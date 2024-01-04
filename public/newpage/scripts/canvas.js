@@ -28,14 +28,15 @@ class VideoWithBackground {
 
     initcheck = () => {
         const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
-        console.log(`Initiated video canvas${isFirefox ? ' (firefox version)' : ''}`);
-        if (isFirefox) {
-            this.ctx = this.canvas.getContext("2d");
-            this.ctx.filter = "blur(50px)";
-            setInterval(this.draw, 200)
-        } else {
-            this.init()
-        }
+        // console.log(`Initiated video canvas${isFirefox ? ' (firefox version)' : ''}`);
+        // if (isFirefox) {
+        //     this.ctx = this.canvas.getContext("2d");
+        //     this.ctx.filter = "blur(50px)";
+        //     setInterval(this.draw, 200)
+        // } else {
+        //     this.init()
+        // }
+        this.init()
     }
 
     init = () => {
@@ -56,6 +57,10 @@ class VideoWithBackground {
         this.video.removeEventListener("pause", this.drawPause);
         this.video.removeEventListener("ended", this.drawPause);
     };
+
+    changeBlur = (blur) => {
+        this.ctx.filter = `blur(${blur}px)`;
+    }
 }
 
 const el = new VideoWithBackground("ambientvideo", "ambientcanvas");
