@@ -1,15 +1,43 @@
 // setup
 const videoInfo = document.getElementById("videoInfo");
-const commentsBox = document.getElementById("commentsBox");
-const commentCount = document.getElementById("commentCount");
 const selectedFile = document.getElementById("selectedFile");
 const filterButtons = document.getElementById("filterButtons");
 const sortingButton = document.getElementById("sortingButton");
 const toggleRepliesButton = document.getElementById("toggleReplies");
-let highestvideo, highestaudio
-let sortedByTop = false
-let showingReplies = true
-let totalComments;
+const switchCommentsLayoutButton = document.getElementById("switchCommentsLayoutButton");
+const scrollingPlace = document.getElementById("sideBarScroll")
+let sortedByTop;
+let showingReplies;
+resetButtonStates();
+let oldCommentPosition = false;
+var commentsBox;
+var commentCount;
+let startingIndex;
+const commentsToLoadAtOnce = 20;
+let allCommentsLoaded = false;
+getCommentsBox();
+
+function getCommentsBox() {
+    commentsBox = document.getElementById(oldCommentPosition ? "classicCommentsBox" : "commentsBox");
+    commentCount = document.getElementById(oldCommentPosition ? "classicCommentCount" : "commentCount");
+}
+
+function resetButtonStates() {
+    sortedByTop = false;
+    showingReplies = true;
+    sortingButton.textContent = "Sort by top";
+    toggleRepliesButton.innerHTML = showingReplies ? "Hide replies" : "Show replies";
+}
+
+function switchCommentsLayout() {
+    let temp = [commentsBox.innerHTML, commentCount.innerHTML];
+    commentsBox.innerHTML = "";
+    commentCount.innerHTML = "";
+    oldCommentPosition = 1 - oldCommentPosition;
+    getCommentsBox();
+    commentsBox.innerHTML = temp[0];
+    commentCount.innerHTML = temp[1];
+}
 
 function openFile() {
     document.getElementById('getFile').click()
@@ -38,33 +66,34 @@ async function getDislikes(id) {
 }
 
 function readFile(input) {
+    commentsBox.innerHTML = ""
     fetch(input)
         .then((response) => response.ok ? response.text() : console.log("Playlist file doesn't exist!"))
-        .then((data) => read(data)); // javascript fetching protocol
+        .then((returndata) => read(returndata)); // javascript fetching protocol
 }
 
-async function read(data) {
-    data = JSON.parse(data);
+async function read(returndata) {
+    data = JSON.parse(returndata);
+    resetButtonStates();
 
     videoInfo.innerHTML = "Reading comments...";
     commentsBox.innerHTML = "";
 
     let dislikes = "Unknown...";
     videoInfo.innerHTML = `
-            <img style="border-radius: 10px; max-width: 100%;" src="${data.thumbnail}"><br/>--------------------------------------------------<br/>
-            <a target="_blank" href="https://youtube.com/watch?v=${data.id}">${data.title}</a><br/>
+            <hr>
+            <a target="_blank" href="https://youtube.com/watch?v=${data.id}">${data.fulltitle}</a><br/>
             Views: ${data.view_count} | Duration: ${data.duration_string}
             <br/>Uploaded by: <a target="_blank" href="${data.uploader_url}">${data.channel} (${data.uploader_id})</a> | ${data.channel_follower_count} subscribers
             <br/>Uploaded: ${data.upload_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')}
             <br/>Likes: ${data.like_count} | Dislikes: <span id="dislikeCounter">Loading...</span> | Comments: ${data.comment_count}
             <br/>Categories: ${data.categories}
-            <br/>File size: ${formatBytes(data.filesize_approx)} (${data.format_note})
-            <br/>--------------------------------------------------<br/>
+            <br/>Tags: ${data.tags}
+            <hr>
             ${makeLinks(data.description.replace(/\n/g, '<br>'))}
-            <br/>--------------------------------------------------<br/>
+            <hr>
             `;
     await getDislikes(data.id);
-    totalComments = data.comments.length;
     renderComments(data);
 }
 
@@ -79,51 +108,82 @@ function makeLinks(content) {
     return content
 }
 
-async function renderComments(data) {
-    let startTime = performance.now()
-
-    commentsBox.innerHTML = ""
+async function renderComments() {
+    commentsBox.innerHTML = ``
     const fragment = document.createDocumentFragment();
     showingReplies = true
 
-    for (let index = 0; index < data.comments.length; index++) {
-        const element = data.comments[index];
-        const commentDiv = document.createElement('div');
-        commentDiv.id = element.id;
+    startingIndex = 0
+    allCommentsLoaded = true;
+    for (let index = startingIndex; index < data.comments.length; index++) {
+        if (index > startingIndex + commentsToLoadAtOnce) {
+            allCommentsLoaded = false;
+            startingIndex = index;
+            break;
+        }
+        renderNextComment(fragment, index)
+    }
 
-        if (element.text) { // rarely a comment won't contain text
-            if (element.parent === "root") {
-                commentDiv.classList.add('SNSParent');
-                commentDiv.innerHTML = `
-                        <div class="SNSPost">
-                            <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" src="${element.author_thumbnail}"></a>
-                                <div class="SNSUserInfo">
-                                    <span class="SNSUsername">
-                                        <a target="_blank" href="${element.author_url}">${element.author}</a>
-                                    </span>
-                                    <br><span id="SNSDate">${element._time_text}</span> | 
-                                    <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
-                                </div>
-                                <div class="SNSExtraInfo">
-                                    ${element.like_count ? element.like_count : 0} likes
-                                    <br><span id="${element.id}replycount">0</span> replies
-                                    <br>${element.is_pinned ? "📌Pinned<br>" : ""}
-                                    ${element.is_favorited ? "💖Liked" : ""}
-                                </div>
-                            </div>
-                            <div class="SNSPostText">
-                                ${element.text.trim().replace(/\n/g, '<br>')}
-                            </div>
-                        </div>
-                        <div class="Replies" id="${element.id}reply"></div>
-                        `;
-                fragment.appendChild(commentDiv);
-            } else {
-                // const parentCommentCount = fragment.getElementById(`${element.parent}replycount`)
-                // parentCommentCount.innerHTML = parseInt(parentCommentCount.innerHTML) + 1
-                commentDiv.classList.add('SNSPost');
-                commentDiv.style.marginLeft = '75px';
-                commentDiv.innerHTML = `
+    commentsBox.appendChild(fragment);
+    commentCount.innerHTML = `Comments: ${data.comment_count}
+    <button onclick="switchCommentsLayout()">Switch comments layout</button>`;
+
+    filterButtons.classList.remove("hidden")
+}
+
+async function loadMoreComments() {
+    console.log("Loading more comments.")
+    const fragment = document.createDocumentFragment();
+
+    allCommentsLoaded = true;
+    for (let index = startingIndex; index < data.comments.length; index++) {
+        if (index > startingIndex + commentsToLoadAtOnce) {
+            allCommentsLoaded = false;
+            startingIndex = index;
+            break;
+        }
+        renderNextComment(fragment, index)
+    }
+
+    commentsBox.appendChild(fragment);
+}
+
+scrollingPlace.addEventListener("scroll", () => {
+    if (!allCommentsLoaded) {
+        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop === scrollingPlace.clientHeight) {
+            loadMoreComments()
+        } 
+    }
+});
+
+window.onscroll = function(ev) {
+    if (oldCommentPosition && !allCommentsLoaded){
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+            loadMoreComments()
+        }
+    }
+};
+
+
+function loadAllComments() {
+    const fragment = document.createDocumentFragment();
+    for (let index = startingIndex; index < data.comments.length; index++) {
+        renderNextComment(fragment, index)
+    }
+    commentsBox.appendChild(fragment);
+    allCommentsLoaded = true;
+}
+
+function renderNextComment(fragment, index) {
+    const element = data.comments[index];
+    const commentDiv = document.createElement('div');
+    commentDiv.id = element.id;
+
+    if (element.text) { // rarely a comment won't contain text
+        if (element.parent === "root") {
+            commentDiv.classList.add('SNSParent');
+            commentDiv.innerHTML = `
+                    <div class="SNSPost">
                         <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" src="${element.author_thumbnail}"></a>
                             <div class="SNSUserInfo">
                                 <span class="SNSUsername">
@@ -134,48 +194,56 @@ async function renderComments(data) {
                             </div>
                             <div class="SNSExtraInfo">
                                 ${element.like_count ? element.like_count : 0} likes
-                                <br>${element.is_favorited ? "💖Liked" : ""}
+                                <br><span id="${element.id}replycount">0</span> replies
+                                <br>${element.is_pinned ? "📌Pinned<br>" : ""}
+                                ${element.is_favorited ? "💖Liked" : ""}
                             </div>
                         </div>
                         <div class="SNSPostText">
                             ${element.text.trim().replace(/\n/g, '<br>')}
                         </div>
-                        `;
-                fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv);
-            }
-        }
-
-        if (element.is_pinned) commentDiv.dataset.info = "Pinned "
-        if (element.is_favorited) {
-            if (commentDiv.dataset.info) {
-                commentDiv.dataset.info += "Liked "
-            } else {
-                commentDiv.dataset.info = "Liked "
+                    </div>
+                    <div class="Replies" id="${element.id}reply"></div>
+                    `;
+            fragment.appendChild(commentDiv);
+        } else {
+            commentDiv.classList.add('SNSPost');
+            commentDiv.style.marginLeft = '75px';
+            commentDiv.innerHTML = `
+                    <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" src="${element.author_thumbnail}"></a>
+                        <div class="SNSUserInfo">
+                            <span class="SNSUsername">
+                                <a target="_blank" href="${element.author_url}">${element.author}</a>
+                            </span>
+                            <br><span id="SNSDate">${element._time_text}</span> | 
+                            <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
+                        </div>
+                        <div class="SNSExtraInfo">
+                            ${element.like_count ? element.like_count : 0} likes
+                            <br>${element.is_favorited ? "💖Liked" : ""}
+                        </div>
+                    </div>
+                    <div class="SNSPostText">
+                        ${element.text.trim().replace(/\n/g, '<br>')}
+                    </div>
+                    `;
+            try {
+                fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv)
+            } catch (error) {
+                // reply comment not in fragment - use global
+                document.getElementById(`${element.parent}reply`).appendChild(commentDiv);
             }
         }
     }
 
-    commentsBox.appendChild(fragment);
-    commentCount.innerText = "Comments: " + totalComments;
-
-    data.formats.forEach(element => {
-        if (element.url) {
-            if (element.resolution == "audio only") {
-                highestaudio = element.url
-            } else if (element.format = "mp4") {
-                highestvideo = element.url
-            }
+    if (element.is_pinned) commentDiv.dataset.info = "Pinned "
+    if (element.is_favorited) {
+        if (commentDiv.dataset.info) {
+            commentDiv.dataset.info += "Liked "
+        } else {
+            commentDiv.dataset.info = "Liked "
         }
-    });
-
-    commentsBox.innerHTML +=
-        `<video id="ytVideo" controls>
-                        <source src="${highestvideo}">>
-                    </video>
-                <audio controls id="ytAudio" src="${highestaudio}"></audio>`
-
-    filterButtons.classList.remove("hidden")
-    videoInfo.innerHTML = `<hr>Time taken: ${performance.now() - startTime}ms<hr>` + videoInfo.innerHTML
+    }
 }
 
 function filterComments(filterBy) {
@@ -188,7 +256,8 @@ function filterComments(filterBy) {
             visibleCount++;
         }
     }
-    commentCount.innerText = `Comments: ${totalComments} ${filterBy ? `(Showing: ${visibleCount})` : ""}`;
+    commentCount.innerHTML = `Comments: ${data.comment_count} ${filterBy ? `(Showing: ${visibleCount})` : ""}
+    <button onclick="switchCommentsLayout()">Switch comments layout</button>`;
 }
 
 function switchSorting() {
@@ -198,6 +267,7 @@ function switchSorting() {
         renderComments();
         return;
     }
+    loadAllComments();
     filterComments();
     sortedByTop = true;
     sortingButton.textContent = "Sort by new";
@@ -208,7 +278,7 @@ function switchSorting() {
             return { likes, text, div };
         })
         .sort((a, b) => b.likes - a.likes);
-    commentsBox.innerHTML = "";
+    commentsBox.innerHTML = ""
     divList.forEach((entry) => {
         commentsBox.appendChild(entry.div);
     });

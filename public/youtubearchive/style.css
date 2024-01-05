@@ -16,33 +16,26 @@
     --text-color: #161616;
     --bg-color: #fff;
 
+    --scrollbar-color: rgba(0, 0, 0, 0.25);
+
     --button-background: #f0f0f0;
     --button-border: 1px solid rgba(100, 100, 100, 0.2);
     --button-outline: 2px solid rgba(0, 0, 0, 0.5);
 
     --SNS-color-date: rgba(0, 0, 0, 0.75);
     --SNS-color-extra: #000000A5;
-    --SNS-border: 2px solid rgba(0, 0, 0, 0.4);
+    --SNS-border: 1px solid rgba(0, 0, 0, 0.8);
 
     --ambient-box-shadow: none;
     --ambient-video-box-shadow: 0 0 1rem #0f0f0f;
     --ambient-canvas-opacity: 0;
-
-    --themeToggle-bg-color: #222;
-    --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2),
-        inset 0 8px 60px rgba(0, 0, 0, 0.1),
-        inset 0 8px 8px rgba(0, 0, 0, 0.1),
-        inset 0 -4px 4px rgba(0, 0, 0, 0.1);
-    --themeToggle-indicator-pos: 0;
-    --themeToggle-indicator-bg: linear-gradient(to bottom, #444, #222);
-    --themeToggle-indicator-box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5),
-        inset 0 2px 2px rgba(255, 255, 255, 0.1),
-        inset 0 -2px 2px rgba(255, 255, 255, 0.1);
 }
 
 :root.dark {
-    --text-color: rgba(255, 255, 255, 0.85);
+    --text-color: rgba(255, 255, 255, 0.9);
     --bg-color: #0f0f0f;
+
+    --scrollbar-color: rgba(255, 255, 255, 0.25);
 
     --button-background: rgba(0, 0, 0, 0.4);
     --button-border: 1px solid rgba(255, 255, 255, 0.2);
@@ -51,22 +44,11 @@
     --SNS-color-date: rgba(255, 255, 255, 0.75);
     --SNS-color-extra: #ffffffA5;
     --SNS-background: rgba(0, 0, 0, 0.2);
-    --SNS-border: 3px solid rgba(255, 255, 255, 0.4);
+    --SNS-border: 1px solid rgba(255, 255, 255, 0.6);
 
     --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
     --ambient-video-box-shadow: 0 0 2rem 0.1rem #0f0f0f;
     --ambient-canvas-opacity: 0.8;
-
-    --themeToggle-bg-color: #fff;
-    --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5),
-        inset 0 8px 60px rgba(0, 0, 0, 0.1),
-        inset 0 4px 8px rgba(0, 0, 0, 0.1),
-        inset 0 -4px 4px rgba(0, 0, 0, 0.1);
-    --themeToggle-indicator-pos: 50%;
-    --themeToggle-indicator-bg: linear-gradient(to bottom, #eaeaea, #f9f9f9);
-    --themeToggle-indicator-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
-        inset 0 2px 2px rgba(255, 255, 255, 0.8),
-        inset 0 -2px 2px rgba(255, 255, 255, 0.8);
 }
 
 :root {
@@ -75,16 +57,75 @@
     /* fix for Chrome */
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-color);
+    border-radius: 20px;
+    border: transparent;
+}
+
 body {
-    max-width: 800px;
-    margin: 0 auto;
     color: var(--text-color);
     background-color: var(--bg-color);
-    padding: 20px;
+    margin: 0;
     word-wrap: break-word;
     transition: color 0.2s ease-out;
     transition: background-color 0.2s ease-out;
 }
+
+.main {
+    padding: 25px;
+    margin: 0 auto;
+    margin-top: 40px;
+    max-width: 1700px;
+    display: flex;
+}
+
+.videoArea {
+    max-width: 75%;
+}
+
+.sideBar {
+    min-width: 400px;
+    height: 65vh;
+    padding-left: 1em;
+    overflow-y: scroll;
+}
+
+#commentsBox {
+    min-width: 335px;
+    max-width: 385px;
+}
+
+@media screen and (max-width: 950px) {
+    .main {
+        padding: 20px;
+        display: block;
+    }
+
+    .videoArea {
+        max-width: 100%;
+    }
+
+    .sideBar {
+        min-width: unset;
+        max-height: 100%;
+        padding-left: unset;
+        overflow-y: unset;
+    }
+
+    #commentsBox {
+        width: 100%;
+    }
+}
+
 
 @supports (font-variation-settings: normal) {
     :root {
@@ -124,31 +165,6 @@ button:hover,
 button:focus {
     color: var(--text-color) !important;
     outline: var(--button-outline);
-}
-
-#themeToggle {
-    position: relative;
-    display: block;
-    width: 64px;
-    height: 32px;
-    border-radius: 1000px;
-    background: var(--themeToggle-bg-color);
-    transition: 0.25s;
-    cursor: pointer;
-    box-shadow: var(--themeToggle-box-shadow);
-}
-
-#themeToggle .indicator {
-    position: absolute;
-    top: 0;
-    left: var(--themeToggle-indicator-pos);
-    width: 50%;
-    height: 100%;
-    border-radius: 50%;
-    background: var(--themeToggle-indicator-bg);
-    transform: scale(0.8);
-    transition: 0.25s;
-    box-shadow: var(--themeToggle-indicator-box-shadow)
 }
 
 /*accent colours*/
@@ -200,9 +216,31 @@ dialog {
 
 
 
+/*nav*/
+.navigationBar {
+    position: fixed;
+    top: 0;
+    height: 50px;
+    width: 100%;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    z-index: 10;
+    display: flex;
+}
 
+.navigationRight {
+    margin-left: auto;
+}
 
+ul {
+    list-style-type: none;
+}
 
+li {
+    display: inline;
+}
 
 
 /*video*/
@@ -246,19 +284,6 @@ video {
     }
 }
 
-@media screen and (max-width: 768px) {
-    .ambientWrapper {
-        position: static;
-        padding: 0;
-    }
-
-    .ambientCanvas {
-        position: fixed;
-        scale: 1;
-    }
-}
-
-
 /*comments*/
 a[href^="https://youtube.com"]::after {
     content: "";
@@ -275,6 +300,10 @@ a[href^="https://youtube.com"]::after {
     position: relative;
     margin-top: 20px;
     min-height: 50px;
+    padding: 10px;
+    background-color: var(--SNS-background);
+    outline: var(--SNS-border);
+    border-radius: 15px;
 }
 
 .SNSArea {
@@ -304,4 +333,8 @@ a[href^="https://youtube.com"]::after {
     width: 50px;
     float: left;
     margin-right: 10px;
+}
+
+.hidden {
+    display: none;
 }

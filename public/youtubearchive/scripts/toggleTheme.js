@@ -1,5 +1,4 @@
 const toggleTheme = document.getElementById("toggleThemeButton")
-
 const meta = document.querySelector('meta[name="color-scheme"]');
 const root = document.querySelector(":root");
 
@@ -13,10 +12,6 @@ if (localStorage.getItem("currentTheme")) {
     currentColorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
 }
 
-toggleTheme.addEventListener("click", () => {
-    changeTheme();
-})
-
 function changeTheme() {
     currentColorScheme = currentColorScheme === 'light' ? 'dark' : 'light';
     meta.content = currentColorScheme;
@@ -27,6 +22,13 @@ function changeTheme() {
 
 const toggleButton = document.getElementById("themeToggle");
 toggleButton.addEventListener("click", () => {
-    toggleButton.classList.toggle("active")
-    changeTheme()
+    toggleButton.classList.toggle("active");
+    changeTheme();
+    checkAmbientTheme();
 })
+
+function clickChangeTheme() {
+    toggleButton.classList.toggle("active");
+    changeTheme();
+    checkAmbientTheme();
+}

@@ -7,38 +7,52 @@
     <meta name="color-scheme" content="dark light">
     <title>Archive</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="scripts/toggleTheme.js"></script>
+    <script src="scripts/toggleTheme.js" defer></script>
+    <script src="scripts/canvas.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/context-filter-polyfill/dist/index.min.js"></script>
     <script src="scripts/jsoncommentsreader.js" defer></script>
 </head>
 
 <body onload="getComments()">
-    <nav class="navigationBar">
-        <div id="themeToggle">
-            <div class="indicator"></div>
+    <div class="navigationBar">
+        <ul>
+            <li><a>YouTube Archive</a></li> | 
+            <li><a href="#index">Index</a></li> | 
+            <li><a href="javascript:void(0)" onclick="clickChangeTheme()">Toggle theme</a></li> |
+            <li><a href="javascript:void(0)" onclick="toggleAmbientMode()">Toggle ambient mode</a></li>
+        </ul>
+
+        <div class="navigationRight" id="themeToggle">
+
         </div>
-        <button id="toggleThemeButton">Toggle Color</button>
-    </nav>
-
-    <script src="scripts/canvas.js" defer></script>
-    <section class="ambientWrapper">
-        <video playsinline controls muted autoplay class="roundVideo" id="ambientvideo"
-            src="videos/North Korea Propaganda video ＂3-Day War＂ English translation with subtitles [mzpMhNXKt4E].mp4"></video>
-        <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
-    </section>
-    <button id="switchVideo">click to switch video</button>
-
-    <div id="videoInfo"></div>
-    <div id="filterButtons" class="hidden">
-        <button onclick="filterComments('Liked')">Filter comments by 💖liked</button>
-        <button onclick="filterComments('Pinned')">Filter comments by 📌pinned</button>
-        <button onclick="filterComments()">Remove filter</button>
-        <br />
-        <button id="sortingButton" onclick="switchSorting()">Sort by top</button>
-        <button id="toggleReplies" onclick="toggleReplies()">Hide replies</button>
     </div>
-    <div id="commentCount"></div>
-    <div id="commentsBox"></div><br>
+
+    <div class="main">
+        <div class="videoArea">
+            <section class="ambientWrapper">
+                <video playsinline controls muted autoplay width="100%" height="100%" class="roundVideo" id="ambientvideo"
+                    src="videos/Persona 4： Intro [fZZPx3R3pyE].mp4"></video>
+                <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
+            </section>
+            <button id="switchVideo">click to switch video</button>
+
+            <div id="videoInfo"></div>
+            <div id="filterButtons" class="hidden">
+                <button onclick="filterComments('Liked')">Filter comments by 💖liked</button>
+                <button onclick="filterComments('Pinned')">Filter comments by 📌pinned</button>
+                <button onclick="filterComments()">Remove filter</button>
+                <br />
+                <button id="sortingButton" onclick="switchSorting()">Sort by top</button>
+                <button id="toggleReplies" onclick="toggleReplies()">Hide replies</button>
+            </div>
+            <div id="classicCommentCount"></div>
+            <div id="classicCommentsBox"></div><br>
+        </div>
+        <div class="sideBar" id="sideBarScroll">
+            <div id="commentCount"></div>
+            <div id="commentsBox"></div><br>
+        </div>
+    </div>
 </body>
 
 <script>
@@ -46,8 +60,11 @@
     const switchVideoButton = document.getElementById("switchVideo");
     let i = 0
     let videos = [
+        "videos/Persona 4： Intro [fZZPx3R3pyE].mp4",
         "videos/North Korea Propaganda video ＂3-Day War＂ English translation with subtitles [mzpMhNXKt4E].mp4",
-        "videos/Persona 4： Intro [fZZPx3R3pyE].mp4"
+        "videos/Expansion of Blockade from End of Evangelion (But it's in Mario 64) [o-0qKpE7nA8].mp4",
+        "videos/Speedrunners are MAD at me [rkLZ9aPam2c].mp4",
+        "videos/Analog ＂Horror＂ IS TRASH [4l1pjeZalwA].mp4",
     ]
     switchVideoButton.addEventListener('click', function () {
         i++;
@@ -56,9 +73,9 @@
         getComments();
     })
 
-    function getComments() {
+    async function getComments() {
         jsonComment = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json";
-        readFile(jsonComment)
+        await readFile(jsonComment);
     }
 </script>
 
