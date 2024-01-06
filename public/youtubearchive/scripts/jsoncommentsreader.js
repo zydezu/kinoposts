@@ -37,6 +37,7 @@ function switchCommentsLayout() {
     getCommentsBox();
     commentsBox.innerHTML = temp[0];
     commentCount.innerHTML = temp[1];
+    renderCommentCount();
 }
 
 function openFile() {
@@ -109,7 +110,7 @@ function makeLinks(content) {
 }
 
 async function renderComments() {
-    commentsBox.innerHTML = ``
+    commentsBox.innerHTML = ''
     const fragment = document.createDocumentFragment();
     showingReplies = true
 
@@ -125,10 +126,14 @@ async function renderComments() {
     }
 
     commentsBox.appendChild(fragment);
-    commentCount.innerHTML = `Comments: ${data.comment_count}
-    <button onclick="switchCommentsLayout()">Switch comments layout</button>`;
+    renderCommentCount();
 
     filterButtons.classList.remove("hidden")
+}
+
+function renderCommentCount() {
+    commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``}  Comments: ${data.comment_count}
+    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
 }
 
 async function loadMoreComments() {
@@ -152,12 +157,12 @@ scrollingPlace.addEventListener("scroll", () => {
     if (!allCommentsLoaded) {
         if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop === scrollingPlace.clientHeight) {
             loadMoreComments()
-        } 
+        }
     }
 });
 
-window.onscroll = function(ev) {
-    if (oldCommentPosition && !allCommentsLoaded){
+window.onscroll = function (ev) {
+    if (oldCommentPosition && !allCommentsLoaded) {
         if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
             loadMoreComments()
         }
@@ -189,18 +194,20 @@ function renderNextComment(fragment, index) {
                                 <span class="SNSUsername">
                                     <a target="_blank" href="${element.author_url}">${element.author}</a>
                                 </span>
-                                <br><span id="SNSDate">${element._time_text}</span> | 
-                                <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
+                                <br><span id="SNSDate">${element._time_text}</span>
                             </div>
-                            <div class="SNSExtraInfo">
-                                ${element.like_count ? element.like_count : 0} likes
-                                <br><span id="${element.id}replycount">0</span> replies
-                                <br>${element.is_pinned ? "📌Pinned<br>" : ""}
+                            <div class="SNSAlignRight SNSExtraInfo">
+                                ${element.is_pinned ? "📌Pinned<br>" : ""}
                                 ${element.is_favorited ? "💖Liked" : ""}
                             </div>
                         </div>
                         <div class="SNSPostText">
-                            ${element.text.trim().replace(/\n/g, '<br>')}
+                            ${element.text.trim().replace(/\n/g, '<br>')}<br/>
+                            <div class="SNSExtraInfo">
+                                ${element.like_count ? element.like_count : 0} likes | 
+                                <span id="${element.id}replycount">0</span> replies |
+                                <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
+                            </div>
                         </div>
                     </div>
                     <div class="Replies" id="${element.id}reply"></div>
@@ -215,16 +222,19 @@ function renderNextComment(fragment, index) {
                             <span class="SNSUsername">
                                 <a target="_blank" href="${element.author_url}">${element.author}</a>
                             </span>
-                            <br><span id="SNSDate">${element._time_text}</span> | 
-                            <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
+                            <br><span id="SNSDate">${element._time_text}</span>
                         </div>
-                        <div class="SNSExtraInfo">
-                            ${element.like_count ? element.like_count : 0} likes
-                            <br>${element.is_favorited ? "💖Liked" : ""}
+                        <div class="SNSAlignRight SNSExtraInfo">
+                            ${element.is_favorited ? "💖Liked" : ""}
                         </div>
                     </div>
                     <div class="SNSPostText">
                         ${element.text.trim().replace(/\n/g, '<br>')}
+                        <div class="SNSExtraInfo">
+                            ${element.like_count ? element.like_count : 0} likes | 
+                            <span id="${element.id}replycount">0</span> replies |
+                            <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
+                        </div>
                     </div>
                     `;
             try {
@@ -257,7 +267,7 @@ function filterComments(filterBy) {
         }
     }
     commentCount.innerHTML = `Comments: ${data.comment_count} ${filterBy ? `(Showing: ${visibleCount})` : ""}
-    <button onclick="switchCommentsLayout()">Switch comments layout</button>`;
+    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
 }
 
 function switchSorting() {
