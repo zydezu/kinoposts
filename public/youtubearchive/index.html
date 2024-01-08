@@ -124,6 +124,10 @@
     function getVideo(index = 0) {
         let currentVideoData = videosList[index];
         video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
+        console.log(currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat)
+        console.log(video.src)
+        document.getElementById('videoInfo').innerHTML += currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat
+        document.getElementById('videoInfo').innerHTML += video.src
         downloadLink.setAttribute("href", video.src);
         getComments();
     }
