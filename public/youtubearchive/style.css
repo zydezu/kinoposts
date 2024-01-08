@@ -191,7 +191,7 @@ li {
 }
 
 .hideSettings {
-    animation: boxClose 0.15s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    animation: boxClose 0.1s ease-in-out !important;
     opacity: 0;
     visibility: hidden;
 }
