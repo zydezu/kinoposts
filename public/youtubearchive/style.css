@@ -433,10 +433,10 @@ video {
 @media screen and (max-width: 950px) {
     .ambientWrapper {
         width: 100vw;
-        height: 60vw;
+        height: 65vw;
         top: 10vh;
         left: 50vw;
-        transform: translateX(-50%) scale(2, 5);
+        transform: translateX(-50%) scale(2, 4);
         overflow: hidden;
     }
 
@@ -446,7 +446,7 @@ video {
 
     .ambientCanvas {
         width: 100vw;
-        height: 60vw;
+        height: 65vw;
     }
 }
 
