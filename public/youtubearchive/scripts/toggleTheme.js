@@ -9,13 +9,13 @@ if (localStorage.getItem("currentTheme")) {
     root.classList.toggle("dark", currentColorScheme === 'dark');
     root.classList.toggle("light", currentColorScheme === 'light');
 } else {
-    // currentColorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
-    // meta.content = currentColorScheme;
-    // root.classList.toggle("dark", currentColorScheme === 'dark');
-    // root.classList.toggle("light", currentColorScheme === 'light');
-    // localStorage.setItem("currentTheme", currentColorScheme);
-    currentColorScheme = 'light'
+    currentColorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
+    meta.content = currentColorScheme;
+    root.classList.toggle("dark", currentColorScheme === 'dark');
+    root.classList.toggle("light", currentColorScheme === 'light');
     localStorage.setItem("currentTheme", currentColorScheme);
+    // currentColorScheme = 'light'
+    // localStorage.setItem("currentTheme", currentColorScheme);
 }
 
 function changeTheme() {

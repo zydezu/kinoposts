@@ -15,7 +15,7 @@ var commentCount;
 let startingIndex;
 let commentsLoaded;
 var commentsToLoadInitially = 20;
-var commentsToLoadAtOnce = 20;
+var commentsToLoadAtOnce = 10;
 let allCommentsLoaded = false;
 let currentFilter = "";
 var loadedSuccessfully = false;
@@ -23,6 +23,10 @@ let errorMessage = "";
 getCommentsBox();
 
 function getCommentsBox() {
+    if (!localStorage.commentPosition) {
+        localStorage.setItem("commentPosition", "side");
+    }
+    oldCommentPosition = localStorage.commentPosition == "classic" ? true : false;
     commentsBox = document.getElementById(oldCommentPosition ? "classicCommentsBox" : "commentsBox");
     commentCount = document.getElementById(oldCommentPosition ? "classicCommentCount" : "commentCount");
 }
@@ -39,6 +43,7 @@ function switchCommentsLayout() {
     commentsBox.innerHTML = "";
     commentCount.innerHTML = "";
     oldCommentPosition = 1 - oldCommentPosition;
+    localStorage.setItem("commentPosition", oldCommentPosition == 0 ? "side" : "classic");
     getCommentsBox();
     commentsBox.innerHTML = temp[0];
     commentCount.innerHTML = temp[1];
@@ -239,8 +244,8 @@ function renderNextComment(fragment, index) {
                         <div class="SNSPostText">
                             ${element.text.trim().replace(/\n/g, '<br>')}<br/>
                             <div class="SNSExtraInfo">
-                                ${element.like_count ? element.like_count : 0} likes | 
-                                <span id="${element.id}replycount">0</span> replies |
+                            <span class="SNSLikeCount">${element.like_count ? element.like_count : 0}</span> like${element.like_count != 1 ? `s` : ``} | 
+                                <span id="${element.id}replycount">0 replies</span> |
                                 <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
                             </div>
                         </div>
@@ -265,14 +270,17 @@ function renderNextComment(fragment, index) {
                     <div class="SNSPostText">
                         ${element.text.trim().replace(/\n/g, '<br>')}
                         <div class="SNSExtraInfo">
-                            ${element.like_count ? element.like_count : 0} likes | 
-                            <span id="${element.id}replycount">0</span> replies |
+                            <span class="SNSLikeCount">${element.like_count ? element.like_count : 0}</span> like${element.like_count != 1 ? `s` : ``} | 
                             <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
                         </div>
                     </div>
                     `;
             try {
-                fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv)
+                const replyID =  fragment.getElementById(`${element.parent}reply`)
+                const replyCount =  fragment.getElementById(`${element.parent}replycount`)
+                let newReplyCount = parseInt(replyCount.innerHTML.split(" ")[0]) + 1
+                replyCount.innerText = `${newReplyCount} repl${newReplyCount == 1 ? `y` : `ies`}`
+                fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv);
             } catch (error) {
                 // reply comment not in fragment - use global
                 document.getElementById(`${element.parent}reply`).appendChild(commentDiv);
@@ -322,7 +330,7 @@ function switchSorting() {
     sortingButton.textContent = "Sort by new";
     const divList = Array.from(commentsBox.querySelectorAll('.SNSParent'))
         .map((div) => {
-            const likes = parseInt(div.querySelector('.SNSExtraInfo').innerText.trim());
+            const likes = parseInt(div.querySelector('.SNSLikeCount').innerText.trim());
             const text = div.querySelector('.SNSPostText').innerText.trim();
             return { likes, text, div };
         })
@@ -446,6 +454,9 @@ function updateSettingsBox() {
         <div class="settingSubheading">Localstorage<span class="settingsExtraInfo"> (data stored on your device)</span></div><hr />
         currentTheme<span class="settingsOption">${localStorage.currentTheme}</span><br />
         ambientMode<span class="settingsOption">${localStorage.ambientMode}</span><br />
+        commentPosition<span class="settingsOption">${localStorage.commentPosition}</span><br />
+        Clear data<a href="javascript:void(0)" onclick="clearLocalStorage()" class="settingsOption">Clear</a>
+        <span class="settingsExtraInfo">(this will reload the page)</span></div><br />
 
         <div class="settingSubheading">Debug</div><hr />
         View video JSON file<a target="_blank" href="videos/fZZPx3R3pyE.info.json" class="settingsOption">View</a><br />
@@ -461,3 +472,8 @@ function updateSettingsBox() {
         <span class="settingsExtraInfo">(not implemented)</span><br />
     `
 };
+
+clearLocalStorage = () => {
+    localStorage.clear();
+    location.reload();
+}
