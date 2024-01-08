@@ -157,7 +157,7 @@ li {
     border-radius: 15px;
     z-index: 10;
     box-shadow: var(--settings-shadow);
-    animation: boxPopUp 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+    animation: boxPopUp 0.15s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .backgroundBlur {
@@ -191,7 +191,7 @@ li {
 }
 
 .hideSettings {
-    animation: boxClose 0.2s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    animation: boxClose 0.15s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
     opacity: 0;
     visibility: hidden;
 }
@@ -224,6 +224,12 @@ li {
     0% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
+        visibility: visible;
+    }
+
+    99% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
         visibility: visible;
     }
 
