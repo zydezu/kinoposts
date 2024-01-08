@@ -8,6 +8,12 @@
             "fileFormat": ".mp4"
         },
         {
+            "title": "Persona 3： Intro",
+            "id": "p3trailer",
+            "prefixLocation": "../test/ambientmodetest/",
+            "fileFormat": ".mp4"
+        },
+        {
             "title": "North Korea Propaganda video ＂3-Day War＂ English translation with subtitles",
             "id": "mzpMhNXKt4E",
             "prefixLocation": "videos/",

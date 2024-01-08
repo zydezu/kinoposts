@@ -17,6 +17,8 @@ var commentsToLoadInitially = 20;
 var commentsToLoadAtOnce = 5;
 let allCommentsLoaded = false;
 let currentFilter = "";
+var loadedSuccessfully = false;
+let errorMessage = "";
 getCommentsBox();
 
 function getCommentsBox() {
@@ -69,21 +71,32 @@ async function getDislikes(id) {
 }
 
 function readFile(input) {
+    loadedSuccessfully = false;
+    data = ""
+    videoInfo.innerHTML = "Loading information...";
     commentsBox.innerHTML = ""
+    filterButtons.classList.add("hidden")
     fetch(input)
         .then((response) => response.ok ? response.text() : console.log("Video info file doesn't exist!"))
-        .then((returndata) => read(returndata)); // javascript fetching protocol
+        .then((returndata) => read(returndata))
+        .catch((error) => fetchError(error)); // javascript fetching protocol
+}
+
+function fetchError(error) {
+    console.log(error)
+    errorMessage = error;
+    renderCommentCount()
 }
 
 async function read(returndata) {
     data = JSON.parse(returndata);
     resetButtonStates();
 
+    loadedSuccessfully = true;
     console.log("Loading comments...")
 
-    videoInfo.innerHTML = "Loading information...";
     commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``} Loading comments... 
-    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
+    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;
     commentsBox.innerHTML = "";
 
     let dislikes = "Unknown...";
@@ -138,8 +151,14 @@ async function renderComments() {
 }
 
 function renderCommentCount() {
-    commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``}  Comments: ${data.comment_count}
-    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
+    if (loadedSuccessfully){
+        commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``}  Comments: ${data.comment_count}
+        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;    
+    } else {
+        commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``} Loading failed...<br/>
+        ${errorMessage}<br/>
+        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;    
+    }
 }
 
 async function loadMoreComments() {
@@ -161,7 +180,7 @@ async function loadMoreComments() {
 }
 
 scrollingPlace.addEventListener("scroll", () => {
-    sideBoxCheckNewComments();
+    if (loadedSuccessfully) sideBoxCheckNewComments();
 });
 
 function sideBoxCheckNewComments() {
@@ -173,9 +192,11 @@ function sideBoxCheckNewComments() {
 }
 
 window.onscroll = function (ev) {
-    if ((oldCommentPosition || window.innerWidth < 950) && !allCommentsLoaded) {
-        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-            loadMoreComments()
+    if (loadedSuccessfully) {
+        if ((oldCommentPosition || window.innerWidth < 950) && !allCommentsLoaded) {
+            if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+                loadMoreComments()
+            }
         }
     }
 };
@@ -280,7 +301,7 @@ function filterComments(filterBy) {
     }
     if (filterBy) sideBoxCheckNewComments();
     commentCount.innerHTML = `Comments: ${data.comment_count} ${filterBy ? `(Showing: ${visibleCount})` : ""}
-    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
+    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;
 }
 
 function switchSorting() {

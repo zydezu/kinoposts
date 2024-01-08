@@ -40,8 +40,8 @@
     --link-hover-color: rgba(255, 255, 255, 0.9);
     --scrollbar-color: rgba(255, 255, 255, 0.25);
 
-    --nav-color: rgba(0, 0, 0, 0.8);
-    --nav-bg-color: rgba(0, 0, 0);
+    --nav-color: rgba(0, 0, 0, 0);
+    --nav-bg-color: rgba(0, 0, 0, 0);
 
     --settings-shadow: 0 0 1rem #e9e9e986;
 
@@ -54,7 +54,7 @@
     --SNS-background: rgba(0, 0, 0, 0.2);
     --SNS-border: 1px solid rgba(255, 255, 255, 0.2);
 
-    --ambient-canvas-opacity: 0.4;
+    --ambient-canvas-opacity: 0.8;
 }
 
 :root {
@@ -88,7 +88,8 @@ body {
     word-wrap: break-word;
     transition: color 0.2s ease-out;
     transition: background-color 0.2s ease-out;
-    overflow: overlay;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
 }
 
 @supports(padding: max(0px)) {
@@ -192,6 +193,7 @@ li {
 .hideSettings {
     animation: boxClose 0.2s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
     opacity: 0;
+    visibility: hidden;
 }
 
 @keyframes boxPopUp {
@@ -222,11 +224,13 @@ li {
     0% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
+        visibility: visible;
     }
 
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.95)
+        transform: translate(-50%, -50%) scale(0.95);
+        visibility: hidden;
     }
 }
 
@@ -377,13 +381,12 @@ video {
 
 .ambientWrapper {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50px;
     width: calc(80vw - 200px);
     height: auto;
     aspect-ratio: 16 / 9;
     z-index: -5;
-    transform: scale(2, 2.5);
+    transform: scale(1.5, 2.5);
 }
 
 .ambientWrapper::after {
@@ -401,8 +404,28 @@ video {
     width: calc(80vw - 200px);
     height: auto;
     aspect-ratio: 16 / 9;
-    opacity: 0.5;
+    opacity: var(--ambient-canvas-opacity);
     filter: saturate(1.5);
+}
+
+@media screen and (max-width: 950px) {
+    .ambientWrapper {
+        width: 100vw;
+        height: 60vw;
+        top: 10vh;
+        left: 50vw;
+        transform: translateX(-50%) scale(2, 3);
+        overflow: hidden;
+    }
+
+    .ambientWrapper::after {
+        box-shadow: inset 0 0 15vw 20vw var(--bg-color), inset 0 0 12vw 5vw var(--bg-color);
+    }
+
+    .ambientCanvas {
+        width: 100vw;
+        height: 60vw;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
