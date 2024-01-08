@@ -69,11 +69,13 @@ class VideoWithBackground {
 
     changeBlur = (blur) => {
         this.ctx.filter = `blur(${blur}px)`;
+        updateSettingsBox();
     }
 
     changeCanvasSize = (width, height) => {
         this.canvas.width = width;
         this.canvas.height = height;
+        updateSettingsBox();
     }
 
     checkThemeStatus = () => {
@@ -114,6 +116,7 @@ function toggleAmbientMode() {
         }
     }
     el.checkThemeStatus();
+    updateSettingsBox();
 }
 
 function checkAmbientTheme() {

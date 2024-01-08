@@ -68,7 +68,7 @@
             <a href="javascript:void(0)" onclick="viewSettings()">Close</a>
         </div>
         <div class="settingsTitle">Settings</div>
-        <div class="settingOptions">
+        <div class="settingOptions" id="settingsBoxJS">
             <div class="settingSubheading">Apperance</div><hr />
             Theme<a href="javascript:void(0)" class="settingsOption">Dark theme</a><br />
             Ambient Mode <a href="javascript:void(0)" class="settingsOption">OFF</a>
@@ -94,65 +94,6 @@
 </body>
 
 <script>
-    const video = document.getElementById("ambientvideo");
-    const switchVideoButton = document.getElementById("switchVideo");
-    const downloadLink = document.getElementById("downloadLink");
-    let currentIndex = 0;
-    let videosList = [];
-
-    getVideoListData("videos/info.json");
-
-    function getVideoListData(input) {
-        fetch(input)
-            .then((response) => response.ok ? response.text() : console.log("All videos info file doesn't exist!"))
-            .then((videoListData) => readVideosInfo(videoListData)); // javascript fetching protocol
-    }
-
-    function readVideosInfo(data) {
-        data = JSON.parse(data);
-        videosList = data.videosList;
-    };
-
-    switchVideoButton.addEventListener('click', () => {
-        currentIndex++;
-        currentIndex = currentIndex % videosList.length;
-        getVideo(currentIndex)
-    });
-
-    function getVideo(index) {
-        let currentVideoData = videosList[index];
-        video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
-        downloadLink.setAttribute("href", video.src);
-        getComments();
-    }
-
-    let lastDroppedFrames = 0;
-    let droppingFrames = false;
-    let droppedFramesPercentage = 0;
-    let forgiveFrames = 0;
-    video.addEventListener('timeupdate', () => {
-        let droppedFrames = video.getVideoPlaybackQuality().droppedVideoFrames;
-        let totalFrames = video.getVideoPlaybackQuality().totalVideoFrames;
-        droppedFramesPercentage = (droppedFrames / totalFrames * 100);
-        if (droppedFrames > lastDroppedFrames) {
-            console.log("Dropping frames!");
-            console.log(droppedFrames);
-            lastDroppedFrames = droppedFrames;
-            droppingFrames = true;
-            // turnOffAmbientMode();
-        } else {
-            droppingFrames = false;
-        }
-    })
-
-    async function getComments() {
-        let idpath = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json"
-        await readFile(idpath);
-    }
-
-    window.addEventListener("load", function () {
-        getVideo(0);
-    });
 
 </script>
 

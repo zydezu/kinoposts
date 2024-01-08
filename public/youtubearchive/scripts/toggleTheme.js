@@ -37,4 +37,5 @@ function clickChangeTheme() {
     toggleButton.classList.toggle("active");
     changeTheme();
     checkAmbientTheme();
+    updateSettingsBox();
 }

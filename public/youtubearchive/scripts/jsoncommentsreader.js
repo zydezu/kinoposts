@@ -13,8 +13,9 @@ let oldCommentPosition = false;
 var commentsBox;
 var commentCount;
 let startingIndex;
+let commentsLoaded;
 var commentsToLoadInitially = 20;
-var commentsToLoadAtOnce = 5;
+var commentsToLoadAtOnce = 20;
 let allCommentsLoaded = false;
 let currentFilter = "";
 var loadedSuccessfully = false;
@@ -42,6 +43,7 @@ function switchCommentsLayout() {
     commentsBox.innerHTML = temp[0];
     commentCount.innerHTML = temp[1];
     renderCommentCount();
+    updateSettingsBox();
 }
 
 function openFile() {
@@ -136,28 +138,27 @@ async function renderComments() {
     startingIndex = 0
     allCommentsLoaded = true;
     for (let index = startingIndex; index < data.comments.length; index++) {
-        if (index > startingIndex + commentsToLoadInitially) {
+        if (index >= startingIndex + commentsToLoadInitially) {
             allCommentsLoaded = false;
             startingIndex = index;
             break;
         }
+        commentsLoaded = index;
         renderNextComment(fragment, index)
     }
-
     commentsBox.appendChild(fragment);
     renderCommentCount();
-
-    filterButtons.classList.remove("hidden")
+    filterButtons.classList.remove("hidden");
 }
 
 function renderCommentCount() {
-    if (loadedSuccessfully){
+    if (loadedSuccessfully) {
         commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``}  Comments: ${data.comment_count}
-        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;    
+        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;
     } else {
         commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``} Loading failed...<br/>
         ${errorMessage}<br/>
-        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;    
+        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;
     }
 }
 
@@ -167,16 +168,16 @@ async function loadMoreComments() {
 
     allCommentsLoaded = true;
     for (let index = startingIndex; index < data.comments.length; index++) {
-        if (index > startingIndex + commentsToLoadAtOnce) {
+        if (index >= startingIndex + commentsToLoadAtOnce) {
             allCommentsLoaded = false;
             startingIndex = index;
             break;
         }
-        renderNextComment(fragment, index)
+        renderNextComment(fragment, index);
     }
-
     commentsBox.appendChild(fragment);
     filterComments(currentFilter);
+    updateSettingsBox();
 }
 
 scrollingPlace.addEventListener("scroll", () => {
@@ -185,7 +186,7 @@ scrollingPlace.addEventListener("scroll", () => {
 
 function sideBoxCheckNewComments() {
     if (!allCommentsLoaded) {
-        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop <= scrollingPlace.clientHeight) {
+        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop <= scrollingPlace.clientHeight + 50) {
             loadMoreComments()
         }
     }
@@ -194,7 +195,7 @@ function sideBoxCheckNewComments() {
 window.onscroll = function (ev) {
     if (loadedSuccessfully) {
         if ((oldCommentPosition || window.innerWidth < 950) && !allCommentsLoaded) {
-            if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+            if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 50) {
                 loadMoreComments()
             }
         }
@@ -208,7 +209,9 @@ function loadAllComments() {
     }
     commentsBox.appendChild(fragment);
     filterComments(currentFilter);
+    commentsLoaded = data.comments.length;
     allCommentsLoaded = true;
+    updateSettingsBox();
 };
 
 function renderNextComment(fragment, index) {
@@ -277,6 +280,8 @@ function renderNextComment(fragment, index) {
         }
     }
 
+    commentsLoaded++;
+
     if (element.is_pinned) commentDiv.dataset.info = "Pinned "
     if (element.is_favorited) {
         if (commentDiv.dataset.info) {
@@ -339,11 +344,73 @@ function toggleReplies() {
     toggleRepliesButton.innerHTML = showingReplies ? "Hide replies" : "Show replies";
 };
 
-function blurClickCloseSettings() {
-    console.log("check")
+
+// video loading
+
+const video = document.getElementById("ambientvideo");
+const switchVideoButton = document.getElementById("switchVideo");
+const downloadLink = document.getElementById("downloadLink");
+let currentIndex = 0;
+let videosList = [];
+
+getVideoListData("videos/info.json");
+
+function getVideoListData(input) {
+    fetch(input)
+        .then((response) => response.ok ? response.text() : console.log("All videos info file doesn't exist!"))
+        .then((videoListData) => readVideosInfo(videoListData)); // javascript fetching protocol
+}
+
+function readVideosInfo(data) {
+    data = JSON.parse(data);
+    videosList = data.videosList;
 };
 
+switchVideoButton.addEventListener('click', () => {
+    currentIndex++;
+    currentIndex = currentIndex % videosList.length;
+    getVideo(currentIndex)
+});
+
+function getVideo(index) {
+    let currentVideoData = videosList[index];
+    video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
+    downloadLink.setAttribute("href", video.src);
+    getComments();
+}
+
+let lastDroppedFrames = 0;
+let droppingFrames = false;
+let droppedFrames = 0;
+let totalFrames = 0;
+let forgiveFrames = 0;
+video.addEventListener('timeupdate', () => {
+    droppedFrames = video.getVideoPlaybackQuality().droppedVideoFrames;
+    totalFrames = video.getVideoPlaybackQuality().totalVideoFrames;
+    if (droppedFrames > lastDroppedFrames) {
+        console.log("Dropping frames!");
+        console.log(droppedFrames);
+        lastDroppedFrames = droppedFrames;
+        droppingFrames = true;
+        // turnOffAmbientMode();
+    } else {
+        droppingFrames = false;
+    }
+})
+
+async function getComments() {
+    let idpath = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json"
+    await readFile(idpath);
+}
+
+window.addEventListener("load", function () {
+    getVideo(0);
+});
+
+// settings
+
 const settingsBox = document.getElementById("settingsBox");
+const settingsBoxJS = document.getElementById("settingsBoxJS");
 const BGBlur = document.getElementById("BGBlur");
 let showingSettings = false;
 function viewSettings() {
@@ -364,31 +431,34 @@ function viewSettings() {
 };
 
 function updateSettingsBox() {
-    settingsBox.innerHTML = `
-    <div class="settingsCloseButton">
-        <a href="javascript:void(0)" onclick="viewSettings()">Close</a>
-    </div>
-    <div class="settingsTitle">Settings</div>
-    <div class="settingOptions">
+    const ambCanvas = document.getElementById("ambientcanvas");
+    var style = getComputedStyle(document.body)
+    settingsBoxJS.innerHTML = `
         <div class="settingSubheading">Apperance</div><hr />
-        Theme<a href="javascript:void(0)" onclick="clickChangeTheme()" class="settingsOption">${localStorage.currentTheme == "dark" ? "Dark": "Light"} theme</a><br />
-        Ambient Mode <a href="javascript:void(0)" onclick="toggleAmbientMode()" class="settingsOption">${localStorage.ambientMode == "true" ? "ON": "OFF"}</a>
+        Theme<a href="javascript:void(0)" onclick="clickChangeTheme()" class="settingsOption">${localStorage.currentTheme == "dark" ? "Dark" : "Light"} theme</a><br />
+        Ambient Mode <a href="javascript:void(0)" onclick="toggleAmbientMode()" class="settingsOption">${localStorage.ambientMode == "true" ? "ON" : "OFF"}</a>
         <span class="settingsExtraInfo">(only available in dark theme)</span><br />
 
         <div class="settingSubheading">Comments</div><hr />
         Default comment position<a href="javascript:void(0)" onclick="switchCommentsLayout()" class="settingsOption">${oldCommentPosition ? "Bottom" : "Side"}</a><br />
-        Comments loaded initially<span class="settingsOption">20</span><br />
-        Subsequent comments at once<span class="settingsOption">5</span><br />
+        Comments to load initially<span class="settingsOption">${commentsToLoadInitially}</span><br />
+        Subsequent comments to load at once<span class="settingsOption">${commentsToLoadAtOnce}</span><br />
+
+        <div class="settingSubheading">Localstorage<span class="settingsExtraInfo"> (data stored on your device)</span></div><hr />
+        currentTheme<span class="settingsOption">${localStorage.currentTheme}</span><br />
+        ambientMode<span class="settingsOption">${localStorage.ambientMode}</span><br />
 
         <div class="settingSubheading">Debug</div><hr />
         View video JSON file<a target="_blank" href="videos/fZZPx3R3pyE.info.json" class="settingsOption">View</a><br />
-        Comments currently loaded<span class="settingsOption">25</span><br />
-        Dropped frames<span class="settingsOption">15/1392</span><br />
-        Ambient width / height<span class="settingsOption">22/16</span><br />
-        Ambient blur<span class="settingsOption">5px</span><br />
-        Ambient opacity<span class="settingsOption">0.8</span><br />
-        Ambient saturation<span class="settingsOption">1.5</span><br />
-        Fullscreen ambient mode<a href="javascript:void(0)" class="settingsOption">OFF</a><br />
-    </div>
+        Comments loaded<span class="settingsOption">${commentsLoaded}</span><br />
+        Video resolution<span class="settingsOption">${video.videoWidth}x${video.videoHeight}</span><br />
+        Dropped frames<span class="settingsOption">${droppedFrames}/${totalFrames}</span>
+        <span class="settingsExtraInfo">(doesn't update when in this menu)</span><br />
+        Ambient width / height<span class="settingsOption">${ambCanvas.width}/${ambCanvas.height}</span><br />
+        Ambient blur<span class="settingsOption">${el.ctx.filter}</span><br />
+        Ambient opacity<span class="settingsOption">${style.getPropertyValue('--ambient-canvas-opacity')}</span><br />
+        Ambient saturation<span class="settingsOption">${style.getPropertyValue('--ambient-saturation')}</span><br />
+        Fullscreen ambient mode<a href="javascript:void(0)" class="settingsOption">OFF</a>
+        <span class="settingsExtraInfo">(not implemented)</span><br />
     `
-}
+};
