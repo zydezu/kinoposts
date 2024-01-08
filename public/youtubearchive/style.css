@@ -150,7 +150,7 @@ li {
     top: 47%;
     transform: translate(-50%, -50%) scale(1);
     max-height: 80%;
-    width: 90%;
+    width: 80%;
     max-width: 600px;
     padding: 15px;
     background-color: var(--nav-color);
