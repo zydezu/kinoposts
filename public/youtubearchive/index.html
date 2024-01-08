@@ -13,7 +13,7 @@
     <script src="scripts/jsoncommentsreader.js" defer></script>
 </head>
 
-<body onload="">
+<body onload="getVideo(0)">
     <div class="hidden backgroundBlur" id="BGBlur"></div>
 
     <div class="navBG"></div>
@@ -33,10 +33,13 @@
     <div class="main">
         <div class="videoArea">
             <section class="ambientWrapper">
-                <video playsinline controls muted autoplay class="mainVideo roundVideo"
-                    id="ambientvideo" src=""></video>
-                <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
+                <div class="ambientLayer">
+                    <canvas width="22" height="16" class="ambientCanvas" aria-hidden="true" id="ambientcanvas"></canvas>
+                </div>
             </section>
+                <video playsinline controls muted autoplay class="mainVideo roundVideo" id="ambientvideo"
+                    src=""></video>
+            <img src="" class="dummyVideoPlayer">
             <button id="switchVideo">click to switch video</button>
 
             <div id="videoInfo"></div>
@@ -54,6 +57,7 @@
             </div>
         </div>
         <div class="sideBar" id="sideBarScroll">
+            Comments
             <div id="commentCount"></div>
             <div id="commentsBox"></div><br>
         </div>
@@ -84,6 +88,7 @@
             Dropped frames<br />
             Ambient width / height<br />
             Ambient blur<br />
+            Fullscreen ambient mode<br />
 
         </div>
     </div>
@@ -114,7 +119,7 @@
         getVideo(currentIndex)
     });
 
-    function getVideo(index=0) {
+    function getVideo(index = 0) {
         let currentVideoData = videosList[index];
         video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
         getComments();

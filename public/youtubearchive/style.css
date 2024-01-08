@@ -31,14 +31,12 @@
     --SNS-color-extra: #000000A5;
     --SNS-border: 1px solid rgba(0, 0, 0, 0.4);
 
-    --ambient-box-shadow: none;
-    --ambient-video-box-shadow: 0 0 1rem #0f0f0f;
     --ambient-canvas-opacity: 0;
 }
 
 :root.dark {
     --text-color: rgba(255, 255, 255, 0.9);
-    --bg-color: #0f0f0f;
+    --bg-color: #0a0a0a;
     --link-hover-color: rgba(255, 255, 255, 0.9);
     --scrollbar-color: rgba(255, 255, 255, 0.25);
 
@@ -56,30 +54,31 @@
     --SNS-background: rgba(0, 0, 0, 0.2);
     --SNS-border: 1px solid rgba(255, 255, 255, 0.2);
 
-    --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
-    --ambient-video-box-shadow: 0 0 2rem 0.1rem #0f0f0f;
-    --ambient-canvas-opacity: 0.8;
+    --ambient-canvas-opacity: 0.4;
 }
 
 :root {
-    font-family:'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-feature-settings: 'liga' 1, 'calt' 1;
     /* fix for Chrome */
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 14px;
+    height: 14px;
+    display: block;
 }
 
 ::-webkit-scrollbar-track {
     background: transparent;
 }
 
+
 ::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-color);
     border-radius: 20px;
-    border: transparent;
+    border: 4px solid transparent;
+    background-clip: content-box;
 }
 
 body {
@@ -149,7 +148,7 @@ li {
     left: 50%;
     top: 47%;
     transform: translate(-50%, -50%) scale(1);
-    width: 95%;    
+    width: 95%;
     max-height: 80%;
     max-width: 600px;
     padding: 15px;
@@ -191,23 +190,44 @@ li {
 }
 
 .hideSettings {
-    animation: boxClose 0.2s cubic-bezier(0.22, 0.61, 0.36, 1)!important;
+    animation: boxClose 0.2s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
     opacity: 0;
 }
 
 @keyframes boxPopUp {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.95) }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1);}
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 @keyframes BGBlurOn {
-    0% { opacity: 0; transform: scale(0.95) }
-    100% { opacity: 1; transform: scale(1);}
+    0% {
+        opacity: 0;
+        transform: scale(0.95)
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes boxClose {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(1);}
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.95) }
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95)
+    }
 }
 
 .mainVideo {
@@ -217,6 +237,12 @@ li {
 
 .videoArea {
     max-width: 75%;
+    overflow: hidden;
+}
+
+.dummyVideoPlayer {
+    height: 0px;
+    width: 80vw;
 }
 
 .sideBar {
@@ -345,30 +371,37 @@ dialog {
 
 /*video*/
 video {
-    height: auto;
     width: 100%;
-}
-
-/*ambient video effect*/
-#ambientvideo {
-    box-shadow: var(--ambient-video-box-shadow);
+    height: auto;
 }
 
 .ambientWrapper {
-    /* position: relative; */
-    /* padding: 5rem; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(80vw - 200px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    z-index: -5;
+    transform: scale(2, 2.5);
+}
+
+.ambientWrapper::after {
+    box-shadow: inset 0 0 8vw 11.5vw var(--bg-color), inset 0 0 2vw 5vw var(--bg-color);
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .ambientCanvas {
-    position: fixed;
-    /* position: absolute; */
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    /* scale: 1.5; */
-    opacity: var(--ambient-canvas-opacity);
+    width: calc(80vw - 200px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    opacity: 0.5;
     filter: saturate(1.5);
 }
 
@@ -433,7 +466,7 @@ a[href^="https://youtube.com"]::after {
     float: left;
     margin-right: 10px;
     opacity: 0;
-    transition: opacity 0.5s ease-in; 
+    transition: opacity 0.5s ease-in;
 }
 
 .hidden {
@@ -441,6 +474,11 @@ a[href^="https://youtube.com"]::after {
 }
 
 @keyframes fadeIn {
-    0% { opacity: 0 }
-    100% { opacity: 1 }
+    0% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
 }

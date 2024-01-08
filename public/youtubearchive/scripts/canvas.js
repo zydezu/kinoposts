@@ -98,7 +98,6 @@ class VideoWithBackground {
         this.video.removeEventListener("seeked", this.draw);
         this.video.removeEventListener("play", this.drawLoop);
         this.drawPause();
-        localStorage.ambientMode = "false";
     }
 }
 
