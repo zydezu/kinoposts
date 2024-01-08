@@ -185,7 +185,7 @@ scrollingPlace.addEventListener("scroll", () => {
 
 function sideBoxCheckNewComments() {
     if (!allCommentsLoaded) {
-        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop === scrollingPlace.clientHeight) {
+        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop <= scrollingPlace.clientHeight) {
             loadMoreComments()
         }
     }
@@ -201,7 +201,6 @@ window.onscroll = function (ev) {
     }
 };
 
-
 function loadAllComments() {
     const fragment = document.createDocumentFragment();
     for (let index = startingIndex; index < data.comments.length; index++) {
@@ -210,7 +209,7 @@ function loadAllComments() {
     commentsBox.appendChild(fragment);
     filterComments(currentFilter);
     allCommentsLoaded = true;
-}
+};
 
 function renderNextComment(fragment, index) {
     const element = data.comments[index];
@@ -286,7 +285,7 @@ function renderNextComment(fragment, index) {
             commentDiv.dataset.info = "Liked "
         }
     }
-}
+};
 
 function filterComments(filterBy) {
     currentFilter = filterBy
@@ -302,7 +301,7 @@ function filterComments(filterBy) {
     if (filterBy) sideBoxCheckNewComments();
     commentCount.innerHTML = `Comments: ${data.comment_count} ${filterBy ? `(Showing: ${visibleCount})` : ""}
     <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;
-}
+};
 
 function switchSorting() {
     if (sortedByTop) {
@@ -327,7 +326,7 @@ function switchSorting() {
     divList.forEach((entry) => {
         commentsBox.appendChild(entry.div);
     });
-}
+};
 
 function toggleReplies() {
     for (const element of commentsBox.children) {
@@ -338,11 +337,11 @@ function toggleReplies() {
     }
     showingReplies = !showingReplies;
     toggleRepliesButton.innerHTML = showingReplies ? "Hide replies" : "Show replies";
-}
+};
 
 function blurClickCloseSettings() {
     console.log("check")
-}
+};
 
 const settingsBox = document.getElementById("settingsBox");
 const BGBlur = document.getElementById("BGBlur");
