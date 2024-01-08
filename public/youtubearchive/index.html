@@ -41,6 +41,7 @@
                     src=""></video>
             <img src="" class="dummyVideoPlayer">
             <button id="switchVideo">click to switch video</button>
+            <a href="" id="downloadLink">Download</a>
 
             <div id="videoInfo"></div>
             <div id="filterButtons" class="hidden">
@@ -98,6 +99,7 @@
 <script>
     const video = document.getElementById("ambientvideo");
     const switchVideoButton = document.getElementById("switchVideo");
+    const downloadLink = document.getElementById("downloadLink");
     let currentIndex = 0;
     let videosList = [];
 
@@ -123,6 +125,7 @@
     function getVideo(index = 0) {
         let currentVideoData = videosList[index];
         video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
+        downloadLink.src = video.src;
         getComments();
     }
 
