@@ -13,7 +13,10 @@ class VideoWithBackground {
     }
 
     draw = () => {
-        this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+        if (this.video.playing && this.currentlyDrawing) {
+            this.offscreenCtx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.offscreenCanvas, 0, 0);
+        }
     };
 
     drawLoop = () => {
@@ -28,28 +31,31 @@ class VideoWithBackground {
 
     initcheck = () => {
         const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
-        // console.log(`Initiated video canvas${isFirefox ? ' (firefox version)' : ''}`);
-        // if (isFirefox) {
-        //     this.ctx = this.canvas.getContext("2d");
-        //     this.ctx.filter = "blur(50px)";
-        //     setInterval(this.draw, 200)
-        // } else {
-        //     this.init()
-        // }
-        console.log("init")
-        this.init()
+        console.log(`Initiated video canvas${isFirefox ? ' (firefox version)' : ''}`);
+        this.ctx = this.canvas.getContext("2d");
+        if (isFirefox) {
+            this.ctx.filter = "blur(30px)";
+            setInterval(this.draw, 100);
+        } else {
+            console.log("init")
+            this.init()
+        }
+        this.offscreenCanvas = new OffscreenCanvas(this.canvas.width, this.canvas.height);
+        this.offscreenCtx = this.offscreenCanvas.getContext('2d', {alpha: false});
+        this.ctx.filter = "blur(5px)";
+        this.currentlyDrawing = true;
+        // this.init()
     }
 
     init = () => {
-        this.ctx = this.canvas.getContext("2d");
-        this.ctx.filter = "blur(5px)";
+        // this.ctx.filter = "blur(5px)";
 
-        if (localStorage.ambientMode == "true" && localStorage.currentTheme == "dark"){
+        if (localStorage.ambientMode == "true" && localStorage.currentTheme == "dark") {
             this.video.addEventListener("loadeddata", this.draw, false);
             this.video.addEventListener("seeked", this.draw, false);
             this.video.addEventListener("play", this.drawLoop, false);
             this.video.addEventListener("pause", this.drawPause, false);
-            this.video.addEventListener("ended", this.drawPause, false);    
+            this.video.addEventListener("ended", this.drawPause, false);
         }
     };
 
@@ -65,21 +71,34 @@ class VideoWithBackground {
         this.ctx.filter = `blur(${blur}px)`;
     }
 
+    changeCanvasSize = (width, height) => {
+        this.canvas.width = width;
+        this.canvas.height = height;
+    }
+
     checkThemeStatus = () => {
-        if (localStorage.getItem("currentTheme") == "dark" && localStorage.getItem("ambientMode") == "true") {
+        let currentTheme = localStorage.getItem("currentTheme");
+        if (currentTheme == "dark" && localStorage.getItem("ambientMode") == "true") {
             console.log("Starting ambient mode")
+            this.currentlyDrawing = true;
             this.video.addEventListener("play", this.drawLoop, false);
             this.video.addEventListener("pause", this.drawPause, false);
-            this.video.addEventListener("ended", this.drawPause, false);    
+            this.video.addEventListener("ended", this.drawPause, false);
             this.drawLoop();
         } else {
-            console.log("Stopping ambient mode")
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.video.removeEventListener("loadeddata", this.draw);
-            this.video.removeEventListener("seeked", this.draw);
-            this.video.removeEventListener("play", this.drawLoop);    
-            this.drawPause()
+            this.turnOffAmbientMode();
         }
+    }
+
+    turnOffAmbientMode = () => {
+        console.log("Stopping ambient mode")
+        this.currentlyDrawing = false;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.video.removeEventListener("loadeddata", this.draw);
+        this.video.removeEventListener("seeked", this.draw);
+        this.video.removeEventListener("play", this.drawLoop);
+        this.drawPause();
+        localStorage.ambientMode = "false";
     }
 }
 
@@ -88,8 +107,8 @@ if (!localStorage.ambientMode) {
 }
 const el = new VideoWithBackground("ambientvideo", "ambientcanvas");
 function toggleAmbientMode() {
-    if (localStorage.getItem("currentTheme") == "dark"){
-        if (localStorage.ambientMode == "true"){
+    if (localStorage.getItem("currentTheme") == "dark") {
+        if (localStorage.ambientMode == "true") {
             localStorage.ambientMode = "false"
         } else {
             localStorage.ambientMode = "true"
@@ -101,3 +120,13 @@ function toggleAmbientMode() {
 function checkAmbientTheme() {
     el.checkThemeStatus();
 }
+
+function turnOffAmbientMode() {
+    el.turnOffAmbientMode();
+}
+
+Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
+    get: function () {
+        return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
+    }
+})

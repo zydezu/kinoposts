@@ -13,26 +13,28 @@
     <script src="scripts/jsoncommentsreader.js" defer></script>
 </head>
 
-<body onload="getComments()">
+<body onload="">
+    <div class="hidden backgroundBlur" id="BGBlur"></div>
+
+    <div class="navBG"></div>
     <div class="navigationBar">
         <ul>
-            <li><a>YouTube Archive</a></li> | 
-            <li><a href="#index">Index</a></li> | 
+            <li><a>YouTube Archive</a></li> |
+            <li><a href="#index">Index</a></li> |
             <li><a href="javascript:void(0)" onclick="clickChangeTheme()">Toggle theme</a></li> |
-            <li><a href="javascript:void(0)" onclick="toggleAmbientMode()">Toggle ambient mode</a></li>
+            <li><a href="javascript:void(0)" onclick="toggleAmbientMode()">Toggle ambient mode</a></li> |
+            <li><a href="javascript:void(0)" onclick="viewSettings()">Settings</a></li>
         </ul>
-
         <div class="navigationRight" id="themeToggle">
 
         </div>
     </div>
-    <div class="navBG"></div>
 
     <div class="main">
         <div class="videoArea">
             <section class="ambientWrapper">
-                <video playsinline controls muted autoplay width="100wh" height="100vh" class="mainVideo roundVideo" id="ambientvideo"
-                    src="videos/Persona 4： Intro [fZZPx3R3pyE].mp4"></video>
+                <video playsinline controls muted autoplay class="mainVideo roundVideo"
+                    id="ambientvideo" src=""></video>
                 <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
             </section>
             <button id="switchVideo">click to switch video</button>
@@ -48,7 +50,7 @@
             </div>
             <div class="commentsArea">
                 <div id="classicCommentCount"></div>
-                <div id="classicCommentsBox"></div><br>    
+                <div id="classicCommentsBox"></div><br>
             </div>
         </div>
         <div class="sideBar" id="sideBarScroll">
@@ -56,29 +58,90 @@
             <div id="commentsBox"></div><br>
         </div>
     </div>
+
+    <div class="hidden" id="settingsBox">
+        <div class="settingsCloseButton">
+            <a href="javascript:void(0)" onclick="viewSettings()">Close</a>
+        </div>
+        <div class="settingsTitle">Settings</div>
+
+        <div class="settingOptions">
+            <div class="settingSubheading">Apperance</div>
+            <hr />
+            Theme<br />
+            Ambient Mode <span class="SNSExtraInfo">(only available in dark theme)</span><br />
+
+            <div class="settingSubheading">Comments</div>
+            <hr />
+            Default comment position<br />
+            Comments loaded initially<br />
+            Subsequent comments at once<br />
+
+            <div class="settingSubheading">Debug</div>
+            <hr />
+            View video JSON file<br />
+            Comments currently loaded<br />
+            Dropped frames<br />
+            Ambient width / height<br />
+            Ambient blur<br />
+
+        </div>
+    </div>
 </body>
 
 <script>
     const video = document.getElementById("ambientvideo");
     const switchVideoButton = document.getElementById("switchVideo");
-    let i = 0
-    let videos = [
-        "videos/Persona 4： Intro [fZZPx3R3pyE].mp4",
-        "videos/North Korea Propaganda video ＂3-Day War＂ English translation with subtitles [mzpMhNXKt4E].mp4",
-        "videos/Expansion of Blockade from End of Evangelion (But it's in Mario 64) [o-0qKpE7nA8].mp4",
-        "videos/Analog ＂Horror＂ IS TRASH [4l1pjeZalwA].mp4",
-    ]
-    switchVideoButton.addEventListener('click', function () {
+    let currentIndex = 0;
+    let videosList = [];
 
-        i++;
-        i = i % videos.length;
-        video.src = videos[i];
+    getVideoListData("videos/info.json");
+
+    function getVideoListData(input) {
+        fetch(input)
+            .then((response) => response.ok ? response.text() : console.log("All videos info file doesn't exist!"))
+            .then((videoListData) => readVideosInfo(videoListData)); // javascript fetching protocol
+    }
+
+    function readVideosInfo(data) {
+        data = JSON.parse(data);
+        videosList = data.videosList;
+    };
+
+    switchVideoButton.addEventListener('click', () => {
+        currentIndex++;
+        currentIndex = currentIndex % videosList.length;
+        getVideo(currentIndex)
+    });
+
+    function getVideo(index=0) {
+        let currentVideoData = videosList[index];
+        video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
         getComments();
+    }
+
+    let lastDroppedFrames = 0;
+    let droppingFrames = false;
+    let droppedFramesPercentage = 0;
+    let forgiveFrames = 0;
+    video.addEventListener('timeupdate', () => {
+        let droppedFrames = video.getVideoPlaybackQuality().droppedVideoFrames;
+        let totalFrames = video.getVideoPlaybackQuality().totalVideoFrames;
+        droppedFramesPercentage = (droppedFrames / totalFrames * 100);
+        if (droppedFrames > lastDroppedFrames) {
+            console.log("Dropping frames!");
+            console.log(droppedFrames);
+            lastDroppedFrames = droppedFrames;
+            droppingFrames = true;
+            // turnOffAmbientMode();
+        } else {
+            droppingFrames = false;
+        }
     })
 
     async function getComments() {
-        jsonComment = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json";
-        await readFile(jsonComment);
+        let idpath = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json"
+        await readFile(idpath);
     }
 </script>
 

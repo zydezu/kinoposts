@@ -13,8 +13,10 @@ let oldCommentPosition = false;
 var commentsBox;
 var commentCount;
 let startingIndex;
-const commentsToLoadAtOnce = 20;
+var commentsToLoadInitially = 20;
+var commentsToLoadAtOnce = 5;
 let allCommentsLoaded = false;
+let currentFilter = "";
 getCommentsBox();
 
 function getCommentsBox() {
@@ -69,7 +71,7 @@ async function getDislikes(id) {
 function readFile(input) {
     commentsBox.innerHTML = ""
     fetch(input)
-        .then((response) => response.ok ? response.text() : console.log("Playlist file doesn't exist!"))
+        .then((response) => response.ok ? response.text() : console.log("Video info file doesn't exist!"))
         .then((returndata) => read(returndata)); // javascript fetching protocol
 }
 
@@ -77,7 +79,11 @@ async function read(returndata) {
     data = JSON.parse(returndata);
     resetButtonStates();
 
-    videoInfo.innerHTML = "Reading comments...";
+    console.log("Loading comments...")
+
+    videoInfo.innerHTML = "Loading information...";
+    commentCount.innerHTML = `${oldCommentPosition ? `<br/>` : ``} Loading comments... 
+    <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
     commentsBox.innerHTML = "";
 
     let dislikes = "Unknown...";
@@ -117,7 +123,7 @@ async function renderComments() {
     startingIndex = 0
     allCommentsLoaded = true;
     for (let index = startingIndex; index < data.comments.length; index++) {
-        if (index > startingIndex + commentsToLoadAtOnce) {
+        if (index > startingIndex + commentsToLoadInitially) {
             allCommentsLoaded = false;
             startingIndex = index;
             break;
@@ -151,18 +157,23 @@ async function loadMoreComments() {
     }
 
     commentsBox.appendChild(fragment);
+    filterComments(currentFilter);
 }
 
 scrollingPlace.addEventListener("scroll", () => {
+    sideBoxCheckNewComments();
+});
+
+function sideBoxCheckNewComments() {
     if (!allCommentsLoaded) {
         if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop === scrollingPlace.clientHeight) {
             loadMoreComments()
         }
     }
-});
+}
 
 window.onscroll = function (ev) {
-    if (oldCommentPosition && !allCommentsLoaded) {
+    if ((oldCommentPosition || window.innerWidth < 950) && !allCommentsLoaded) {
         if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
             loadMoreComments()
         }
@@ -176,6 +187,7 @@ function loadAllComments() {
         renderNextComment(fragment, index)
     }
     commentsBox.appendChild(fragment);
+    filterComments(currentFilter);
     allCommentsLoaded = true;
 }
 
@@ -189,7 +201,7 @@ function renderNextComment(fragment, index) {
             commentDiv.classList.add('SNSParent');
             commentDiv.innerHTML = `
                     <div class="SNSPost">
-                        <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" src="${element.author_thumbnail}"></a>
+                        <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" onload="this.style.opacity=1" src="${element.author_thumbnail}"></a>
                             <div class="SNSUserInfo">
                                 <span class="SNSUsername">
                                     <a target="_blank" href="${element.author_url}">${element.author}</a>
@@ -210,14 +222,13 @@ function renderNextComment(fragment, index) {
                             </div>
                         </div>
                     </div>
-                    <div class="Replies" id="${element.id}reply"></div>
+                    <div class="SNSReplies" id="${element.id}reply"></div>
                     `;
             fragment.appendChild(commentDiv);
         } else {
             commentDiv.classList.add('SNSPost');
-            commentDiv.style.marginLeft = '75px';
             commentDiv.innerHTML = `
-                    <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" src="${element.author_thumbnail}"></a>
+                    <div class="SNSArea"><a target="_blank" href="${element.author_url}"><img class="SNSIcon" onload="this.style.opacity=1" src="${element.author_thumbnail}"></a>
                         <div class="SNSUserInfo">
                             <span class="SNSUsername">
                                 <a target="_blank" href="${element.author_url}">${element.author}</a>
@@ -257,6 +268,7 @@ function renderNextComment(fragment, index) {
 }
 
 function filterComments(filterBy) {
+    currentFilter = filterBy
     let visibleCount = 0;
     for (const element of commentsBox.children) {
         const hasFilter = filterBy && element.dataset.info && element.dataset.info.includes(filterBy);
@@ -266,6 +278,7 @@ function filterComments(filterBy) {
             visibleCount++;
         }
     }
+    if (filterBy) sideBoxCheckNewComments();
     commentCount.innerHTML = `Comments: ${data.comment_count} ${filterBy ? `(Showing: ${visibleCount})` : ""}
     <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comments layout</button>`;
 }
@@ -278,6 +291,7 @@ function switchSorting() {
         return;
     }
     loadAllComments();
+    console.log("Loaded all comments")
     filterComments();
     sortedByTop = true;
     sortingButton.textContent = "Sort by new";
@@ -304,3 +318,26 @@ function toggleReplies() {
     showingReplies = !showingReplies;
     toggleRepliesButton.innerHTML = showingReplies ? "Hide replies" : "Show replies";
 }
+
+function blurClickCloseSettings() {
+    console.log("check")
+}
+
+const settingsBox = document.getElementById("settingsBox");
+const BGBlur = document.getElementById("BGBlur");
+let showingSettings = false;
+function viewSettings() {
+    if (showingSettings) {
+        settingsBox.classList.add("hideSettings");
+        BGBlur.classList.add("hidden");
+    } else {
+        settingsBox.classList.remove("hidden");
+        settingsBox.classList.remove("hideSettings");
+
+        BGBlur.classList.remove("hidden");
+
+        BGBlur.addEventListener("click", viewSettings);
+    }
+    showingSettings = 1 - showingSettings;
+    return showingSettings;
+};
