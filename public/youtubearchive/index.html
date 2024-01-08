@@ -37,7 +37,7 @@
                     <canvas width="22" height="16" class="ambientCanvas" aria-hidden="true" id="ambientcanvas"></canvas>
                 </div>
             </section>
-            <video type='video/mp4' controls="true" playsinline controls muted autoplay class="mainVideo roundVideo" id="ambientvideo" src="videos/fZZPx3R3pyE.mp4"></video>
+            <video src="videos/fZZPx3R3pyE.mp4" type='video/mp4' controls playsinline controls muted autoplay class="mainVideo roundVideo" id="ambientvideo"></video>
             <img src="" class="dummyVideoPlayer">
             <button id="switchVideo">click to switch video</button>
             <a href="" id="downloadLink">Download</a>
@@ -126,8 +126,8 @@
         video.src = currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat;
         console.log(currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat)
         console.log(video.src)
-        document.getElementById('videoInfo').innerHTML += currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat
-        document.getElementById('videoInfo').innerHTML += video.src
+        document.getElementById('classicCommentCount').innerHTML += currentVideoData.prefixLocation + currentVideoData.id + currentVideoData.fileFormat + `<br/>`
+        document.getElementById('classicCommentCount').innerHTML += video.src
         downloadLink.setAttribute("href", video.src);
         getComments();
     }
