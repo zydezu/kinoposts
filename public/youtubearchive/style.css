@@ -122,7 +122,6 @@ body {
     display: flex;
 }
 
-
 /*nav*/
 .navigationBar {
     position: fixed;
@@ -393,8 +392,6 @@ dialog {
     min-width: 300px;
     border-radius: 15px;
 }
-
-
 
 
 

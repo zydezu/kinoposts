@@ -13,7 +13,7 @@
     <script src="scripts/jsoncommentsreader.js" defer></script>
 </head>
 
-<body onload="getVideo(0)">
+<body>
     <div class="hidden backgroundBlur" id="BGBlur"></div>
 
     <div class="navBG"></div>
@@ -151,6 +151,10 @@
         let idpath = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json"
         await readFile(idpath);
     }
+
+    document.addEventListener('load', () => {
+        getVideo(0);
+    })
 </script>
 
 </html>
