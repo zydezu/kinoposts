@@ -204,6 +204,11 @@ li {
     right: 15px;
 }
 
+.settingsExtraInfo {
+    color: var(--SNS-color-extra);
+    margin-right: 50px;
+}
+
 .hideSettings {
     animation: boxClose 0.1s ease-in-out !important;
     opacity: 0;
