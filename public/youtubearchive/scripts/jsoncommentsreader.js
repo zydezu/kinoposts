@@ -359,5 +359,36 @@ function viewSettings() {
         BGBlur.addEventListener("click", viewSettings);
     }
     showingSettings = 1 - showingSettings;
+    updateSettingsBox();
     return showingSettings;
 };
+
+function updateSettingsBox() {
+    settingsBox.innerHTML = `
+    <div class="settingsCloseButton">
+        <a href="javascript:void(0)" onclick="viewSettings()">Close</a>
+    </div>
+    <div class="settingsTitle">Settings</div>
+    <div class="settingOptions">
+        <div class="settingSubheading">Apperance</div><hr />
+        Theme<a href="javascript:void(0)" onclick="clickChangeTheme()" class="settingsOption">${localStorage.currentTheme == "dark" ? "Dark": "Light"} theme</a><br />
+        Ambient Mode <a href="javascript:void(0)" onclick="toggleAmbientMode()" class="settingsOption">${localStorage.ambientMode == "true" ? "ON": "OFF"}</a>
+        <span class="settingsExtraInfo">(only available in dark theme)</span><br />
+
+        <div class="settingSubheading">Comments</div><hr />
+        Default comment position<a href="javascript:void(0)" onclick="switchCommentsLayout()" class="settingsOption">${oldCommentPosition ? "Bottom" : "Side"}</a><br />
+        Comments loaded initially<span class="settingsOption">20</span><br />
+        Subsequent comments at once<span class="settingsOption">5</span><br />
+
+        <div class="settingSubheading">Debug</div><hr />
+        View video JSON file<a target="_blank" href="videos/fZZPx3R3pyE.info.json" class="settingsOption">View</a><br />
+        Comments currently loaded<span class="settingsOption">25</span><br />
+        Dropped frames<span class="settingsOption">15/1392</span><br />
+        Ambient width / height<span class="settingsOption">22/16</span><br />
+        Ambient blur<span class="settingsOption">5px</span><br />
+        Ambient opacity<span class="settingsOption">0.8</span><br />
+        Ambient saturation<span class="settingsOption">1.5</span><br />
+        Fullscreen ambient mode<a href="javascript:void(0)" class="settingsOption">OFF</a><br />
+    </div>
+    `
+}
