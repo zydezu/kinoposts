@@ -173,6 +173,7 @@ li {
     z-index: 10;
     box-shadow: var(--settings-shadow);
     animation: boxPopUp 0.15s cubic-bezier(0.22, 0.61, 0.36, 1);
+    overflow-y: auto;
 }
 
 .backgroundBlur {

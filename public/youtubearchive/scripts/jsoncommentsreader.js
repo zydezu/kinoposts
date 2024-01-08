@@ -388,8 +388,7 @@ video.addEventListener('timeupdate', () => {
     droppedFrames = video.getVideoPlaybackQuality().droppedVideoFrames;
     totalFrames = video.getVideoPlaybackQuality().totalVideoFrames;
     if (droppedFrames > lastDroppedFrames) {
-        console.log("Dropping frames!");
-        console.log(droppedFrames);
+        console.log("Dropping frames - " + droppedFrames);
         lastDroppedFrames = droppedFrames;
         droppingFrames = true;
         // turnOffAmbientMode();
