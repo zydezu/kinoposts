@@ -205,7 +205,11 @@ li {
 
 .settingsExtraInfo {
     color: var(--SNS-color-extra);
-    margin-right: 50px;
+}
+
+.settingsOption {
+    float: right;
+    margin-left: 50px;
 }
 
 .hideSettings {
