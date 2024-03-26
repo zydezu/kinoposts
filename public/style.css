@@ -1,0 +1,147 @@
+@import url("https://rsms.me/inter/inter.css");
+
+@font-face {
+  font-family: CascadiaCode;
+  src: url("work/python/CascadiaCode.woff2");
+}
+
+:root {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  /* fix for Chrome */
+}
+
+button, input, textarea, #search {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  text-decoration: none;
+  word-wrap: break-word;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.rounding {
+  border-radius: 10px;
+}
+
+.nolinkline {
+  text-decoration: none;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.anchor {
+  margin-right: 2px;
+  color: #fff;
+  text-decoration: none;
+}
+
+a[target="_blank"].ref::after {
+  content: "";
+  width: 1em;
+  height: 1em;
+  margin: 0 0em 0.1em 0.15em;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath d='M9 2v1h3.3L6 9.3l.7.7L13 3.7V7h1V2ZM4 4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V7l-1 1v4c0 .6-.4 1-1 1H4c-.6 0-1-.4-1-1V6c0-.6.4-1 1-1h4l1-1Z' style='fill:%235000E0'/%3E%3C/svg%3E");
+  background-size: contain;
+  display: inline-block;
+  vertical-align: sub;
+}
+  
+.box {
+  border: 1px solid rgb(236, 52, 52);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+code,.codeBox{
+  font-family: CascadiaCode, FMono-Regular, Consolas, DejaVu Sans Mono ,Liberation Mono, Menlo, monospace !important;
+}
+code /*code formatting*/ {
+  font-size: 15px;
+  padding: 2px 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+.codeBox /*code box*/ {
+  font-size: 14px;
+  padding: 15px;
+  line-height: 1.6;
+  background-color: rgba(15, 15, 15, 0.5);
+  outline: 1px solid rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border-radius: 10px;
+  color: #fff;
+}
+pre{
+  margin: 0;
+}
+.codeFormat {
+  font-size: 14px;
+  line-height: 1.4;
+  border: none;
+  background-color: rgba(15, 15, 15, 0.9)!important;
+  color-scheme: dark;
+}
+.codeBoxBack {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.codeTab {
+  background-color: rgba(15, 15, 15, 0.5);
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  width: fit-content;
+  padding: 10px;
+  color: #ffffffee
+}
+.scriptIcon {
+  height: 12px;
+  margin-right: 8px;
+  border-radius: 0!important;
+}
+.lineNumber:before {
+  margin-right: 16px;
+  margin-left: -8px;
+  color: #6b6b6b;
+  content: attr(line);
+}
+.code.cconsole {
+  color: #9cdcfe;
+}
+.code.cpunctuation {
+  color: #d4d4d4;
+}
+.code.cmethod {
+  color: #dcdcaa;
+}
+.code.cstring {
+  color: #ce9178;
+}
+.code.pythonmethod{
+  color: #dcdcaa;
+}
+.code.pythonbracket{
+  color: #ffd710;
+}
+.code.pythoninnerbracket{
+  color: #da70d6;
+}
+.code.pythonint {
+  color: #b5cea8;
+}
+.code.pythonstring {
+  color: #ce9178;
+}
+.code.pythoncast{
+  color: #4ec9b0;
+}

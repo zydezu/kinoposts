@@ -1,0 +1,35 @@
+{
+    "lastGenerated": "2024-01-08",
+    "videosList": [
+        {
+            "title": "Persona 4： Intro",
+            "id": "fZZPx3R3pyE",
+            "prefixLocation": "videos/",
+            "fileFormat": ".mp4"
+        },
+        {
+            "title": "Persona 3： Intro",
+            "id": "p3trailer",
+            "prefixLocation": "../test/ambientmodetest/",
+            "fileFormat": ".mp4"
+        },
+        {
+            "title": "North Korea Propaganda video ＂3-Day War＂ English translation with subtitles",
+            "id": "mzpMhNXKt4E",
+            "prefixLocation": "videos/",
+            "fileFormat": ".mp4"
+        },
+        {
+            "title": "Expansion of Blockade from End of Evangelion (But it's in Mario 64)",
+            "id": "o-0qKpE7nA8",
+            "prefixLocation": "videos/",
+            "fileFormat": ".mp4"
+        },
+        {
+            "title": "Analog ＂Horror＂ IS TRASH",
+            "id": "4l1pjeZalwA",
+            "prefixLocation": "videos/",
+            "fileFormat": ".mp4"
+        }
+    ]
+}

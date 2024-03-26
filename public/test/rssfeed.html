@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Reader</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            max-width: 95%;
+        }
+    </style>
+</head>
+
+<body>
+    <video src="backgrounds/nightSky.mp4" autoplay loop muted playsinline id="videoBG"></video>
+    <nav>
+        <a href="../index.html">Back</a>
+    </nav>
+
+    RSS Feed<br />
+    <input type="text" style="width: 250px" placeholder="Enter feed URL" id="feedURL"> <button
+        onclick="fetchRSSFeed(document.getElementById('feedURL').value)">Fetch</button>
+
+    <br /><br />
+    <code>Links to try (press):</code><br />
+    <button
+        onclick="fetchRSSFeed('https://rss.nytimes.com/services/xml/rss/nyt/World.xml')">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</button><br />
+    <button
+        onclick="fetchRSSFeed('https://www.theverge.com/rss/index.xml')">https://www.theverge.com/rss/index.xml</button><br />
+    <button
+        onclick="fetchRSSFeed('https://blog.jakelee.co.uk/feed.xml')">http://blog.jakelee.co.uk/feed.xml</button><br />
+    <button onclick="fetchRSSFeed('https://shellsharks.com/feed.xml')">https://shellsharks.com/feed.xml</button><br />
+    <button onclick="fetchRSSFeed('https://shellsharks.com/note-feed.xml')">https://shellsharks.com/note-feed.xml</button><br />
+
+    <br />
+    <div id="blogInfo" class="codeBox">Feed Information: (To do...)</div><br />
+
+    <div id="blogArticles" class="blogArticles">
+        <div class="sticky">
+            <article class="postText">
+                <span class="postTitle">title</span><br />
+                <span class="postDescription">description</span>
+            </article>
+            <div class="stickyImage"><img loading="lazy" src="https://zydezu.github.io/test/components/cute.jpg"
+                    title="image"></div>
+            <span class="date">23:06 | 2023-07-30</span>
+        </div>
+    </div><br />
+
+    <div id="codeBox" class="codeBox"></div><br />
+
+    <script>
+        // this should be seperate but eeehh ~~ ?
+        const corsAnywhere = '';
+
+        var feedType;
+
+        var blogData = {}
+        var RSSArticles = []
+
+        const blogInfo = document.getElementById('blogInfo');
+        const blogArticles = document.getElementById("blogArticles");
+        const codeBox = document.getElementById("codeBox");
+
+        fetchRSSFeed("https://www.theverge.com/rss/index.xml")
+        function fetchRSSFeed(link) {
+            blogInfo.innerHTML = "Loading...";
+            blogArticles.innerHTML = "";
+            codeBox.innerHTML = "";
+            console.log(`Fetching... ${corsAnywhere + link}`)
+            blogArticles.innerHTML = ""
+            fetch(corsAnywhere + link)
+                .then((response) => response.text())
+                .then((data) => renderCodeBox(data)); // javascript fetching protocol
+        }
+
+        function renderCodeBox(data) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, 'text/xml');
+
+            // check if feed is RSS or atom (will affect formatting)
+            let feedType = '';
+            const rssElements = xmlDoc.querySelectorAll('rss');
+            const feedElements = xmlDoc.querySelectorAll('feed');
+            if (rssElements.length > 0) {
+                feedType = "rss";
+            } else if (feedElements.length > 0) {
+                feedType = "atom";
+            }
+
+            const blogData = {
+                title: xmlDoc.querySelector('title'),
+                description: feedType === "rss" ? xmlDoc.querySelector('description') : xmlDoc.querySelector('subtitle'),
+                link: feedType === "rss" ? xmlDoc.querySelector('link') : xmlDoc.querySelector('link').attributes.href,
+                lastBuildDate: feedType === "rss" ? xmlDoc.querySelector('lastBuildDate') : xmlDoc.querySelector('updated')
+            };
+
+            const blogInfoContent = `<p>Feed type: ${feedType}</p>
+                <p>${blogData.title ? blogData.title.textContent : "No title"}</p>
+                <p>${blogData.description ? blogData.description.textContent : "No description"}</p>
+                <p>${blogData.link ? blogData.link.textContent : "No link"}</p>
+                <p>${blogData.lastBuildDate ? blogData.lastBuildDate.textContent : "No date"}</p>`;
+            blogInfo.innerHTML = blogInfoContent;
+
+            const items = feedType === "rss" ? xmlDoc.querySelectorAll('item') : xmlDoc.querySelectorAll('entry');
+
+            items.forEach(item => {
+                const title = item.querySelector('title').textContent;
+                let description = item.querySelector('summary') || item.querySelector('description') || item.querySelector('content');
+                description = description ? description.textContent : '';
+
+                // get image
+                let media = '';
+                const mediaTags = ['media:content', 'media:thumbnail'];
+                for (let i = 0; i < item.children.length; i++) {
+                    const element = item.children[i];
+                    if (mediaTags.includes(element.nodeName)) {
+                        media = element.getAttribute('url') || '';
+                        break;
+                    }
+                }
+
+                // missing image- search description
+                if (!media && description && feedType == "atom") {
+                    if (description.includes("<img")) {
+                        const imgSrcStart = description.indexOf('src="') + 5;
+                        const imgSrcEnd = description.indexOf('"', imgSrcStart);
+                        media = description.substring(imgSrcStart, imgSrcEnd) || '';
+                    }
+                }
+
+                // error handling for link retrieval
+                let link = '';
+                const linkTags = ['id', 'link'];
+                for (const candidate of linkTags) {
+                    const linkElement = item.querySelector(candidate);
+                    if (linkElement) {
+                        link = linkElement.textContent || linkElement.innerHTML || '';
+                        break;
+                    }
+                }
+
+                const pubDate = item.querySelector(feedType === "rss" ? 'pubDate' : 'published').textContent;
+                const date = new Date(pubDate);
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // months are zero-indexed - hence the +1
+                const day = date.getDate().toString().padStart(2, '0');
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+
+                const postTime = `${hours}:${minutes} ${year}-${month}-${day}`; // format in HH:mm YYYY-MM-DD
+
+                const articleHtml = `
+                    <div class="sticky">
+                        <article class="postText">
+                            <a href="${link}"><span class="postTitle">${title}</span></a><br/>
+                            <span class="postDescription">${stripHTMLTags(description)}...</span>
+                        </article>
+                        ${media ? `<div class="stickyImage"><img loading="lazy" src="${media}"></div>` : ''}
+                        <span class="date" title="${pubDate}">${postTime}</span>
+                    </div>`;
+                blogArticles.innerHTML += articleHtml;
+            });
+
+            codeBox.innerHTML = `<xmp>${data}</xmp>`;
+            console.log("Done!");
+        }
+
+        const stripHTMLTags = input => input.replace(/<[^>]+>/g, '').substring(0, 100);
+    </script>
+</body>
+
+</html>

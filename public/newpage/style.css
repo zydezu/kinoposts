@@ -1,0 +1,252 @@
+@import url("https://rsms.me/inter/inter.css");
+
+/*light and dark mode themes and colours*/
+:root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+
+    --accent-color: #fa5252;
+    --highlight-color: rgba(255, 50, 60, 0.8);
+}
+
+:root,
+:root.light {
+    --text-color: #161616;
+    --bg-color: #fff;
+
+    --ambient-box-shadow: none;
+    --ambient-video-box-shadow: 0 0 1rem #0f0f0f;
+    --ambient-canvas-opacity: 0;
+
+    --themeToggle-bg-color: #222;
+    --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2),
+        inset 0 8px 60px rgba(0, 0, 0, 0.1),
+        inset 0 8px 8px rgba(0, 0, 0, 0.1),
+        inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+    --themeToggle-indicator-pos: 0;
+    --themeToggle-indicator-bg: linear-gradient(to bottom, #444, #222);
+    --themeToggle-indicator-box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5),
+        inset 0 2px 2px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 2px rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: rgba(255, 255, 255, 0.85);
+        --bg-color: #0f0f0f;
+
+        --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
+        --ambient-video-box-shadow: 0 0 2rem 0.1rem #0f0f0f;
+        --ambient-canvas-opacity: 0.8;
+
+        --themeToggle-bg-color: #fff;
+        --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5),
+            inset 0 8px 60px rgba(0, 0, 0, 0.1),
+            inset 0 4px 8px rgba(0, 0, 0, 0.1),
+            inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+        --themeToggle-indicator-pos: 50%;
+        --themeToggle-indicator-bg: linear-gradient(to bottom, #eaeaea, #f9f9f9);
+        --themeToggle-indicator-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
+            inset 0 2px 2px rgba(255, 255, 255, 0.8),
+            inset 0 -2px 2px rgba(255, 255, 255, 0.8);
+    }
+}
+
+:root.dark {
+    --text-color: rgba(255, 255, 255, 0.85);
+    --bg-color: #0f0f0f;
+
+    --ambient-box-shadow: inset 0 0 3.5rem 3.5rem var(--bg-color);
+    --ambient-video-box-shadow: 0 0 2rem 0.1rem #0f0f0f;
+    --ambient-canvas-opacity: 0.8;
+
+    --themeToggle-bg-color: #fff;
+    --themeToggle-box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5),
+        inset 0 8px 60px rgba(0, 0, 0, 0.1),
+        inset 0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 -4px 4px rgba(0, 0, 0, 0.1);
+    --themeToggle-indicator-pos: 50%;
+    --themeToggle-indicator-bg: linear-gradient(to bottom, #eaeaea, #f9f9f9);
+    --themeToggle-indicator-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
+        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 2px rgba(255, 255, 255, 0.8);
+}
+
+:root {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    /* fix for Chrome */
+}
+
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    padding: 20px;
+    word-wrap: break-word;
+    transition: color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
+}
+
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: InterVariable, sans-serif;
+    }
+}
+
+@media (prefers-reduced-motion) {
+    body {
+        transition: none;
+    }
+}
+
+
+/*button*/
+button {
+    transition: transform 0.1s;
+}
+
+button:active {
+    transform: scale(0.9);
+}
+
+@media (prefers-reduced-motion) {
+    button:active {
+        transform: none;
+    }
+}
+
+#themeToggle {
+    position: relative;
+    display: block;
+    width: 64px;
+    height: 32px;
+    border-radius: 1000px;
+    background: var(--themeToggle-bg-color);
+    transition: 0.25s;
+    cursor: pointer;
+    box-shadow: var(--themeToggle-box-shadow);
+}
+
+#themeToggle .indicator {
+    position: absolute;
+    top: 0;
+    left: var(--themeToggle-indicator-pos);
+    width: 50%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--themeToggle-indicator-bg);
+    transform: scale(0.8);
+    transition: 0.25s;
+    box-shadow: var(--themeToggle-indicator-box-shadow)
+}
+
+/*accent colours*/
+::selection {
+    /*mouse highlight colour*/
+    background-color: var(--highlight-color);
+}
+
+a:link {
+    color: var(--accent-color);
+    transition: color 0.08s linear;
+    transition: transform 0.1s;
+}
+
+a:visited {
+    color: #fa9696;
+}
+
+a:hover {
+    color: #ffeeee;
+}
+
+a:focus {
+    border-radius: 5px;
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+@media (prefers-reduced-motion) {
+    a:link{
+        transition: none;
+    }
+}
+
+summary {
+    cursor: pointer;
+}
+
+dialog {
+    z-index: 10;
+    position: fixed;
+    top: 10px;
+    min-width: 300px;
+    border-radius: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*video*/
+video {
+    height: auto;
+    width: 100%;
+}
+
+.roundVideo {
+    border-radius: 15px;
+    backdrop-filter: grayscale(0);
+}
+
+
+/*ambient video effect*/
+#ambientvideo {
+    box-shadow: var(--ambient-video-box-shadow);
+}
+
+.ambientWrapper {
+    /* position: relative; */
+    /* padding: 5rem; */
+}
+
+.ambientCanvas {
+    position: fixed;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    /* scale: 1.5; */
+    opacity: var(--ambient-canvas-opacity);
+    filter: saturate(1.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ambientCanvas {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ambientWrapper {
+        position: static;
+        padding: 0;
+    }
+
+    .ambientCanvas {
+        position: fixed;
+        scale: 1;
+    }
+}

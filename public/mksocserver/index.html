@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>MKsoc Minecraft Server</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="favi.jpg" href="favi.jpg">
+</head>
+<style>
+#videoBG
+/*background video*/
+	{
+	object-fit: cover;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	z-index: -5;
+	border-radius: 0px;
+	filter: brightness(40%);
+	animation: fadeIn 0.5s ease-in;
+}
+</style>
+<body>
+    <div style="background-color: rgba(0, 0, 0, 0.25); 
+    min-height: 100%; min-width: 100%; position: fixed; top:0; left: 0; 
+    backdrop-filter: blur(5px); z-index: -2;"></div>
+    <video src="bg/netherportal.mp4" autoplay loop muted playsinline id="videoBG"></video>
+
+    <p><b>MKSoc Minecraft Server</b><br/>
+    Information about the Mario Kart SOC Minecraft Server</p>   
+    
+    <div class="codeBox">
+        Minecraft version: 1.20.4 (Java) / 1.20.72 (Bedrock)<br/>
+        <hr>
+        IP Address: <code style="user-select: all;">mksoc.minecraft.party</code><br/>
+        Port (Java): <code style="user-select: all;">25565</code> (default) |
+        Port (Bedrock): <code style="user-select: all;">7037</code><br/>
+        <hr>
+        Max Render distance: <code>22 Chunks</code><br/>
+        Simulation Distance: <code>12 Chunks</code><br/>
+        <hr>
+        Difficulty: <code>Hard</code>
+    </div>
+    <br/>
+    <span width="100%">
+        <a class="nolinkline" href="javaconnect.webp" target="_blank">
+            <img class="rounding" width="49.7%" src="javaconnect.webp" 
+            alt="The Minecraft Java 'Edit Server' screen showing the 
+            MKSoc Server IP Address" 
+            title="The Minecraft Java 'Edit Server' screen showing the MKSoc Server IP Address">
+        </a>
+        <a class="nolinkline" href="bedrockconnect.webp" target="_blank">    
+            <img class="rounding" width="49.7%" src="bedrockconnect.webp" 
+            alt="The Minecraft Bedrock 'Edit External Server' dialog box, 
+            showing the MKSoc Server IP Address and the port '7037' in 
+            the relevant input fields" 
+            title="The Minecraft Bedrock 'Edit External Server' dialog box, showing the MKSoc Server IP Address and the port '7037' in the relevant input fields">
+        </a>
+    </span>
+
+    <p><a class="anchor" href="#mods">#</a><b id="mods">Mods</b><br/>
+    Below are the minecraft mods I use for a 1.20.4 
+    <a href="https://fabricmc.net/">Fabric Minecraft instance</a>. 
+    I use <a class="ref" target="_blank" 
+    href="https://prismlauncher.org/download/">PrismLauncher</a>
+    to manage instances and download mods, but a normal Fabric loader instance 
+    (launched from the regular Minecraft launcher) will work fine (as long as you know 
+    where the place mods manually).<br/><br/> 
+    For either the launcher, or a standalone 
+    <a href="https://fabricmc.net/">fabric loader instance</a>, 
+    you will need Java (version 17) installed on your computer, which you 
+    can find here: <a class="ref" target="_blank" 
+    href="https://adoptium.net/en-GB/temurin/releases/?version=17">
+    https://adoptium.net/en-GB/temurin/releases/?version=17</a><br/>
+    <b>Note</b>: On Macs with Intel processors, you need to install the x64 version
+    of Java, on Macs with Arm 64 (M1) processors, you need to install the 
+    Arm 64 (aarch64) version of Java.
+    <br/><br/>
+        
+    <a class="anchor" href="#modlist">#</a><b id="modlist">Mod List</b><br/>
+    These mods mainly focus on optimisation (improving game FPS) and 
+    quality of life (qol) features.<br/>Mods in (brackets) are API mods 
+    that are required for other mods to work.
+    <ul>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/chat-heads">Chat Heads</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/cloth-config">(Cloth Config)</a></li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/c2me-fabric">Concurrent Chunk Management Engine</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/entityculling">EntityCulling</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/fabric-api">(Fabric API)</a></li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/ferrite-core">FerriteCore</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/immediatelyfast">ImmediatelyFast</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/iris">Iris</a> | (shaders)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/krypton">Krypton</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/lambdynamiclights">LambDynamicLights</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/lithium">Lithium</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/modmenu">Mod Menu</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/modernfix">ModernFix</a> | (optimisation/bug fixes)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/no-chat-reports">No Chat Reports</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/noisium">Noisium</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/nvidium">Nvidium</a> | (optimisation for NVIDIA graphics cards)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/particle-rain">Particle Rain</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/reeses-sodium-options">Reese's Sodium Options</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/screenshot-to-clipboard">Screenshot to Clipboard</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/shulkerboxtooltip">Shukler Box Tooltip</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/sodium">Sodium</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/sodium-extra">Sodium Extra</a> | (optimisation/qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/status-effect-bars">Status Effect Bars</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/visuality">Visuality</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/wi-zoom">WI Zoom</a> | (qol/zoom)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/yacl">(YetAnotherConfigLab)</a></li>
+    </ul>
+    This mod list may be updated from time to time, please check back occasionally!
+    <br/><br/>
+
+    <a class="anchor" href="#downloadingmods">#</a><b id="downloadingmods">Downloading Mods</b><br/>
+    These mods can be downloaded from 
+    <a class="ref" target="_blank" 
+    href="https://modrinth.com/">https://modrinth.com/</a>. Or 
+    alternatively by importing the mod pack into your favourite 
+    launcher (like PrismLauncher).
+    <br/><br/>
+
+    <a class="anchor" href="#modpackfile">#</a><b id="modpackfile">Modpack Template</b><br/>
+    The modpack template can be downloaded here: 
+    <a href="1.20.4 Optimised.mrpack">1.20.4 Optimised.mrpack</a>.<br/>
+    To import it into PrismLauncher, select 'Add Instance/Create Instance',
+    then choose the 'Import' tab and click 'Browse'.<br/><br/>
+    <a class="nolinkline" href="prismlauncheraddinstance.webp" target="_blank">
+        <img class="rounding" width="80%" 
+        src="prismlauncheraddinstance.webp" alt=""><br/>
+    </a>
+    Locate the '1.20.4 Optimised.mrpack' file and open it. Then press 'OK' and the 
+    correct mods will be downloaded!<br/><br/>
+    <a class="nolinkline" href="prismlauncherselectfile.webp" target="_blank">
+        <img class="rounding" width="80%" 
+        src="prismlauncherselectfile.webp" alt=""><br/>
+    </a>
+    Make sure to select 'Modrinth pack (*.mrpack)' in the dialogue 
+    for the file to appear.<br/><br/>
+    The instance is now ready to play!<br/>
+    <b>Note:</b> You may get an error about 'Java version incompatibility',
+    skipping the check should solve this issue.
+    <br/><br/>
+
+    <a class="anchor" href="#modconfigs">#</a><b id="modconfigs">Mod Configs</b><br/>
+    My mods config folder: <a href="config.zip">config.zip</a>.<br/>
+    This file has configuration files for the above mods. Use this 
+    if you downloaded mods manually. Extract the contents of this 
+    folder to your Minecraft directory, within the 'config' folder.<p>
+
+    <a class="anchor" href="#optionstxt">#</a><b id="optionstxt">options.txt</b><br/>
+    Here is my <a download href="options.txt">options.txt</a> file.
+    <div class="codeBox">
+        version:3700
+        <br/>autoJump:false
+        <br/>operatorItemsTab:false
+        <br/>autoSuggestions:true
+        <br/>chatColors:true
+        <br/>chatLinks:true
+        <br/>chatLinksPrompt:true
+        <br/>enableVsync:true
+        <br/>entityShadows:true
+        <br/>forceUnicodeFont:false
+        <br/>discrete_mouse_scroll:false
+        <br/>invertYMouse:false
+        <br/>realmsNotifications:true
+        <br/>reducedDebugInfo:false
+        <br/>showSubtitles:true
+        <br/>directionalAudio:false
+        <br/>touchscreen:false
+        <br/>fullscreen:false
+        <br/>bobView:true
+        <br/>toggleCrouch:false
+        <br/>toggleSprint:false
+        <br/>darkMojangStudiosBackground:true
+        <br/>hideLightningFlashes:false
+        <br/>hideSplashTexts:false
+        <br/>mouseSensitivity:0.5
+        <br/>fov:0.5
+        <br/>screenEffectScale:1.0
+        <br/>fovEffectScale:1.0
+        <br/>darknessEffectScale:1.0
+        <br/>glintSpeed:0.5
+        <br/>glintStrength:0.75
+        <br/>damageTiltStrength:1.0
+        <br/>highContrast:false
+        <br/>narratorHotkey:false
+        <br/>gamma:1.0
+        <br/>renderDistance:18
+        <br/>simulationDistance:12
+        <br/>entityDistanceScaling:1.0
+        <br/>guiScale:2
+        <br/>particles:0
+        <br/>maxFps:260
+        <br/>graphicsMode:1
+        <br/>ao:true
+        <br/>prioritizeChunkUpdates:0
+        <br/>biomeBlendRadius:2
+        <br/>renderClouds:"true"
+        <br/>resourcePacks:["vanilla","fabric","file/Default-Dark-Mode-1.20.2+-2023.11.0.zip"]
+        <br/>incompatibleResourcePacks:[]
+        <br/>lastServer:mksoc.minecraft.party
+        <br/>lang:en_us
+        <br/>soundDevice:""
+        <br/>chatVisibility:0
+        <br/>chatOpacity:1.0
+        <br/>chatLineSpacing:0.0
+        <br/>textBackgroundOpacity:0.0
+        <br/>backgroundForChatOnly:true
+        <br/>hideServerAddress:false
+        <br/>advancedItemTooltips:false
+        <br/>pauseOnLostFocus:true
+        <br/>overrideWidth:0
+        <br/>overrideHeight:0
+        <br/>chatHeightFocused:1.0
+        <br/>chatDelay:0.0
+        <br/>chatHeightUnfocused:0.44014084507042256
+        <br/>chatScale:1.0
+        <br/>chatWidth:1.0
+        <br/>notificationDisplayTime:1.0
+        <br/>mipmapLevels:4
+        <br/>useNativeTransport:true
+        <br/>mainHand:"right"
+        <br/>attackIndicator:1
+        <br/>narrator:0
+        <br/>tutorialStep:none
+        <br/>mouseWheelSensitivity:1.0
+        <br/>rawMouseInput:true
+        <br/>glDebugVerbosity:1
+        <br/>skipMultiplayerWarning:true
+        <br/>skipRealms32bitWarning:false
+        <br/>hideMatchedNames:true
+        <br/>joinedFirstServer:true
+        <br/>hideBundleTutorial:false
+        <br/>syncChunkWrites:true
+        <br/>showAutosaveIndicator:true
+        <br/>allowServerListing:true
+        <br/>onlyShowSecureChat:false
+        <br/>panoramaScrollSpeed:1.0
+        <br/>telemetryOptInExtra:false
+        <br/>onboardAccessibility:false
+        <br/>key_key.attack:key.mouse.left
+        <br/>key_key.use:key.mouse.right
+        <br/>key_key.forward:key.keyboard.w
+        <br/>key_key.left:key.keyboard.a
+        <br/>key_key.back:key.keyboard.s
+        <br/>key_key.right:key.keyboard.d
+        <br/>key_key.jump:key.keyboard.space
+        <br/>key_key.sneak:key.keyboard.left.shift
+        <br/>key_key.sprint:key.keyboard.left.control
+        <br/>key_key.drop:key.keyboard.q
+        <br/>key_key.inventory:key.keyboard.e
+        <br/>key_key.chat:key.keyboard.t
+        <br/>key_key.playerlist:key.keyboard.tab
+        <br/>key_key.pickItem:key.mouse.middle
+        <br/>key_key.command:key.keyboard.slash
+        <br/>key_key.socialInteractions:key.keyboard.p
+        <br/>key_key.screenshot:key.keyboard.f2
+        <br/>key_key.togglePerspective:key.keyboard.r
+        <br/>key_key.smoothCamera:key.keyboard.unknown
+        <br/>key_key.fullscreen:key.keyboard.f11
+        <br/>key_key.spectatorOutlines:key.keyboard.unknown
+        <br/>key_key.swapOffhand:key.keyboard.f
+        <br/>key_key.saveToolbarActivator:key.keyboard.x
+        <br/>key_key.loadToolbarActivator:key.keyboard.z
+        <br/>key_key.advancements:key.keyboard.l
+        <br/>key_key.hotbar.1:key.keyboard.1
+        <br/>key_key.hotbar.2:key.keyboard.2
+        <br/>key_key.hotbar.3:key.keyboard.3
+        <br/>key_key.hotbar.4:key.keyboard.4
+        <br/>key_key.hotbar.5:key.keyboard.5
+        <br/>key_key.hotbar.6:key.keyboard.6
+        <br/>key_key.hotbar.7:key.keyboard.7
+        <br/>key_key.hotbar.8:key.keyboard.8
+        <br/>key_key.hotbar.9:key.keyboard.9
+        <br/>key_key.wi_zoom.zoom:key.keyboard.c
+        <br/>key_key.entityculling.toggle:key.keyboard.unknown
+        <br/>key_key.modmenu.open_menu:key.keyboard.unknown
+        <br/>key_iris.keybind.reload:key.keyboard.semicolon
+        <br/>key_iris.keybind.toggleShaders:key.keyboard.backslash
+        <br/>key_iris.keybind.shaderPackSelection:key.keyboard.apostrophe
+        <br/>soundCategory_master:1.0
+        <br/>soundCategory_music:1.0
+        <br/>soundCategory_record:1.0
+        <br/>soundCategory_weather:1.0
+        <br/>soundCategory_block:1.0
+        <br/>soundCategory_hostile:1.0
+        <br/>soundCategory_neutral:1.0
+        <br/>soundCategory_player:1.0
+        <br/>soundCategory_ambient:1.0
+        <br/>soundCategory_voice:1.0
+        <br/>modelPart_cape:true
+        <br/>modelPart_jacket:true
+        <br/>modelPart_left_sleeve:true
+        <br/>modelPart_right_sleeve:true
+        <br/>modelPart_left_pants_leg:true
+        <br/>modelPart_right_pants_leg:true
+        <br/>modelPart_hat:true
+    </div>
+</body>
+</html>

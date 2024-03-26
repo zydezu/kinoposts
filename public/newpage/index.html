@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+    <title>Test</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="scripts/toggleTheme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/context-filter-polyfill/dist/index.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div id="themeToggle">
+            <div class="indicator"></div>
+        </div>
+        <button id="toggleThemeButton">Toggle Color</button>
+    </nav>
+
+    <p>This is a test page</p>
+
+    <form>
+        <input value="Text input" type="text" /><br />
+        <input id="checkbox" type="checkbox">
+        <label for="checkbox">Checkbox</label>
+        <input id="radio" type="radio">
+        <label for="radio">Radio</label><br />
+        <textarea>Textarea</textarea><br />
+    </form>
+
+    <a href="https://darkomizer.com/">https://darkomizer.com/</a>
+
+    <dialog open id="dragDialog">
+        <p>We used cookies on this website >:P.</p>
+        <form method="dialog">
+            <button> OBEY!😁 i love our new EU overlords !!</button>
+        </form>
+    </dialog>
+
+    <details>
+        <summary>Click to open</summary>
+        hiiiiii
+    </details>
+
+    <br />
+    <button id="switchVideo">click to switch video</button>
+    <br/><br/>
+
+    <script src="scripts/canvas.js" defer></script>
+    <section class="ambientWrapper">
+        <video playsinline controls muted autoplay class="roundVideo" id="ambientvideo" src="resources/video/p3trailer.mp4"></video>
+        <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
+    </section>
+
+</body>
+
+<script>
+    const video = document.getElementById("ambientvideo");
+    const switchVideoButton = document.getElementById("switchVideo");
+    let i = 0
+    let videos = [
+        "resources/video/p3trailer.mp4",
+        "resources/video/evadeath.mp4",
+        "resources/video/CowboyBebopEvaIntro.mp4",
+    ]
+    switchVideoButton.addEventListener('click', function() {
+        i++
+        i = i % videos.length;
+        video.src = videos[i]
+    })
+</script>
+
+</html>

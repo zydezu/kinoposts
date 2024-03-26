@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambient Mode Test</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="canvas.js" defer></script>
+    <style>
+        .wrapper {
+            position: relative;
+            padding: 6rem;
+            box-shadow: inset 0 0 4rem 3.5rem rgb(0, 0, 0);
+        }
+
+        .canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .canvas {
+                display: none !important;
+            }
+        }
+
+        .roundVideo {
+            border-radius: 15px;
+            backdrop-filter: grayscale(0);
+        }
+    </style>
+</head>
+
+<body>
+    <p><a href="../../index.html">Back</a></p>
+    <h1>Ambient Mode Test</h1>
+
+    <section class="wrapper">
+        <video playsinline controls muted autoplay class="roundVideo vidSpace" id="ambientvideo" src="p3trailer.mp4"></video>
+        <canvas width="48" height="28" aria-hidden="true" class="canvas" id="ambientcanvas"></canvas>
+    </section>
+    
+    <section class="wrapper">
+        <video playsinline controls muted autoplay class="roundVideo vidSpace" id="ambientvideo2" src="eva death.mp4"></video>
+        <canvas width="48" height="28" aria-hidden="true" class="canvas" id="ambientcanvas2"></canvas>
+    </section>
+
+    <section class="wrapper">
+        <video playsinline controls muted autoplay class="roundVideo vidSpace" id="ambientvideo3" src="spongenote.mp4"></video>
+        <canvas width="48" height="28" aria-hidden="true" class="canvas" id="ambientcanvas3"></canvas>
+    </section>
+</body>
+
+</html>
