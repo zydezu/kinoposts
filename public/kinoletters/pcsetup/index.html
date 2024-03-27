@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>PC Setup</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+
+<body>
+    <p><b>My PC Setup</b><br/>
+    What I install and change on a new installation on my PC and laptop.</p>   
+    
+    
+
+    <div class="codeBox">
+        Hide YouTube Short Features' for uBlock Origin<br/>
+        <hr>
+        ! Hide shorts button in sidebar
+        <br/>www.youtube.com##ytd-guide-entry-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
+        <br/>
+        <br/>! Hide shorts section on homepage
+        <br/>www.youtube.com##ytd-rich-section-renderer:has(#title:has-text(/(^| )Shorts( |$)/i))
+        <br/>www.youtube.com##ytd-reel-shelf-renderer:has(.ytd-reel-shelf-renderer:has-text(/(^| )Shorts( |$)/i))
+        <br/>
+        <br/>! Hide short remixes in video descriptions
+        <br/>www.youtube.com##ytd-reel-shelf-renderer.ytd-structured-description-content-renderer:has-text(/^Shorts remixing this video$/i)
+        <br/>
+        <br/>! Hide shorts category on homepage and search pages
+        <br/>www.youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
+    </div>
+        
+    <a class="anchor" href="#modlist">#</a><b id="modlist">Mod List</b><br/>
+    These mods mainly focus on optimisation (improving game FPS) and 
+    quality of life (qol) features.<br/>Mods in (brackets) are API mods 
+    that are required for other mods to work.
+    <ul>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/chat-heads">Chat Heads</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/cloth-config">(Cloth Config)</a></li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/c2me-fabric">Concurrent Chunk Management Engine</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/entityculling">EntityCulling</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/fabric-api">(Fabric API)</a></li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/ferrite-core">FerriteCore</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/immediatelyfast">ImmediatelyFast</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/iris">Iris</a> | (shaders)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/krypton">Krypton</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/lambdynamiclights">LambDynamicLights</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/lithium">Lithium</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/modmenu">Mod Menu</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/modernfix">ModernFix</a> | (optimisation/bug fixes)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/no-chat-reports">No Chat Reports</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/noisium">Noisium</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/nvidium">Nvidium</a> | (optimisation for NVIDIA graphics cards)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/particle-rain">Particle Rain</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/reeses-sodium-options">Reese's Sodium Options</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/screenshot-to-clipboard">Screenshot to Clipboard</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/shulkerboxtooltip">Shukler Box Tooltip</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/sodium">Sodium</a> | (optimisation)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/sodium-extra">Sodium Extra</a> | (optimisation/qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/status-effect-bars">Status Effect Bars</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/visuality">Visuality</a> | (qol)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/wi-zoom">WI Zoom</a> | (qol/zoom)</li>
+        <li><a class="ref" target="_blank" href="https://modrinth.com/mod/yacl">(YetAnotherConfigLab)</a></li>
+    </ul>
+    This list may be updated from time to time, please check back occasionally!
+    <br/><br/>
+
+    <a class="anchor" href="#downloadingmods">#</a><b id="downloadingmods">Downloading Mods</b><br/>
+
+</body>
+</html>
