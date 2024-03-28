@@ -36,6 +36,21 @@ body {
   height: 100%;
 }
 
+#videoBG
+/*background video*/
+	{
+	object-fit: cover;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	z-index: -5;
+	border-radius: 0px;
+	filter: brightness(40%);
+	animation: fadeIn 0.5s ease-in;
+}
+
 .anchor {
   margin-right: 2px;
   color: #fff;

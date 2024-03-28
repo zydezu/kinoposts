@@ -1,0 +1,36 @@
+{
+  "timeStamp": 1711582921636,
+  "version": "1.56.0",
+  "userSettings": {
+    "contextMenuEnabled": false,
+    "importedLists": [],
+    "prefetchingDisabled": false
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "easylist",
+    "easyprivacy",
+    "urlhaus-1",
+    "plowe-0"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "about-scheme",
+    "chrome-extension-scheme",
+    "chrome-scheme",
+    "edge-scheme",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false",
+  "userFilters": "! Hide shorts button in sidebar\nwww.youtube.com##ytd-guide-entry-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))\n\n! Hide shorts section on homepage\nwww.youtube.com##ytd-rich-section-renderer:has(#title:has-text(/(^| )Shorts( |$)/i))\nwww.youtube.com##ytd-reel-shelf-renderer:has(.ytd-reel-shelf-renderer:has-text(/(^| )Shorts( |$)/i))\n\n! Hide short remixes in video descriptions\nwww.youtube.com##ytd-reel-shelf-renderer.ytd-structured-description-content-renderer:has-text(/^Shorts remixing this video$/i)\n\n! Hide shorts category on homepage and search pages\nwww.youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))\n"
+}
