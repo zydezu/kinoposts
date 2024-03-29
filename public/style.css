@@ -23,6 +23,10 @@ body {
   padding: 20px;
 }
 
+.dark {
+  color: #fff;
+}
+
 .rounding {
   border-radius: 10px;
 }
