@@ -151,7 +151,7 @@ function togglePause() {
 };
 
 function setPlayIcon() {
-    playIcon.src = "https://zydezu.github.io/resources/icons/play" + playState + ".svg"; // set the svg play icon
+    playIcon.src = "play" + playState + ".svg"; // set the svg play icon
     if (audioStatus.className == "hidden") audioStatus.className = ""; // show the whole audio player if a pause happened (space pressed)
 }
 
