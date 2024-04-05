@@ -104,7 +104,6 @@ body {
     background-color: var(--bg-color);
     margin: 0;
     word-wrap: break-word;
-    /* overflow-x: hidden; */
 }
 
 @supports(padding: max(0px)) {
@@ -136,12 +135,6 @@ body {
     backdrop-filter: blur(25px);
     z-index: 1;
     display: flex;
-
-    --mask: linear-gradient(to right,
-            rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, 1) 98%,
-            rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0) 0) 100%;
-    -webkit-mask: var(--mask);
-    mask: var(--mask);
 }
 
 .navigationBar.solid {
