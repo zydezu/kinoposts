@@ -40,6 +40,10 @@ body {
   height: 100%;
 }
 
+.videoMax {
+  max-width: 100%;
+  border-radius: 10px;
+}
 
 #videoBG
 /*background video*/
