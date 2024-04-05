@@ -99,6 +99,7 @@ body {
     background-color: var(--bg-color);
     margin: 0;
     word-wrap: break-word;
+    overflow-x: hidden;
 }
 
 @supports(padding: max(0px)) {
