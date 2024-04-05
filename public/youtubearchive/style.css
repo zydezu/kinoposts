@@ -131,6 +131,12 @@ body {
     backdrop-filter: blur(25px);
     z-index: 1;
     display: flex;
+
+    --mask: linear-gradient(to right,
+            rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, 1) 98%,
+            rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0) 0) 100%;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
 }
 
 .navigationBar.solid {
@@ -273,7 +279,7 @@ body {
     overflow-y: scroll;
 
     --mask: linear-gradient(to bottom,
-            rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, 1) 90%,
+            rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, 1) 95%,
             rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0) 0) 100%;
     -webkit-mask: var(--mask);
     mask: var(--mask);
