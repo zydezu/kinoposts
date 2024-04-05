@@ -6,7 +6,25 @@
     <meta name="color-scheme" content="dark">
     <title>MKSoc Minecraft Server</title>
     <link rel="stylesheet" href="../style.css">
-    <style>body{color: #fff}</style>
+    <style>
+        body {
+            color: #fff
+        }
+    
+        .imgwidth {
+            width: 49.5%;
+        }
+
+        .notFullWidth {
+            width: 80%;
+        }
+
+        @media screen and (max-width: 768px) {
+            .imgwidth, .notFullWidth {
+                width: 100%;
+            }
+        }
+    </style>
     <link rel="icon" type="favi.jpg" href="favi.jpg">
 </head>
 <body>
@@ -34,13 +52,13 @@
     </div><br/>
     <span>
         <a class="nolinkline" href="javaconnect.webp" target="_blank">
-            <img class="rounding" width="49.5%" src="javaconnect.webp" 
+            <img class="rounding imgwidth" src="javaconnect.webp" 
             alt="The Minecraft Java 'Edit Server' screen showing the 
             MKSoc Server IP Address" 
             title="The Minecraft Java 'Edit Server' screen showing the MKSoc Server IP Address">
         </a>
         <a class="nolinkline" href="bedrockconnect.webp" target="_blank">    
-            <img class="rounding" width="49.5%" src="bedrockconnect.webp" 
+            <img class="rounding imgwidth" src="bedrockconnect.webp" 
             alt="The Minecraft Bedrock 'Edit External Server' dialog box, 
             showing the MKSoc Server IP Address and the port '7037' in 
             the relevant input fields" 
@@ -136,13 +154,13 @@
     To import it into PrismLauncher, select 'Add Instance/Create Instance',
     then choose the 'Import' tab and click 'Browse'.<br/><br/>
     <a class="nolinkline" href="prismlauncheraddinstance.webp" target="_blank">
-        <img class="rounding" width="80%" 
+        <img class="rounding notFullWidth"
         src="prismlauncheraddinstance.webp" alt=""><br/>
     </a>
     Locate the '1.20.4 Optimised.mrpack' file and open it. Then press 'OK' and the 
     correct mods will be downloaded!<br/><br/>
     <a class="nolinkline" href="prismlauncherselectfile.webp" target="_blank">
-        <img class="rounding" width="80%" 
+        <img class="rounding notFullWidth"
         src="prismlauncherselectfile.webp" alt=""><br/>
     </a>
     Make sure to select 'Modrinth pack (*.mrpack)' in the dialogue 
