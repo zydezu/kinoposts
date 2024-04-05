@@ -94,12 +94,17 @@ html {
     }
 }
 
+html, body {
+	position:relative;
+	overflow-x:hidden;
+}
+
 body {
     color: var(--text-color);
     background-color: var(--bg-color);
     margin: 0;
     word-wrap: break-word;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 @supports(padding: max(0px)) {
@@ -448,7 +453,6 @@ video {
         height: 65vw;
         top: 0;
         transform: scale(1.5, 5);
-        max-width: 100%!important;
     }
 
     .ambientWrapper::after {
