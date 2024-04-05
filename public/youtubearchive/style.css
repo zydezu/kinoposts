@@ -440,7 +440,7 @@ video {
 
 @media screen and (max-width: 950px) {
     .ambientWrapper {
-        width: 100%;
+        width: 50%;
         height: 65vw;
         top: 0;
         transform: scale(1, 2.5);
