@@ -138,6 +138,10 @@ body {
     display: flex;
 }
 
+.navigationBar.solid {
+    background-color: var(--nav-color);
+}
+
 .navigationRight {
     justify-content: flex-end
 }
