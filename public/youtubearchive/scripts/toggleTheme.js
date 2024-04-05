@@ -11,6 +11,7 @@ if (localStorage.getItem("currentTheme")) {
 } else {
     currentColorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
     localStorage.setItem("currentTheme", currentColorScheme);
+    root.classList.toggle("dark", currentColorScheme === 'dark');
 }
 
 if (toggleTheme) {

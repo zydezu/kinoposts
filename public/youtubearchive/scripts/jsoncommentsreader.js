@@ -190,7 +190,7 @@ scrollingPlace.addEventListener("scroll", () => {
 
 function sideBoxCheckNewComments() {
     if (!allCommentsLoaded) {
-        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop <= scrollingPlace.clientHeight + 50) {
+        if (scrollingPlace.scrollHeight - scrollingPlace.scrollTop <= scrollingPlace.clientHeight + 1000) {
             loadMoreComments();
         }
     }
@@ -199,7 +199,7 @@ function sideBoxCheckNewComments() {
 window.onscroll = function (ev) {
     if (loadedSuccessfully) {
         if ((oldCommentPosition || window.innerWidth < 950) && !allCommentsLoaded) {
-            if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 50) {
+            if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 1000) {
                 loadMoreComments();
             }
         }
@@ -439,7 +439,8 @@ function viewSettings() {
 function updateSettingsBox() {
     const ambCanvas = document.getElementById("ambientcanvas");
     var style = getComputedStyle(document.body)
-    settingsBoxJS.innerHTML = `
+    try {
+        settingsBoxJS.innerHTML = `
         <div class="settingSubheading">Apperance</div><hr />
         Theme<a href="javascript:void(0)" onclick="clickChangeTheme()" class="settingsOption">${localStorage.currentTheme == "dark" ? "Dark" : "Light"} theme</a><br />
         Ambient Mode <a href="javascript:void(0)" onclick="toggleAmbientMode()" class="settingsOption">${localStorage.ambientMode == "true" ? "ON" : "OFF"}</a>
@@ -459,21 +460,32 @@ function updateSettingsBox() {
         <span class="settingsExtraInfo">(this will reload the page)</span></div><br />
 
         <div class="settingSubheading">Debug</div><hr />
-        View video JSON file<a target="_blank" href="videos/fZZPx3R3pyE.info.json" class="settingsOption">View</a><br />
+        View video JSON file<a target="_blank" href="${video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json"}" class="settingsOption">View</a><br />
         Comments loaded<span class="settingsOption">${commentsLoaded}</span><br />
         Video resolution<span class="settingsOption">${video.videoWidth}x${video.videoHeight}</span><br />
         Dropped frames<span class="settingsOption">${droppedFrames}/${totalFrames}</span>
         <span class="settingsExtraInfo">(doesn't update when in this menu)</span><br />
         Ambient width / height<span class="settingsOption">${ambCanvas.width}/${ambCanvas.height}</span><br />
-        Ambient blur<span class="settingsOption">${el.ctx.filter}</span><br />
+        Ambient blur<span class="settingsOption">${canvas.ctx.filter}</span><br />
         Ambient opacity<span class="settingsOption">${style.getPropertyValue('--ambient-canvas-opacity')}</span><br />
         Ambient saturation<span class="settingsOption">${style.getPropertyValue('--ambient-saturation')}</span><br />
         Fullscreen ambient mode<a href="javascript:void(0)" class="settingsOption">OFF</a>
         <span class="settingsExtraInfo">(not implemented)</span><br />
     `
-};
+    } catch (error) {
+        settingsBoxJS.innerHTML = `<br/>Failed to load<br/>${error}`
+    }};
 
 clearLocalStorage = () => {
     localStorage.clear();
     location.reload();
 }
+
+// header transparency
+
+var header = document.getElementById("navBar");
+var sticky = 10;
+document.addEventListener("scroll", () => {
+    if (window.scrollY > sticky) header.classList.add("solid");
+    else header.classList.remove("solid");
+});

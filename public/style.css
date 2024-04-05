@@ -40,6 +40,10 @@ body {
   height: 100%;
 }
 
+.video {
+  width: 100%;
+}
+
 #videoBG
 /*background video*/
 	{

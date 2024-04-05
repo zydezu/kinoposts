@@ -106,7 +106,7 @@ class VideoWithBackground {
 if (!localStorage.ambientMode) {
     localStorage.setItem("ambientMode", "true");
 }
-const el = new VideoWithBackground("ambientvideo", "ambientcanvas");
+const canvas = new VideoWithBackground("ambientvideo", "ambientcanvas");
 function toggleAmbientMode() {
     if (localStorage.getItem("currentTheme") == "dark") {
         if (localStorage.ambientMode == "true") {
@@ -115,16 +115,16 @@ function toggleAmbientMode() {
             localStorage.ambientMode = "true"
         }
     }
-    el.checkThemeStatus();
+    canvas.checkThemeStatus();
     updateSettingsBox();
 }
 
 function checkAmbientTheme() {
-    el.checkThemeStatus();
+    canvas.checkThemeStatus();
 }
 
 function turnOffAmbientMode() {
-    el.turnOffAmbientMode();
+    canvas.turnOffAmbientMode();
 }
 
 Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
