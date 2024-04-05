@@ -16,10 +16,9 @@
     --text-color: #161616;
     --bg-color: #fff;
     --link-hover-color: rgba(255, 50, 60, 0.4);
-    /* --scrollbar-color: rgba(0, 0, 0, 0.25); */
+    --scrollbar-color: rgba(0, 0, 0, 0.25);
 
     --nav-color: #ffffffA5;
-    --nav-bg-color: #fff;
 
     --settings-shadow: 0 0 1rem #0f0f0f;
 
@@ -39,10 +38,9 @@
     --text-color: rgba(255, 255, 255, 0.9);
     --bg-color: #0a0a0a;
     --link-hover-color: rgba(255, 255, 255, 0.9);
-    /* --scrollbar-color: rgba(255, 255, 255, 0.25); */
+    --scrollbar-color: rgba(255, 255, 255, 0.25);
 
     --nav-color: rgba(0, 0, 0, 0.6);
-    --nav-bg-color: rgba(0, 0, 0);
 
     --settings-shadow: 0 0 1rem #e9e9e986;
 
@@ -96,6 +94,11 @@ html {
     }
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -130,9 +133,9 @@ body {
     height: 50px;
     width: 100%;
     display: block;
-    background-color: var(--nav-color);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
     z-index: 1;
     display: flex;
 }
@@ -149,14 +152,6 @@ body {
     padding: 15px 15px 30px 30px;
 }
 
-.navBG {
-    position: absolute;
-    top: 0;
-    height: 50px;
-    width: 100%;
-    display: block;
-    background-color: var(--nav-bg-color);
-}
 
 #settingsBox {
     position: fixed;
@@ -306,10 +301,6 @@ body {
         border-radius: 0;
     }
 
-    .navigationBar {
-        background-color: var(--nav-bg-color);
-    }
-
     .videoArea {
         max-width: 100%;
         padding-top: 20px;
@@ -326,7 +317,7 @@ body {
         padding-left: unset;
         overflow-y: unset;
         -webkit-mask: unset;
-        mask: unset; 
+        mask: unset;
         padding: 0 15px 0 15px;
     }
 
