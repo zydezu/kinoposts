@@ -448,7 +448,7 @@ video {
         height: 65vw;
         top: 0;
         transform: scale(1.5, 5);
-        visibility: hidden;
+        display:none
     }
 
     .ambientWrapper::after {
