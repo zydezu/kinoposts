@@ -16,6 +16,7 @@ let tick = -70; // sin wave of loading/live radio animation
 let isLiveLoading = 0; // used for error checking of live loading and scrubbing
 let liveLoadingCount = 0;
 var originalTabTitle = document.title; // unused
+let downloadingAllEnabled = false;
 
 //load metadata
 audio.addEventListener('loadedmetadata', () => { // wait for data to load
@@ -104,7 +105,7 @@ function setBGMText() {
             if (playlistOriginal[playlistNumPlaying].includes("|")) imagesrc = playlistOriginal[playlistNumPlaying].split("|")[1]; // if a custom album image is listed use it
             playlistText.innerHTML = ""
             if (containsAlbumArt) playlistText.innerHTML = `<img class="albumArt" src="${path}${imagesrc}">`;
-            playlistText.innerHTML += `<button onclick="prevBGM()"><<< Previous</button> <button class="blankButton" onclick="pickRandomTrack()"> ${playlistNumPlaying + 1} / ${playlistLength} </button> <button onclick="nextBGM()">Next >>></button> | <button onclick="downloadAllTracks()" id="downloadAllButton">Download All</button>`;
+            playlistText.innerHTML += `<button onclick="prevBGM()"><<< Previous</button> <button class="blankButton" onclick="pickRandomTrack()"> ${playlistNumPlaying + 1} / ${playlistLength} </button> <button onclick="nextBGM()">Next >>></button> ${downloadingAllEnabled ? ' | <button onclick="downloadAllTracks()" id="downloadAllButton">Download All</button>' : ''}`;
         }
     }
     catch (err) {
@@ -389,8 +390,15 @@ async function setData(data) {
 
 async function setPlaylistData() {
     playListTitle = playlist[0].split("|")[0]; //the first item in the playlist .txt file will be information
-    if (playlist[0].split("|")[1].toLowerCase() == "true") {
-        containsAlbumArt = true; // album art is named the same as the BGM name but with a different file extension (.jpg)
+    if (playlist[0].split("|")[0]) {
+        if (playlist[0].split("|")[1].toLowerCase() == "true") {
+            containsAlbumArt = true; // album art is named the same as the BGM name but with a different file extension (.jpg)
+        }
+    }
+    if (playlist[0].split("|")[2]) {
+        if (playlist[0].split("|")[2].toLowerCase() == "true") {
+            downloadingAllEnabled = true; // whether downloadingAll enabled
+        }
     }
     playlist = playlist.slice(1); // remove the first item (playlist information has already been set)
     playlistOriginal = JSON.parse(JSON.stringify(playlist)) // original playlist with extra data

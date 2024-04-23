@@ -67,7 +67,8 @@
     <script>
         // p3 music testing
         function p3go(){
-            window.location.href = 'https://kinoposts.web.app/test/playlistmaker.html?playlistData=%5B%22Persona+3+Tracks%7Ctrue%22%2C%22https%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2FPersona%25203%2520-%2520Junior%2520Exam.opus%7Chttps%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2Fp3.jpg%22%2C%22https%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2FPersona%25203%2520-%2520When%2520The%2520Moon%27s%2520Reaching%2520Out%2520Stars.opus%7Chttps%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2Fp3.jpg%22%2C%22https%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2FPersona%25203%2520FES%2520-%2520Brand%2520New%2520days%2520-%2520The%2520Beginning.opus%7Chttps%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2Fp3fes.jpg%22%2C%22https%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2FPersona%25203%2520Portable%2520-%2520A%2520Way%2520Of%2520Life.opus%7Chttps%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2Fp3p.jpg%22%2C%22https%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2FPersona%25203%2520Portable%2520-%2520Time.opus%7Chttps%3A%2F%2Fkinoposts.web.app%2Ftest%2Fpersona3%2Fp3p.jpg%22%5D';
+            playlisttoinsert = JSON.parse(`["Persona 3 Tracks|true","https://kinoposts.web.app/test/persona3/Persona%203%20-%20Junior%20Exam.opus|https://kinoposts.web.app/test/persona3/p3.jpg","https://kinoposts.web.app/test/persona3/Persona%203%20-%20When%20The%20Moon's%20Reaching%20Out%20Stars.opus|https://kinoposts.web.app/test/persona3/p3.jpg","https://kinoposts.web.app/test/persona3/Persona%203%20FES%20-%20Brand%20New%20days%20-%20The%20Beginning.opus|https://kinoposts.web.app/test/persona3/p3fes.jpg","https://kinoposts.web.app/test/persona3/Persona%203%20Portable%20-%20A%20Way%20Of%20Life.opus|https://kinoposts.web.app/test/persona3/p3p.jpg","https://kinoposts.web.app/test/persona3/Persona%203%20Portable%20-%20Time.opus|https://kinoposts.web.app/test/persona3/p3p.jpg"]`);
+            loadPlaylist();
         }
 
         // setup
@@ -85,7 +86,7 @@
 
         function checkForURLParams() {
             if (window.location.search) { // has params
-                playlisttoinsert = JSON.parse(new URL(window.location).searchParams.get('playlistData'))
+                playlisttoinsert = JSON.parse(new URL(window.location).searchParams.get('playlistData'));
                 loadPlaylist();
                 togglePause();
             }
@@ -93,9 +94,9 @@
 
         function checkAlbumArtCheckBox() {
             if (albumArtCheckBox.checked) {
-                albumArtOption.classList.remove("hidden")
+                albumArtOption.classList.remove("hidden");
             } else {
-                albumArtOption.classList.add("hidden")
+                albumArtOption.classList.add("hidden");
             }
         }
 
@@ -111,32 +112,33 @@
 
         function addItem() {
             let builder = audioURL.value;
-            if (albumArtCheckBox.checked) builder += "|" + albumArtURL.value;
+            if (albumArtCheckBox.checked) builder += "|";
             audioURL.value = "";
             albumArtURL.value = "";
-            playlisttoinsert.push(builder)
-            renderCodeBox()
+            playlisttoinsert.push(builder);
+            renderCodeBox();
         }
 
         function removeLastItem() {
-            playlisttoinsert.pop()
-            renderCodeBox()
+            playlisttoinsert.pop();
+            renderCodeBox();
         }
 
         function renderCodeBox() {
-            playlistOutput.innerHTML = `${(playlistName.value != "") ? playlistName.value : "my playlist"}|${albumArtCheckBox.checked}<br/>`;
+            playlistOutput.innerHTML = `${(playlistName.value != "") ? playlistName.value : "my playlist"}|${albumArtCheckBox.checked}|false<br/>`;
             playlisttoinsert.forEach(element => {
-                playlistOutput.innerHTML += `${element}<br/>`
+                playlistOutput.innerHTML += `${element}<br/>`;
             });
-            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked)
-            updateURLParam(playlisttoinsert)
-            playlisttoinsert.shift()
+            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked + "|false");
+            updateURLParam(playlisttoinsert);
+            playlisttoinsert.shift();
         }
 
         function setAudioPlayerData() {
-            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked);
+            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked + "|false");
             insertPlaylistData(playlisttoinsert);
             loaded = true;
+            playState = 0;
             playAudio();
             playlisttoinsert.shift();
         }
@@ -144,32 +146,32 @@
         // check if there's already saved data
         const clearSavedPlaylist = document.getElementById("clearSavedPlaylistButton");
         if (localStorage.getItem("userPlaylist") != null) {
-            clearSavedPlaylist.classList.remove("hidden")
+            clearSavedPlaylist.classList.remove("hidden");
         }
 
         // saving and loading
         function savePlaylist() {
-            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked)
-            localStorage.setItem("userPlaylist", JSON.stringify(playlisttoinsert))
-            playlisttoinsert.shift()
-            clearSavedPlaylist.classList.remove("hidden")
+            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked);
+            localStorage.setItem("userPlaylist", JSON.stringify(playlisttoinsert));
+            playlisttoinsert.shift();
+            clearSavedPlaylist.classList.remove("hidden");
         }
 
         function copyPlaylist() {
-            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked)
-            navigator.clipboard.writeText(JSON.stringify(playlisttoinsert))
-            playlisttoinsert.shift()
-            document.getElementById("copiedMessage").innerHTML = "Copied!"
+            playlisttoinsert.unshift(playlistName.value + "|" + albumArtCheckBox.checked);
+            navigator.clipboard.writeText(JSON.stringify(playlisttoinsert));
+            playlisttoinsert.shift();
+            document.getElementById("copiedMessage").innerHTML = "Copied!";
         }
 
         async function pastePlaylist() {
-            playlisttoinsert = JSON.parse(prompt("Enter playlist data"))
-            loadPlaylist()
+            playlisttoinsert = JSON.parse(prompt("Enter playlist data"));
+            loadPlaylist();
         }
 
         function clearPlaylist() {
-            localStorage.removeItem("userPlaylist")
-            clearSavedPlaylist.classList.add("hidden")
+            localStorage.removeItem("userPlaylist");
+            clearSavedPlaylist.classList.add("hidden");
         }
 
         function loadSavedPlaylist() {
@@ -182,11 +184,14 @@
             loaded = true;
             playAudio();
 
-            playlistName.value = playlisttoinsert[0].split("|")[0]
+            playlistName.value = playlisttoinsert[0].split("|")[0];
+            if (playlisttoinsert[0].split("|")[1]){
+                albumArtCheckBox.checked = playlisttoinsert[0].split("|")[1];
+            }
 
-            checkAlbumArtCheckBox()
-            playlisttoinsert.shift()
-            renderCodeBox()
+            checkAlbumArtCheckBox();
+            playlisttoinsert.shift();
+            renderCodeBox();
         }
 
         function updateURLParam(input) {
