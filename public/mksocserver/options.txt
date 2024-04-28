@@ -38,13 +38,13 @@ simulationDistance:16
 entityDistanceScaling:2.5
 guiScale:2
 particles:0
-maxFps:150
+maxFps:160
 graphicsMode:1
 ao:true
 prioritizeChunkUpdates:0
 biomeBlendRadius:2
 renderClouds:"true"
-resourcePacks:["vanilla","fabric","file/C4Music_v3.1.zip","file/Default Dark Mode (Darker).zip","file/Vanilla Tweaks.zip"]
+resourcePacks:["vanilla","fabric","file/Vanilla Tweaks.zip","file/Default Dark Mode.zip"]
 incompatibleResourcePacks:[]
 lastServer:backup.mksoc.minecraft.party
 lang:en_us
