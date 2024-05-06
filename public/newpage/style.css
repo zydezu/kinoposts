@@ -89,12 +89,6 @@ body {
     transition: background-color 0.2s ease-out;
 }
 
-@supports (font-variation-settings: normal) {
-    :root {
-        font-family: InterVariable, sans-serif;
-    }
-}
-
 @media (prefers-reduced-motion) {
     body {
         transition: none;
