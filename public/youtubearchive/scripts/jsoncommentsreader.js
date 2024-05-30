@@ -241,7 +241,7 @@ function renderNextComment(fragment, index) {
                             </div>
                         </div>
                         <div class="SNSPostText">
-                            ${element.text.trim().replace(/\n/g, '<br>')}<br/>
+                            ${makeLinks(element.text.trim().replace(/\n/g, '<br>'))}<br/>
                             <div class="SNSExtraInfo">
                             <span class="SNSLikeCount">${element.like_count ? element.like_count : 0}</span> like${element.like_count != 1 ? `s` : ``} | 
                                 <span id="${element.id}replycount">0 replies</span> |
@@ -267,7 +267,7 @@ function renderNextComment(fragment, index) {
                         </div>
                     </div>
                     <div class="SNSPostText">
-                        ${element.text.trim().replace(/\n/g, '<br>')}
+                        ${makeLinks(element.text.trim().replace(/\n/g, '<br>'))}
                         <div class="SNSExtraInfo">
                             <span class="SNSLikeCount">${element.like_count ? element.like_count : 0}</span> like${element.like_count != 1 ? `s` : ``} | 
                             <a target="_blank" href="https://youtube.com/watch?v=${data.id}&lc=${element.id}">Open</a>
@@ -275,8 +275,8 @@ function renderNextComment(fragment, index) {
                     </div>
                     `;
             try {
-                const replyID =  fragment.getElementById(`${element.parent}reply`)
-                const replyCount =  fragment.getElementById(`${element.parent}replycount`)
+                const replyID = fragment.getElementById(`${element.parent}reply`)
+                const replyCount = fragment.getElementById(`${element.parent}replycount`)
                 let newReplyCount = parseInt(replyCount.innerHTML.split(" ")[0]) + 1
                 replyCount.innerText = `${newReplyCount} repl${newReplyCount == 1 ? `y` : `ies`}`
                 fragment.getElementById(`${element.parent}reply`).appendChild(commentDiv);
@@ -310,15 +310,15 @@ function filterComments(filterBy) {
             visibleCount++;
         }
     }
-    if (filterBy){
+    if (filterBy) {
         sideBoxCheckNewComments();
         commentCount.innerHTML = `Comments: ${data.comment_count} ${filterBy ? `(Showing: ${visibleCount})` : ""}
-        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;    
+        <button class="switchCommentsLayout" onclick="switchCommentsLayout()">Switch comment layout</button>`;
     }
 };
 
 function switchSorting() {
-    scrollingPlace.scrollTo(0,0)
+    scrollingPlace.scrollTo(0, 0)
     if (sortedByTop) {
         sortedByTop = false;
         sortingButton.textContent = "Sort by top";
@@ -354,9 +354,7 @@ function toggleReplies() {
     toggleRepliesButton.innerHTML = showingReplies ? "Hide replies" : "Show replies";
 };
 
-
 // video loading
-
 const video = document.getElementById("ambientvideo");
 const switchVideoButton = document.getElementById("switchVideo");
 const downloadLink = document.getElementById("downloadLink");
@@ -412,7 +410,6 @@ async function getComments() {
     let idpath = video.src.substr(0, video.src.lastIndexOf('.')) + ".info.json"
     await readFile(idpath);
 }
-
 // settings
 
 const settingsBox = document.getElementById("settingsBox");
@@ -474,7 +471,8 @@ function updateSettingsBox() {
     `
     } catch (error) {
         settingsBoxJS.innerHTML = `<br/>Failed to load<br/>${error}`
-    }};
+    }
+};
 
 clearLocalStorage = () => {
     localStorage.clear();
@@ -484,8 +482,12 @@ clearLocalStorage = () => {
 // header transparency
 
 var header = document.getElementById("navBar");
-var sticky = 10;
+var sticky = 5;
 document.addEventListener("scroll", () => {
-    if (window.scrollY > sticky) header.classList.add("solid");
-    else header.classList.remove("solid");
+    if (window.scrollY > sticky) {
+        header.classList.add("solid")
+    }
+    else {
+        header.classList.remove("solid")
+    };
 });
