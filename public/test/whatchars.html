@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>what chars</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .codeBox {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <video src="backgrounds/cityTraffic.mp4" autoplay loop muted playsinline id="videoBG"></video>
+    <nav>
+        <a href="../index.html">Back</a>
+    </nav>
+    Enter characters<br />
+    <textarea placeholder="Enter text" id="input" rows="8" cols="50"></textarea>
+    <button onclick="submit()">Submit</button><br /><br />
+
+    <div id="outputBox" class="codeBox">Output goes here...</div><br />
+</body>
+
+<script>
+    const OUTPUT = document.getElementById("outputBox");
+
+    function submit() {
+        let chars = []
+
+        let text = document.getElementById("input").value;
+        OUTPUT.innerHTML = ""
+        text.split('').forEach(element => {
+            if (!chars.includes(element)) {
+                chars.push(element);
+            }
+        });
+        OUTPUT.innerHTML = chars.join('');
+    }    
+</script>
