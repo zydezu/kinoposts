@@ -289,7 +289,8 @@ video:fullscreen {
 
 /*search bar*/
 #search,
-input {
+input,
+textarea {
 	color: rgba(255, 255, 255, 0.8);
 	font-size: 16px;
 	font-weight: 600;
@@ -299,7 +300,8 @@ input {
 	border-radius: 6px;
 }
 
-input {
+input,
+textarea {
 	font-size: 14px;
 	font-weight: 400;
 	padding: 2px;
@@ -1181,47 +1183,47 @@ iframe#commentSection {
 
 
 .SNSPost {
-    position: relative;
-    min-height: 50px;
-    padding: 15px 0;
-    border-radius: 15px;
+	position: relative;
+	min-height: 50px;
+	padding: 15px 0;
+	border-radius: 15px;
 }
 
 .SNSReplies {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
 .SNSArea {
-    margin-right: 10px;
-    margin-bottom: 5px;
+	margin-right: 10px;
+	margin-bottom: 5px;
 }
 
 .SNSUserInfo {
-    padding: 5px;
+	padding: 5px;
 }
 
 .SNSExtraInfo {
-    color: var(--SNS-color-extra);
+	color: var(--SNS-color-extra);
 }
 
 .SNSAlignRight {
-    position: absolute;
-    text-align: right;
-    color: var(--SNS-color-extra);
-    top: 10px;
-    right: 10px;
+	position: absolute;
+	text-align: right;
+	color: var(--SNS-color-extra);
+	top: 10px;
+	right: 10px;
 }
 
 #SNSDate {
-    color: var(--SNS-color-date);
+	color: var(--SNS-color-date);
 }
 
 .SNSIcon {
-    border-radius: 10px;
-    height: 50px;
-    width: 50px;
-    float: left;
-    margin-right: 10px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
+	border-radius: 10px;
+	height: 50px;
+	width: 50px;
+	float: left;
+	margin-right: 10px;
+	opacity: 0;
+	transition: opacity 0.5s ease-in;
 }
