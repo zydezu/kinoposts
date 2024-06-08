@@ -77,7 +77,7 @@ a[target="_blank"].ref::after {
 }
 
 code,.codeBox{
-  font-family: FMono-Regular, Consolas, DejaVu Sans Mono, Liberation Mono, Menlo, monospace !important;
+  font-family: Cascadia Code, FMono-Regular, Consolas, DejaVu Sans Mono, Liberation Mono, Menlo, monospace !important;
 }
 code /*code formatting*/ {
   font-size: 15px;

@@ -1,99 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
     <title>PC Setup</title>
     <link rel="stylesheet" href="../../style.css">
-    <style>body{color: #fff}</style>
+    <style>
+        body {
+            color: #fff
+        }
+
+        a {
+            color: #ff6262;
+            transition: 0.2s;
+        }
+
+        a:hover {
+            color: #fff;
+        }
+
+        a[target="_blank"].ref::after {
+            width: 0;
+            margin: 0;
+        }
+
+        ::selection {
+            background-color: rgba(255, 60, 60, 0.8);
+        }
+    </style>
 </head>
+
 <body>
     <div style="background-color: rgba(0, 0, 0, 0); 
     min-height: 100%; min-width: 100%; position: fixed; top:0; left: 0; 
     backdrop-filter: blur(5px); z-index: -2;"></div>
     <video src="../../test/backgrounds/evadeadsea.mp4" autoplay loop muted playsinline id="videoBG"></video>
-    <a href="../">Back</a><br/><br/>
-    <b>My PC Setup</b><br/>
-    What I install and change on a new installation on my PC and laptop.  
-    <br/><hr>
-        
-    <a class="anchor" href="#essential">#</a><b id="essential">Essential Programs</b><br/>
+    <a href="../">Back</a><br /><br />
+    <b>My PC Setup</b><br />
+    What I install and change on a new installation on my PC and laptop.
+    <br />
+    <hr>
+
+    <a class="anchor" href="#essential">#</a><b id="essential">Essential Programs</b><br />
     Essential applications that should be on most computers.
     <ul>
-        <li><a class="ref" target="_blank" href="https://www.7-zip.org/download.html">7zip</a> | <b>File archive manager</b></li>
-        <li><a class="ref" target="_blank" href="https://www.google.com/intl/en_uk/chrome/">Chrome</a>(or any web browser of choice) | <b>Web browser</b></li>
+        <li><a class="ref" target="_blank" href="https://www.7-zip.org/download.html">7zip</a> | <b>File archive
+                manager</b></li>
+        <li><a class="ref" target="_blank" href="https://www.google.com/intl/en_uk/chrome/">Chrome</a>(or any web
+            browser of choice) | <b>Web browser</b></li>
         uBlock Origin is also recommended as an extension.
 
         <div style="margin-left: 30px">
-            <br/><a class="ref" target="_blank" href="https://ublockorigin.com/">uBlock Origin</a>
-            | <b>Adblock</b> | <a download="ublock-config" 
-            href="my-ublock-backup_2024-03-27_23.42.01.txt">My config file</a><br/>
-            <b>Additional uBlock Origin filters</b> (uBlock Origin settings > My filters list > copy and paste selection)
-            <br/><br/><div class="codeBox">
-                </b>Hide Shorts on YouTube filters<br/>
+            <br /><a class="ref" target="_blank" href="https://ublockorigin.com/">uBlock Origin</a>
+            | <b>Adblock</b> | <a download="my-ublock-backup" href="my-ublock-backup_2024-06-08_03.15.26.txt">My config
+                file</a><br />
+            <b>Additional uBlock Origin filters</b> (uBlock Origin settings > My filters list > copy and paste
+            selection)
+            <br /><br />
+            <div class="codeBox">
+                </b>Hide Shorts on YouTube filters<br />
                 <hr>
                 <div style="user-select: all;">
                     ! Hide shorts button in sidebar
-                    <br/>www.youtube.com##ytd-guide-entry-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
-                    <br/>
-                    <br/>! Hide shorts section on homepage
-                    <br/>www.youtube.com##ytd-rich-section-renderer:has(#title:has-text(/(^| )Shorts( |$)/i))
-                    <br/>www.youtube.com##ytd-reel-shelf-renderer:has(.ytd-reel-shelf-renderer:has-text(/(^| )Shorts( |$)/i))
-                    <br/>
-                    <br/>! Hide short remixes in video descriptions
-                    <br/>www.youtube.com##ytd-reel-shelf-renderer.ytd-structured-description-content-renderer:has-text(/^Shorts remixing this video$/i)
-                    <br/>
-                    <br/>! Hide shorts category on homepage and search pages
-                    <br/>www.youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
-                    <br/>
-                    <br/>! Hide for you tab
-                    <br/>www.youtube.com##ytd-shelf-renderer:has(.ytd-shelf-renderer:has-text(/^For you$/i))
+                    <br />www.youtube.com##ytd-guide-entry-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
+                    <br />
+                    <br />! Hide shorts section on homepage
+                    <br />www.youtube.com##ytd-rich-section-renderer:has(#title:has-text(/(^| )Shorts( |$)/i))
+                    <br />www.youtube.com##ytd-reel-shelf-renderer:has(.ytd-reel-shelf-renderer:has-text(/(^| )Shorts(
+                    |$)/i))
+                    <br />
+                    <br />! Hide short remixes in video descriptions
+                    <br />www.youtube.com##ytd-reel-shelf-renderer.ytd-structured-description-content-renderer:has-text(/^Shorts
+                    remixing this video$/i)
+                    <br />
+                    <br />! Hide shorts category on homepage and search pages
+                    <br />www.youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
                 </div>
             </div>
-            <br/>
+
+            <hr>
+            <a class="ref" target="_blank" href="https://sponsor.ajay.app/">SponsorBlock</a>
+            | <b>Skips sponsorships on YouTube</b> | <a download="SponsorBlockConfig"
+                href="SponsorBlockConfig_2024-06-08_02.15.06.json">My config
+                <hr>
+                <a class="ref" target="_blank" href="https://returnyoutubedislike.com/">Return Youtube Dislike</a>
+                | <b>Shows dislikes on YouTube videos</b>
+
+                <br /><br />
         </div>
 
-        <li><a class="ref" target="_blank" href="https://www.irfanview.com/main_download_engl.htm">IrfanView</a> + plugins | <b>Image viewer</b></li>
-        <li><a class="ref" target="_blank" href="https://mpv.io/installation/">mpv</a> + <a class="ref" target="_blank" href="https://github.com/zydezu/mpvconfig/">config</a> | <b>Video player</b></li>
+        <li><a class="ref" target="_blank" href="https://www.irfanview.com/main_download_engl.htm">IrfanView</a> +
+            plugins | <b>Image viewer</b></li>
+        <li><a class="ref" target="_blank" href="https://mpv.io/installation/">mpv</a> + <a class="ref" target="_blank"
+                href="https://github.com/zydezu/mpvconfig/">config</a> | <b>Video player</b></li>
         A config is used to change the UI and add features, linked is my own config I make and maintain
         <li>Office</a> (easy to obtain !!) | <b>Productivity software</b></li>
 
     </ul>
     This list may be updated from time to time, please check back occasionally!
-    <br/><hr>
+    <br />
+    <hr>
 
-    <a class="anchor" href="#other">#</a><b id="other">Other Programs</b><br/>
+    <a class="anchor" href="#other">#</a><b id="other">Other Programs</b><br />
     Programs that are more specialised, install if desired.
     <ul>
-        <li><a class="ref" target="_blank" href="https://store.steampowered.com/about/">Steam</a> | <b>Gaming store</b></li>
-        <li><a class="ref" target="_blank" href="https://discord.com/download/">Discord</a> + <a class="ref" target="_blank" href="https://vencord.dev/">Vencord</a> | <b>Social</b></li> 
-        <li><a class="ref" target="_blank" href="https://getsharex.com/downloads">ShareX</a> | <b>Screenshots tool</b></li>
-        <li><a class="ref" target="_blank" href="https://twinkletray.com/">Twinkle Tray</a> | <b>Control brightness (and volume) of monitors</b></li>
-        <li><a class="ref" target="_blank" href="https://diskanalyzer.com/">WizTree</a> | <b>Disk Space Analyser</b> (I use the portable version)</li>
-        <li><a class="ref" target="_blank" href="https://github.com/microsoft/PowerToys/">PowerToys</a> | <b>Various tools for windows</b></li>
-        <br/>
-        <li><a class="ref" target="_blank" href="https://code.visualstudio.com/download/">VSCode</a> | <b>Code editor</b></li>
-        <li><a class="ref" target="_blank" href="https://git-scm.com/downloads/">Git</a> | <b>Version control system</b></li>
-        <li><a class="ref" target="_blank" href="https://www.python.org/downloads/">Python</a> | <b>Programming language</b></li>
-        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Java (via Eclipse Temurin)</a> | <b>Programming language</b></li>
-        <li><a class="ref" target="_blank" href="https://github.com/coreybutler/nvm-windows/releases/">NVM For Windows</a> | <b>node.js version management utility</b></li>
-        <br/>
-        <li><a class="ref" target="_blank" href="https://www.virtualbox.org/wiki/Downloads/">VirtualBox</a> | <b>Virtual machine</b></li>
-        <li><a class="ref" target="_blank" href="https://www.blackmagicdesign.com/uk/products/davinciresolve/">DaVinci Resolve</a> | <b>Video editor</b></li>
-        <li><a class="ref" target="_blank" href="https://www.qbittorrent.org/download/">qBittorrent</a> | <b>P2P torrent client</b></li>
-        <li><a class="ref" target="_blank" href="https://www.blender.org/download//">Blender</a> | <b>3D CG software</b></li>
-        <br/>
+        <li><a class="ref" target="_blank" href="https://store.steampowered.com/about/">Steam</a> | <b>Gaming store</b>
+        </li>
+        <li><a class="ref" target="_blank" href="https://discord.com/download/">Discord</a> + <a class="ref"
+                target="_blank" href="https://vencord.dev/">Vencord</a> | <b>Social</b></li>
+        <li><a class="ref" target="_blank" href="https://getsharex.com/downloads">ShareX</a> | <b>Screenshots tool</b>
+        </li>
+        <li><a class="ref" target="_blank" href="https://twinkletray.com/">Twinkle Tray</a> | <b>Control brightness (and
+                volume) of monitors</b></li>
+        <li><a class="ref" target="_blank" href="https://diskanalyzer.com/">WizTree</a> | <b>Disk Space Analyser</b> (I
+            use the portable version)</li>
+        <li><a class="ref" target="_blank" href="https://github.com/microsoft/PowerToys/">PowerToys</a> | <b>Various
+                tools for windows</b></li>
+        <br />
+        <li><a class="ref" target="_blank" href="https://code.visualstudio.com/download/">VSCode</a> | <b>Code
+                editor</b></li>
+        <li><a class="ref" target="_blank" href="https://git-scm.com/downloads/">Git</a> | <b>Version control system</b>
+        </li>
+        <li><a class="ref" target="_blank" href="https://www.python.org/downloads/">Python</a> | <b>Programming
+                language</b></li>
+        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Java (via Eclipse
+                Temurin)</a> | <b>Programming language</b></li>
+        <li><a class="ref" target="_blank" href="https://github.com/coreybutler/nvm-windows/releases/">NVM For
+                Windows</a> | <b>node.js version management utility</b></li>
+        <br />
+        <li><a class="ref" target="_blank" href="https://www.virtualbox.org/wiki/Downloads/">VirtualBox</a> | <b>Virtual
+                machine</b></li>
+        <li><a class="ref" target="_blank" href="https://www.blackmagicdesign.com/uk/products/davinciresolve/">DaVinci
+                Resolve</a> | <b>Video editor</b></li>
+        <li><a class="ref" target="_blank" href="https://www.qbittorrent.org/download/">qBittorrent</a> | <b>P2P torrent
+                client</b></li>
+        <li><a class="ref" target="_blank" href="https://www.blender.org/download//">Blender</a> | <b>3D CG software</b>
+        </li>
+        <br />
         See <a href="../../mksocserver/">https://kinoposts.web.app/mksocserver/</a> for more Minecraft info
-        <li><a class="ref" target="_blank" href="https://prismlauncher.org/download/">PrismLauncher</a> | <b>Minecraft version manager</b> (I use the portable version)</li>
-        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Eclipse Temurin  (Java)</a> | <b>Programming language</b></li>
+        <li><a class="ref" target="_blank" href="https://prismlauncher.org/download/">PrismLauncher</a> | <b>Minecraft
+                version manager</b> (I use the portable version)</li>
+        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Eclipse Temurin
+                (Java)</a> | <b>Programming language</b></li>
     </ul>
 
-    Additionally, on new installs I use the <a href="https://christitus.com/windows-tool/">Chris Titus Optimiser</a> to clean some Windows stuff.<br/>
+    Additionally, on new installs I use the <a href="https://christitus.com/windows-tool/">Chris Titus Optimiser</a> to
+    clean some Windows stuff.<br />
     It can be run in an administrative PowerShell window with this command:
-    <br/>
+    <br />
     <div class="codeBox" style="user-select: all; margin-top: 5px;">
         iwr -useb https://christitus.com/win | iex
     </div>
 </body>
+
 </html>
