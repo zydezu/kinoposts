@@ -156,7 +156,7 @@
                     <div class="sticky">
                         <article class="postText">
                             <a href="${link}"><span class="postTitle">${title}</span></a><br/>
-                            <span title=${stripHTMLTags(description)} class="postDescription">${stripHTMLTags(description).substring(0, 100)}...</span>
+                            <span title="${stripHTMLTags(description)}" class="postDescription">${stripHTMLTags(description).substring(0, 100)}...</span>
                         </article>
                         ${media ? `<div class="stickyImage"><img loading="lazy" src="${media}"></div>` : ''}
                         <span class="date" title="${pubDate}">${postTime}</span>
