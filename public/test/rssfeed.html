@@ -156,7 +156,7 @@
                     <div class="sticky">
                         <article class="postText">
                             <a href="${link}"><span class="postTitle">${title}</span></a><br/>
-                            <span class="postDescription">${stripHTMLTags(description)}...</span>
+                            <span title=${stripHTMLTags(description)} class="postDescription">${stripHTMLTags(description).substring(0, 100)}...</span>
                         </article>
                         ${media ? `<div class="stickyImage"><img loading="lazy" src="${media}"></div>` : ''}
                         <span class="date" title="${pubDate}">${postTime}</span>
@@ -168,7 +168,7 @@
             console.log("Done!");
         }
 
-        const stripHTMLTags = input => input.replace(/<[^>]+>/g, '').substring(0, 100);
+        const stripHTMLTags = input => input.replace(/<[^>]+>/g, '');
     </script>
 </body>
 
