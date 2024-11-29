@@ -112,7 +112,7 @@
 
         function addItem() {
             let builder = audioURL.value;
-            if (albumArtCheckBox.checked) builder += "|";
+            if (albumArtCheckBox.checked) builder += "|" + albumArtURL.value;
             audioURL.value = "";
             albumArtURL.value = "";
             playlisttoinsert.push(builder);
