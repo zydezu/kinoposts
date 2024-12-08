@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#000000">
     <title>Test</title>
     <link rel="stylesheet" href="style.css">
     <script type="module" src="scripts/toggleTheme.js"></script>
@@ -46,11 +47,12 @@
 
     <br />
     <button id="switchVideo">click to switch video</button>
-    <br/><br/>
+    <br /><br />
 
     <script src="scripts/canvas.js" defer></script>
     <section class="ambientWrapper">
-        <video playsinline controls muted autoplay class="roundVideo" id="ambientvideo" src="resources/video/p3trailer.mp4"></video>
+        <video playsinline controls muted autoplay class="roundVideo" id="ambientvideo"
+            src="resources/video/p3trailer.mp4"></video>
         <canvas width="24" height="14" aria-hidden="true" class="ambientCanvas" id="ambientcanvas"></canvas>
     </section>
 
@@ -59,17 +61,35 @@
 <script>
     const video = document.getElementById("ambientvideo");
     const switchVideoButton = document.getElementById("switchVideo");
-    let i = 0
+    let i = 0;
     let videos = [
         "resources/video/p3trailer.mp4",
         "resources/video/evadeath.mp4",
         "resources/video/CowboyBebopEvaIntro.mp4",
-    ]
-    switchVideoButton.addEventListener('click', function() {
-        i++
+    ];
+    switchVideoButton.addEventListener('click', function () {
+        i++;
         i = i % videos.length;
-        video.src = videos[i]
-    })
+        video.src = videos[i];
+    });
+</script>
+
+<script type="module">
+    import fastAverageColor from "https://cdn.skypack.dev/fast-average-color@6.4.0";
+    const fac = new fastAverageColor();
+
+    function setThemeColor() {
+        fac.getColorAsync(document.getElementById("ambientcanvas"))
+            .then(color => {
+                console.log("average color: " + color.rgba);
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', color.rgba)
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
+    setInterval(setThemeColor, 1);
 </script>
 
 </html>
