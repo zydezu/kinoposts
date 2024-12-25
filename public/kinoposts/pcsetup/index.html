@@ -33,10 +33,10 @@
 </head>
 
 <body>
-    <div style="background-color: rgba(0, 0, 0, 0); 
+    <div style="background-color: rgba(0, 0, 0, 0.5); 
     min-height: 100%; min-width: 100%; position: fixed; top:0; left: 0; 
     backdrop-filter: blur(5px); z-index: -2;"></div>
-    <video src="../../test/backgrounds/evadeadsea.mp4" autoplay loop muted playsinline id="videoBG"></video>
+    <video src="../../test/backgrounds/cityTraffic.mp4" autoplay loop muted playsinline id="videoBG"></video>
     <a href="../">Back</a><br /><br />
     <b>My PC Setup</b><br />
     What I install and change on a new installation on my PC and laptop.
@@ -46,15 +46,14 @@
     <a class="anchor" href="#essential">#</a><b id="essential">Essential Programs</b><br />
     Essential applications that should be on most computers.
     <ul>
-        <li><a class="ref" target="_blank" href="https://www.7-zip.org/download.html">7zip</a> | <b>File archive
-                manager</b></li>
-        <li><a class="ref" target="_blank" href="https://www.google.com/intl/en_uk/chrome/">Chrome</a>(or any web
-            browser of choice) | <b>Web browser</b></li>
-        uBlock Origin is also recommended as an extension.
+        <li><a class="ref" target="_blank" href="https://www.7-zip.org/download.html">7zip</a> | <b>File archiver</b></li>
+        Many programs and general downloads come in the <code>.7z</code> format, you will need 7zip to extract and use them
+        <li><a class="ref" target="_blank" href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> (or any browser) | <b>Web browser</b></li>
+        uBlock Origin is also recommended as a browser extension.
 
         <div style="margin-left: 30px">
             <br /><a class="ref" target="_blank" href="https://ublockorigin.com/">uBlock Origin</a>
-            | <b>Adblock</b> | <a download="my-ublock-backup" href="my-ublock-backup_2024-06-08_03.15.26.txt">My config
+            | <b>Adblock</b> | <a download="my-ublock-backup" href="my-ublock-backup_2024-12-25_20.47.56.txt">My config
                 file</a><br />
             <b>Additional uBlock Origin filters</b> (uBlock Origin settings > My filters list > copy and paste
             selection)
@@ -79,71 +78,79 @@
                     <br />www.youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))
                 </div>
             </div>
-
             <hr>
+
             <a class="ref" target="_blank" href="https://sponsor.ajay.app/">SponsorBlock</a>
             | <b>Skips sponsorships on YouTube</b> | <a download="SponsorBlockConfig"
-                href="SponsorBlockConfig_2024-06-08_02.15.06.json">My config
+                href="SponsorBlockConfig_2024-12-25_20.49.13.json">My config
                 <hr>
+
                 <a class="ref" target="_blank" href="https://returnyoutubedislike.com/">Return Youtube Dislike</a>
                 | <b>Shows dislikes on YouTube videos</b>
-
                 <br /><br />
         </div>
 
         <li><a class="ref" target="_blank" href="https://www.irfanview.com/main_download_engl.htm">IrfanView</a> +
             plugins | <b>Image viewer</b></li>
         <li><a class="ref" target="_blank" href="https://mpv.io/installation/">mpv</a> + <a class="ref" target="_blank"
-                href="https://github.com/zydezu/mpvconfig/">config</a> | <b>Video player</b></li>
-        A config is used to change the UI and add features, linked is my own config I make and maintain
-        <li>Office</a> (easy to obtain !!) | <b>Productivity software</b></li>
-
+            href="https://github.com/zydezu/mpvconfig/">config</a>  (along with yt-dlp and ffmpeg) | <b>Video player</b></li>
+        A config is used to change the UI and add features, linked is my own config I maintain
     </ul>
-    This list may be updated from time to time, please check back occasionally!
-    <br />
     <hr>
 
     <a class="anchor" href="#other">#</a><b id="other">Other Programs</b><br />
     Programs that are more specialised, install if desired.
     <ul>
-        <li><a class="ref" target="_blank" href="https://store.steampowered.com/about/">Steam</a> | <b>Gaming store</b>
-        </li>
-        <li><a class="ref" target="_blank" href="https://discord.com/download/">Discord</a> + <a class="ref"
-                target="_blank" href="https://vencord.dev/">Vencord</a> | <b>Social</b></li>
-        <li><a class="ref" target="_blank" href="https://getsharex.com/downloads">ShareX</a> | <b>Screenshots tool</b>
-        </li>
-        <li><a class="ref" target="_blank" href="https://twinkletray.com/">Twinkle Tray</a> | <b>Control brightness (and
-                volume) of monitors</b></li>
-        <li><a class="ref" target="_blank" href="https://diskanalyzer.com/">WizTree</a> | <b>Disk Space Analyser</b> (I
-            use the portable version)</li>
-        <li><a class="ref" target="_blank" href="https://github.com/microsoft/PowerToys/">PowerToys</a> | <b>Various
-                tools for windows</b></li>
+        <b>General</b>
+        <li><a class="ref" target="_blank" href="https://store.steampowered.com/about/">Steam</a> | <b>Games storefront</b></li>
+
+        <li><a class="ref" target="_blank" href="https://discord.com/download/">Discord</a> + <a class="ref" target="_blank" href="https://vencord.dev/">Vencord</a> | <b>Social</b> 
+            | <a download="vencord-settings-backup.json" href="vencord-settings-backup-2024-12-25.json">My config</li>
+
+        <li><a class="ref" target="_blank" href="https://getsharex.com/downloads">ShareX</a> | <b>Screenshotting tool</b>
+            | <a download="ShareX-16.1.0-backup.sxb" href="ShareX-16.1.0-backup.sxb">My config</li>
+
+        <li><a class="ref" target="_blank" href="https://twinkletray.com/">Twinkle Tray</a> | <b>Control brightness (and volume) of connected monitors</b></li>
+
+        <li><a class="ref" target="_blank" href="https://diskanalyzer.com/">WizTree</a> | <b>Disk Space Analyser</b></li>
         <br />
-        <li><a class="ref" target="_blank" href="https://code.visualstudio.com/download/">VSCode</a> | <b>Code
-                editor</b></li>
-        <li><a class="ref" target="_blank" href="https://git-scm.com/downloads/">Git</a> | <b>Version control system</b>
-        </li>
-        <li><a class="ref" target="_blank" href="https://www.python.org/downloads/">Python</a> | <b>Programming
-                language</b></li>
-        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Java (via Eclipse
-                Temurin)</a> | <b>Programming language</b></li>
-        <li><a class="ref" target="_blank" href="https://github.com/coreybutler/nvm-windows/releases/">NVM For
-                Windows</a> | <b>node.js version management utility</b></li>
+
+        <b>Programming</b>
+        <li><a class="ref" target="_blank" href="https://vscodium.com/">VSCodium</a> | <b>Code editor</b>
+        | <a download="default.code-profile" href="default.code-profile">My config</li>
+
+        <li><a class="ref" target="_blank" href="https://git-scm.com/downloads/">Git</a> | <b>Version control system</b></li>
+
+        <li><a class="ref" target="_blank" href="https://www.python.org/downloads/">Python</a> | <b>Python programming language</b></li>
+
+        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Eclipse Temurin</a> | <b>Java programming language</b></li>
+
+        <li><a class="ref" target="_blank" href="https://github.com/coreybutler/nvm-windows/releases/">NVM For Windows</a> | <b>node.js version management utility</b></li>
         <br />
-        <li><a class="ref" target="_blank" href="https://www.virtualbox.org/wiki/Downloads/">VirtualBox</a> | <b>Virtual
-                machine</b></li>
-        <li><a class="ref" target="_blank" href="https://www.blackmagicdesign.com/uk/products/davinciresolve/">DaVinci
-                Resolve</a> | <b>Video editor</b></li>
-        <li><a class="ref" target="_blank" href="https://www.qbittorrent.org/download/">qBittorrent</a> | <b>P2P torrent
-                client</b></li>
-        <li><a class="ref" target="_blank" href="https://www.blender.org/download//">Blender</a> | <b>3D CG software</b>
-        </li>
+
+        <b>Tools</b>
+        <li><a class="ref" target="_blank" href="https://www.virtualbox.org/wiki/Downloads/">VirtualBox</a> | <b>Virtual machine</b></li>
+
+        <li><a class="ref" target="_blank" href="https://www.blackmagicdesign.com/uk/products/davinciresolve/">DaVinci Resolve</a> | <b>Video editor</b></li>
+
+        <li><a class="ref" target="_blank" href="https://www.qbittorrent.org/download">qBittorrent</a> | <b>P2P torrent client</b></li>
+
+        <li><a class="ref" target="_blank" href="https://www.blender.org/download//">Blender</a> | <b>3D graphics software</b></li>
         <br />
-        See <a href="../../mksocserver/">https://kinoposts.web.app/mksocserver/</a> for more Minecraft info
-        <li><a class="ref" target="_blank" href="https://prismlauncher.org/download/">PrismLauncher</a> | <b>Minecraft
-                version manager</b> (I use the portable version)</li>
-        <li><a class="ref" target="_blank" href="https://adoptium.net/en-GB/temurin/releases/">Eclipse Temurin
-                (Java)</a> | <b>Programming language</b></li>
+
+        <b>Minecraft</b>
+        <li><a class="ref" target="_blank" href="https://prismlauncher.org/download/">PrismLauncher</a> | <b>Minecraft launcher</b></li>
+
+        See <a href="../../mksocserver/">https://kinoposts.web.app/mksocserver/</a> for more Minecraft info<br />
+        <br />
+
+        <b>Emulation</b><br/>
+        The process of configuring and picking settings will be different on each system and based on preference, which is why 
+        I haven't provided config files here, be sure to check the respective wikis of each emulator when configuring them.
+        <li><a class="ref" target="_blank" href="https://parallel-launcher.ca/">Parallel Launcher</a> | <b>N64 Emulator</b></li>
+        <li><a class="ref" target="_blank" href="https://pcsx2.net/">pcsx2</a> | <b>PS2 Emulator</b></li>
+        <li><a class="ref" target="_blank" href="https://dolphin-emu.org/download/">Dolphin</a> | <b>Gamecube/Wii Emulator</b></li>
+
     </ul>
 
     Additionally, on new installs I use the <a href="https://christitus.com/windows-tool/">Chris Titus Optimiser</a> to

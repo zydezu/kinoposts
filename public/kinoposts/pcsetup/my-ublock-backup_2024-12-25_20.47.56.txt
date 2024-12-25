@@ -1,0 +1,35 @@
+{
+  "timeStamp": 1735159676718,
+  "version": "1.61.2",
+  "userSettings": {
+    "cloudStorageEnabled": true,
+    "contextMenuEnabled": false,
+    "importedLists": []
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "easylist",
+    "easyprivacy",
+    "urlhaus-1",
+    "plowe-0",
+    "fanboy-cookiemonster",
+    "ublock-cookies-easylist",
+    "ublock-annoyances"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "chrome-extension-scheme",
+    "html5test.co",
+    "moz-extension-scheme",
+    "www.roblox.com"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
+  "userFilters": "! 24 Aug 2024 https://modrinth.com\nmodrinth.com##.p-6.gap-4.flex-col.max-w-\\[300px\\].min-w-\\[300px\\].min-h-\\[250px\\].max-h-\\[250px\\].flex\n\n! 26 Aug 2024 https://genius.com\ngenius.com##div.fuSJbt.RightSidebar__Container-pajcl2-0:nth-of-type(3)\n\n! 29 Aug 2024 https://medium.com\nmedium.com##.fj.co.q.ab.qq.qp.qo.qn.qm.ql.v.qk.t.qj\n\n! Hide shorts button in sidebar\nwww.youtube.com##ytd-guide-entry-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))\n\n! Hide shorts section on homepage\nwww.youtube.com##ytd-rich-section-renderer:has(#title:has-text(/(^| )Shorts( |$)/i))\nwww.youtube.com##ytd-reel-shelf-renderer:has(.ytd-reel-shelf-renderer:has-text(/(^| )Shorts( |$)/i))\n\n! Hide short remixes in video descriptions\nwww.youtube.com##ytd-reel-shelf-renderer.ytd-structured-description-content-renderer:has-text(/^Shorts remixing this video$/i)\n\n! Hide shorts category on homepage and search pages\nwww.youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string:has-text(/^Shorts$/i))"
+}
